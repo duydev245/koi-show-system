@@ -1,4 +1,4 @@
-import { Col, Form, Input, Row, Typography } from 'antd'
+import { Col, Form, Input, message, Row, Typography } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import React from 'react'
 import * as yup from "yup";
@@ -6,18 +6,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../../routes/path';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
     const { Title } = Typography;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
 
     const schema = yup.object({
         email: yup
             .string()
             .trim()
-            .email("*Email is not in correct format !")
-            .required("*Email cannot be empty !"),
-        password: yup.string().trim().required("*Password cannot be empty !"),
+            .required("*Email is required!")
+            .email("*Invalid email address!"),
+        password: yup
+            .string()
+            .trim()
+            .required("*Password is required!"),
     });
 
     const {
@@ -60,6 +66,7 @@ const Login = () => {
 
     return (
         <div className='container mx-auto'>
+            {contextHolder}
             <div className="mt-3 mb-3 text-center">
                 <Typography className="text-black">
                     <Title level={2}>Welcome back to KoiKoi</Title>
