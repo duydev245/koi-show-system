@@ -4,7 +4,6 @@ const KoiShowDetails = () => {
   return (
     <div>
       KoiShowDetails
-      KoiShowDetails
     </div>
   )
 }
