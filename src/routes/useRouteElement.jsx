@@ -7,7 +7,32 @@ import { useSelector } from 'react-redux'
 import { AuthLayout } from '../layouts/AuthLayout'
 import { LoginPage } from '../modules/Auth/Login'
 import { RegisterForm } from '../modules/Auth/Register'
+import { ProfilePage } from '../modules/User/ProfilePage'
+import { KoiShowDetails } from '../modules/User/KoiShowDetails'
 
+
+const ProtectedUserRouter = () => {
+    const { currentUser } = useSelector((state) => state.user);
+
+    if (!currentUser) {
+        return <Navigate to={PATH.LOGIN} />;
+    }
+
+    if (currentUser.role === 'ADMIN') {
+        return <Navigate to={PATH.ADMIN} />;
+    }
+
+    if (currentUser.role === 'USER') {
+        return (
+            <UserLayout>
+                <ProfilePage />
+            </UserLayout>
+        );
+    }
+
+    // Fallback redirect if role is not 'ADMIN' or 'USER'
+    return <Navigate to={PATH.HOME} />;
+};
 
 const RejectedRouter = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -26,14 +51,6 @@ const RejectedRouter = () => {
 const useRouteElement = () => {
 
     const routes = useRoutes([
-        // HOME PAGE
-        {
-            path: PATH.HOME,
-            element:
-                <UserLayout>
-                    <HomePage />
-                </UserLayout>,
-        },
         // AUTH 
         {
             path: PATH.AUTH,
@@ -61,6 +78,29 @@ const useRouteElement = () => {
                 },
             ]
 
+        },
+        // HOME PAGE
+        {
+            path: PATH.HOME,
+            element:
+                <UserLayout>
+                    <HomePage />
+                </UserLayout>,
+        },
+        // SHOW DETAILS
+        {
+            path: PATH.SHOW_DETAIL,
+            element:
+                <UserLayout>
+                    <KoiShowDetails />
+                </UserLayout>
+        },
+        // PROFILE PAGE
+        {
+            path: PATH.PROFILE,
+            element: (
+                <ProtectedUserRouter />
+            )
         },
     ])
 
