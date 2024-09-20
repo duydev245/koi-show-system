@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
     return (
         <footer className="border-t mt-5 pt-5 bg-gray-100">
-            
+
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-6 gap-12 ">
                 {/* ABOUT */}
                 <div className="space-y-3">
@@ -67,7 +67,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="bg-gray-50 border-t z-0 bottom-0 w-screen py-3 hidden md:block ">
+            <div className="bg-gray-50 border-t z-0 bottom-0 w-full py-3 hidden md:block ">
                 <div className="container mx-auto flex justify-between items-center text-gray-500 ">
                     <div>
                         <span className='pr-3'>© 2024 KoiKoi , Inc</span>.
@@ -81,7 +81,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            
+
         </footer>
     )
 }
