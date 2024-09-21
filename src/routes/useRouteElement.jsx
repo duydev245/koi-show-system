@@ -9,6 +9,7 @@ import { LoginPage } from '../modules/Auth/Login'
 import { RegisterForm } from '../modules/Auth/Register'
 import { ProfilePage } from '../modules/User/ProfilePage'
 import { KoiShowDetails } from '../modules/User/KoiShowDetails'
+import { KoiDetails } from '../modules/User/KoiDetails'
 
 
 const ProtectedUserRouter = () => {
@@ -93,6 +94,14 @@ const useRouteElement = () => {
             element:
                 <UserLayout>
                     <KoiShowDetails />
+                </UserLayout>
+        },
+        // KOI DETAILS
+        {
+            path: PATH.KOI_DETAIL,
+            element:
+                <UserLayout>
+                    <KoiDetails />
                 </UserLayout>
         },
         // PROFILE PAGE

@@ -171,11 +171,11 @@ const Navbar = () => {
                   Services
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
                   Pricing
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a href="#" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
                   Contact
