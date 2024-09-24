@@ -10,8 +10,7 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
     const navigate = useNavigate();
 
     return (
-        <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>
-
+        <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>   
             {/* left-section */}
             <div className='basis-7/12 space-y-5'>
                 <Card hoverable className='p-5'>
@@ -46,7 +45,7 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
             </div>
 
             {/* right-section */}
-            <div className='basis-5/12 space-y-6 sticky w-full lg:h-full top-32 mb-10'>
+            <div className='basis-5/12 space-y-6 sticky w-full lg:h-full top-32'>
                 <Card hoverable className='text-center'>
                     <h4 className='text-2xl font-bold mb-5'>Koi Show Sponsors:</h4>
 

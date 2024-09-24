@@ -27,7 +27,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
+    "react-photo-view": "^1.2.6",
     "react-redux": "^9.1.2",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.26.2",
     "react-scroll": "^1.9.0",
     "react-slick": "^0.30.2",
@@ -35,7 +37,7 @@
     "rsuite": "^5.70.1",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.14.0",
-    "swiper": "^11.1.12",
+    "swiper": "^11.1.14",
     "yup": "^1.4.0"
   },
   "devDependencies": {

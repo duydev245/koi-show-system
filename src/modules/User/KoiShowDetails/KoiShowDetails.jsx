@@ -7,7 +7,6 @@ import { PATH } from '../../../routes/path';
 import { ShowDesc } from '../../../components/ShowDesc';
 import ShowRules from '../../../components/ShowRules/ShowRules';
 import { ShowGuide } from '../../../components/ShowGuide';
-import { SearchForm } from '../../../components/SearchForm';
 import { Card, Col, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +17,7 @@ const KoiShowDetails = () => {
   console.log("🚀 ~ KoiShowDetails ~ id:", id)
 
   let showName = '1st Kodama Virtual Koi Show';
-  let showStatus = 0;
+  let showStatus = 1;
   let openForm = '15/10';
   let closeForm = '25/11';
   let awardDate = '9/12';
@@ -51,25 +50,24 @@ const KoiShowDetails = () => {
         />
 
         {/* koi entries */}
-        <div className="mb-8">
+        <div className="mb-5">
           <div className='mb-8'>
             <h3 className='text-4xl text-red-600 font-bold mb-5'>{showName} Entries</h3>
             <p className='text-xl text-red-600 font-bold'>
               The award winners were decided by our elite judges, sponsors, and koi show participants. These are the best of the best koi, submitted to our koi show, from over 300 koi.
             </p>
           </div>
-          <SearchForm />
           {/* list koi entries */}
           <Row>
             <Col span={6} className='p-4'>
               <Card
                 hoverable
-                cover={<img alt="SekiguchiContest" src="/koi-1.jpg" />}
+                cover={<img alt="koi-1" src="/koi-1.jpg" />}
               >
                 <div className="mb-3">
-                  <div className='flex justify-between items-center mb-3'>
+                  <div className='flex justify-between items-center mb-3 h-[42px]'>
                     <Typography className='text-2xl font-bold'>Keto</Typography>
-                    <FontAwesomeIcon className='text-orange-400' icon={faTrophy} size='3x' />
+                    <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='3x' />
                   </div>
                   <Typography className='text-lg'><span className="font-bold">Koi ID:</span> 11152</Typography>
                   <Typography className='text-lg'><span className="font-bold">Variety:</span> Kohaku</Typography>
@@ -91,9 +89,9 @@ const KoiShowDetails = () => {
                 cover={<img alt="SekiguchiContest" src="/koi-1.jpg" />}
               >
                 <div className="mb-3">
-                  <div className='flex justify-between items-center mb-3'>
+                  <div className='flex justify-between items-center mb-3 h-[42px]'>
                     <Typography className='text-2xl font-bold'>Keto</Typography>
-                    {/* <FontAwesomeIcon className='text-orange-400' icon={faTrophy} size='3x' /> */}
+                    {/* <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='3x' /> */}
                   </div>
                   <Typography className='text-lg'><span className="font-bold">Koi ID:</span> 11152</Typography>
                   <Typography className='text-lg'><span className="font-bold">Variety:</span> Kohaku</Typography>

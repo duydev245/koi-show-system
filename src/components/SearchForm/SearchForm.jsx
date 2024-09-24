@@ -32,7 +32,7 @@ const SearchForm = () => {
     }
 
     return (
-        <Form className="w-3/5 mx-auto mb-8" onFinish={handleSubmit(onSubmit)}>
+        <Form className="w-3/5 mx-auto mb-5" onFinish={handleSubmit(onSubmit)}>
             <div className='relative' id='searchBar'>
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none z-10">
                     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

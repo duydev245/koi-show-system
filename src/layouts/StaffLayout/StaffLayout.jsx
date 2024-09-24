@@ -1,10 +1,10 @@
 import React from 'react'
 
-const StaffLayout = () => {
+const StaffLayout = ({ children }) => {
     return (
         <div>
             StaffLayout
-            StaffLayout
+            {children}
         </div>
     )
 }
