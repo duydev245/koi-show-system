@@ -17,7 +17,7 @@ const KoiShowDetails = () => {
   console.log("🚀 ~ KoiShowDetails ~ id:", id)
 
   let showName = '1st Kodama Virtual Koi Show';
-  let showStatus = 1;
+  let showStatus = 0;
   let openForm = '15/10';
   let closeForm = '25/11';
   let awardDate = '9/12';

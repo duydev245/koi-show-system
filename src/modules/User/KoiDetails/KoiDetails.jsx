@@ -31,7 +31,7 @@ const KoiDetails = () => {
             <KoiTitle koiName={koiName} />
             <div className='container mx-auto'>
                 <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>
-                    <div className='basis-6/12 space-y-6 sticky w-full lg:h-full top-32'>
+                    <div className='basis-6/12 space-y-6 lg:sticky w-full lg:h-full top-32'>
                         <Card hoverable className='p-5'>
                             <h4 className='text-3xl font-bold mb-5 text-center'>Koi Details</h4>
                             <div className='text-xl'>

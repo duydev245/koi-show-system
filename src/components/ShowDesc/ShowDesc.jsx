@@ -10,7 +10,7 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
     const navigate = useNavigate();
 
     return (
-        <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>   
+        <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>
             {/* left-section */}
             <div className='basis-7/12 space-y-5'>
                 <Card hoverable className='p-5'>
@@ -18,9 +18,11 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
                     <div className='text-xl'>
 
                         {/* show status */}
-                        {(showStatus === 0) && (<UpcomingShow />)}
-                        {(showStatus === 1) && (<OngoingShow />)}
-                        {(showStatus === 2) && (<EndedShow />)}
+                        <div className="mb-4">
+                            {(showStatus === 0) && (<UpcomingShow />)}
+                            {(showStatus === 1) && (<OngoingShow />)}
+                            {(showStatus === 2) && (<EndedShow />)}
+                        </div>
 
                         <div className='mb-4'>
                             <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>

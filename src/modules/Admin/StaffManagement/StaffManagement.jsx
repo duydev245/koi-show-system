@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, UserAddOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Popconfirm, Table, Tag, Typography } from 'antd';
 import React from 'react'
 
@@ -48,7 +48,10 @@ const StaffManagement = () => {
     {
       title: "Status",
       key: "user-status",
-      dataIndex: "Status",
+      dataIndex: "status",
+      render: (_, { status }) => {
+        return status ? <Tag icon={<CheckCircleOutlined />} color="success">Active</Tag> : <Tag icon={<CloseCircleOutlined />} color="error">Inactive</Tag>;
+      },
     },
     {
       title: "Action",
@@ -86,7 +89,99 @@ const StaffManagement = () => {
     },
   ];
 
-  const dataSource = [];
+  const dataSource = [
+    {
+      user_id: 1,
+      name: "John Doe",
+      birthday: "1990-01-01",
+      phone: "0901234567",
+      email: "john.doe@example.com",
+      gender: true,
+      status: true,
+    },
+    {
+      user_id: 2,
+      name: "Jane Smith",
+      birthday: "1992-05-15",
+      phone: "0912345678",
+      email: "jane.smith@example.com",
+      gender: false,
+      status: false,
+    },
+    {
+      user_id: 3,
+      name: "Robert Brown",
+      birthday: "1988-03-20",
+      phone: "0908765432",
+      email: "robert.brown@example.com",
+      gender: true,
+      status: true,
+    },
+    {
+      user_id: 4,
+      name: "Emily Johnson",
+      birthday: "1995-07-30",
+      phone: "0918765432",
+      email: "emily.johnson@example.com",
+      gender: false,
+      status: false,
+    },
+    {
+      user_id: 5,
+      name: "Michael White",
+      birthday: "1985-10-25",
+      phone: "0909988776",
+      email: "michael.white@example.com",
+      gender: true,
+      status: true,
+    },
+    {
+      user_id: 6,
+      name: "Sophia Taylor",
+      birthday: "1993-02-12",
+      phone: "0911122334",
+      email: "sophia.taylor@example.com",
+      gender: false,
+      status: true,
+    },
+    {
+      user_id: 7,
+      name: "Daniel Lee",
+      birthday: "1987-11-05",
+      phone: "0902233445",
+      email: "daniel.lee@example.com",
+      gender: true,
+      status: false,
+    },
+    {
+      user_id: 8,
+      name: "Mia Anderson",
+      birthday: "1998-09-09",
+      phone: "0912233445",
+      email: "mia.anderson@example.com",
+      gender: false,
+      status: true,
+    },
+    {
+      user_id: 9,
+      name: "James Wilson",
+      birthday: "1990-12-14",
+      phone: "0903344556",
+      email: "james.wilson@example.com",
+      gender: true,
+      status: false,
+    },
+    {
+      user_id: 10,
+      name: "Olivia Davis",
+      birthday: "1991-04-18",
+      phone: "0913344556",
+      email: "olivia.davis@example.com",
+      gender: false,
+      status: true,
+    },
+  ];
+
 
   return (
     <>

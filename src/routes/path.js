@@ -14,15 +14,14 @@ export const PATH = {
     // ADMIN LAYOUT 
     ADMIN: "/admin",
     ADMIN_STAFF: "/admin/staff",
+    ADMIN_MEMBER: "/admin/member",
     ADMIN_SHOW: "/admin/show",
     ADMIN_ACCOUNT_SETTINGS: "/admin/account-settings",
 
     // STAFF LAYOUT 
     STAFF: "/staff",
-    STAFF_MEMBER: "/staff/member",
     STAFF_REFEREE: "/staff/referee",
     STAFF_APLLYCATION: "/staff/check-application",
-    STAFF_CHECK_IN: "/staff/check-in",
 
     // REFEREE LAYOUT
     REFEREE: "/referee",

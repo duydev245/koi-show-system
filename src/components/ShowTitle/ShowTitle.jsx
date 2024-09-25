@@ -6,7 +6,7 @@ const ShowTitle = ({ showName }) => {
 
     return (
         <>
-            <h3 className='text-center text-3xl font-bold mb-8'>Welcome to {showName ? showName : defaultTitle}</h3>
+            <h3 className='text-center text-3xl font-bold mb-5'>Welcome to {showName ? showName : defaultTitle}</h3>
         </>
     )
 }

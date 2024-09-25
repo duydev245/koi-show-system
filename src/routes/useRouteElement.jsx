@@ -13,10 +13,10 @@ import { KoiDetails } from '../modules/User/KoiDetails'
 import { AdminLayout } from '../layouts/AdminLayout'
 import { ShowManagement } from '../modules/Admin/ShowManagement'
 import { StaffManagement } from '../modules/Admin/StaffManagement'
-import { StaffLayout } from '../layouts/StaffLayout'
-import { MemberManagement } from '../modules/Staff/MemberManagement'
-import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 import { AccountAdmin } from '../modules/Admin/AccountAdmin'
+import { StaffLayout } from '../layouts/StaffLayout'
+import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
+import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 
 // Authen
 const RejectedRouter = () => {
@@ -198,13 +198,13 @@ const useRouteElement = () => {
             children: [
                 {
                     index: true,
-                    element: <Navigate to={PATH.STAFF_MEMBER} />
+                    element: <Navigate to={PATH.STAFF_APLLYCATION} />
                 },
                 {
-                    path: PATH.STAFF_MEMBER,
+                    path: PATH.STAFF_APLLYCATION,
                     element: (
                         <StaffLayout>
-                            <MemberManagement />
+                            <ApplicationManagement />
                         </StaffLayout>
                     )
 
