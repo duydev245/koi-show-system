@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { PATH } from '../../../routes/path';
+import { useMutation } from '@tanstack/react-query';
+import { userApi } from '../../../apis/user.api';
 
 const Register = () => {
   const { Title } = Typography;
@@ -63,24 +65,24 @@ const Register = () => {
     criteriaMode: "all",
   });
 
-  // const { mutate: handleRegister } = useMutation({
-  //   mutationFn: (payload) => userApi.register(payload),
-  //   onSuccess: () => {
-  //     messageApi.open({
-  //       content: "Đăng ký thành công",
-  //       type: "success",
-  //       duration: 3,
-  //     });
-  //     navigate(PATH.LOGIN);
-  //   },
-  //   onError: (error) => {
-  //     messageApi.open({
-  //       content: error.message,
-  //       type: "error",
-  //       duration: 3,
-  //     });
-  //   },
-  // });
+  const { mutate: handleRegister } = useMutation({
+    mutationFn: (payload) => userApi.register(payload),
+    onSuccess: () => {
+      messageApi.open({
+        content: "Đăng ký thành công",
+        type: "success",
+        duration: 3,
+      });
+      navigate(PATH.LOGIN);
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
 
   const onSubmit = (values) => {
     const payload = {
@@ -93,7 +95,7 @@ const Register = () => {
       role: "USER",
     };
     console.log("🚀 ~ onSubmit ~ payload:", payload)
-    // handleRegister(payload);
+    handleRegister(payload);
   };
 
   return (

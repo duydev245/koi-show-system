@@ -17,6 +17,7 @@ import { AccountAdmin } from '../modules/Admin/AccountAdmin'
 import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
 import { RefereeManagement } from '../modules/Staff/RefereeManagement'
+import { MemberManagement } from '../modules/Admin/MemberManagement'
 
 // Authen
 const RejectedRouter = () => {
@@ -170,6 +171,14 @@ const useRouteElement = () => {
                     element: (
                         <AdminLayout>
                             <StaffManagement />
+                        </AdminLayout>
+                    )
+                },
+                {
+                    path: PATH.ADMIN_MEMBER,
+                    element: (
+                        <AdminLayout>
+                            <MemberManagement />
                         </AdminLayout>
                     )
                 },

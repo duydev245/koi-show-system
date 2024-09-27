@@ -7,6 +7,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../../routes/path';
 import { useDispatch } from 'react-redux';
+import { setLocalStorage } from '../../../utils';
+import { setUser } from '../../../redux/slices/user.slice';
+import { useMutation } from '@tanstack/react-query';
+import { userApi } from '../../../apis/user.api';
 
 const Login = () => {
     const { Title } = Typography;
@@ -39,21 +43,22 @@ const Login = () => {
         criteriaMode: "all",
     });
 
-    // const { mutate: handleLogin } = useMutation({
-    //     mutationFn: (payload) => userApi.login(payload),
-    //     onSuccess: (data) => {
-    //       setLocalStorage("user", data?.user);
-    //       setLocalStorage("token", data?.token);
-    //       dispatch(setUser(data?.user));
-    //     },
-    //     onError: (error) => {
-    //       messageApi.open({
-    //         content: error.message,
-    //         type: "error",
-    //         duration: 3,
-    //       });
-    //     },
-    //   });
+    const { mutate: handleLogin } = useMutation({
+        mutationFn: (payload) => userApi.login(payload),
+        onSuccess: (data) => {
+            console.log("🚀 ~ Login ~ data:", data)
+            // setLocalStorage("user", data?.user);
+            // setLocalStorage("token", data?.token);
+            // dispatch(setUser(data?.user));
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
 
     const onSubmit = (values) => {
         const payload = {
@@ -153,7 +158,7 @@ const Login = () => {
                     </Col>
                 </Row>
             </Form>
-        </div>
+        </div >
     )
 }
 

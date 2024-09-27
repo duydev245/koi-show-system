@@ -69,6 +69,11 @@ const AdminLayout = ({ children }) => {
                                         label: "Staff Management",
                                     },
                                     {
+                                        key: PATH.ADMIN_MEMBER,
+                                        icon: <UserOutlined />,
+                                        label: "Member Management",
+                                    },
+                                    {
                                         key: PATH.ADMIN_SHOW,
                                         icon: <CalendarOutlined />,
                                         label: "Show Management",

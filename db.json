@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "email": "Dorian.Streich@hotmail.com",
+      "name": "Dorian Streich",
+      "phone": "1-860-356-8856",
+      "birthday": "1985-03-10T14:24:53.594Z",
+      "gender": false,
+      "role": "STAFF",
+      "password": "password1",
+      "id": "2",
+      "status": true
+    },
+    {
+      "email": "Vicente.Schroeder44@gmail.com",
+      "name": "Vicente Schroeder",
+      "phone": "1-225-642-3595",
+      "birthday": "1992-06-25T08:14:23.594Z",
+      "gender": true,
+      "role": "MEMBER",
+      "password": "password2",
+      "id": "3",
+      "status": false
+    },
+    {
+      "email": "Felicia42@yahoo.com",
+      "name": "Felicia Gusikowski",
+      "phone": "1-567-372-5596",
+      "birthday": "2002-11-18T21:17:00.594Z",
+      "gender": false,
+      "role": "ADMIN",
+      "password": "password3",
+      "id": "4",
+      "status": true
+    },
+    {
+      "email": "Patricia_Witting38@hotmail.com",
+      "name": "Patricia Witting",
+      "phone": "1-226-694-3829",
+      "birthday": "1980-07-20T03:05:45.594Z",
+      "gender": false,
+      "role": "REFEREE",
+      "password": "password5",
+      "id": "6", 
+      "status": true
+    },
+    {
+      "id": "e4bc",
+      "email": "duyadmin@admin.com",
+      "password": "12345",
+      "name": "duy",
+      "phone": "0909090909",
+      "birthday": "Tue, 24 Sep 2024 17:00:00 GMT",
+      "gender": false,
+      "role": "USER", 
+      "status": false
+    },
+    {
+      "id": "3cc0",
+      "email": "duyuser@user.com",
+      "password": "123",
+      "name": "Duy",
+      "phone": "0911991988",
+      "birthday": "Tue, 24 Sep 2024 17:00:00 GMT",
+      "gender": true,
+      "role": "USER",
+      "status": true
+    }
+  ]
+}
