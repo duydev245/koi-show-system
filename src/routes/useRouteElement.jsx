@@ -54,7 +54,7 @@ const ProtectedUserRouter = () => {
         return <Navigate to={PATH.STAFF} />;
     }
 
-    if (currentUser.role === 'MEMBER') {
+    if (currentUser.role === 'Member') {
         return (
             <UserLayout>
                 <ProfilePage />

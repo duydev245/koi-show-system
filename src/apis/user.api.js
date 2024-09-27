@@ -6,41 +6,41 @@ export const userApi = {
   login: async (data) => {
     try {
       const response = await fetcher.post(
-        `/users`,
+        `/Authentication/login`,
         data
       );
 
-      return response.data.content;
+      return response.data;
 
     } catch (error) {
-      throw Error(error.response.data.content);
+      throw Error(error.response.data.message);
     }
   },
 
   register: async (payload) => {
     try {
       const response = await fetcher.post(
-        `/users`,
+        `/Authentication/signup`,
         payload
       );
       console.log("🚀 ~ register: ~ response:", response)
 
       return response.data;
     } catch (error) {
-      throw Error(error.response.data.content);
+      throw Error(error.response.data.message);
     }
   },
 
-  getListUser: async () => {
-    try {
-      const response = await fetcher.get(
-        `/users`
-      );
-      return response.data;
-    } catch (error) {
-      throw Error(error.response.data.content);
-    }
-  },
+  // getListUser: async () => {
+  //   try {
+  //     const response = await fetcher.get(
+  //       `/users`
+  //     );
+  //     return response.data;
+  //   } catch (error) {
+  //     throw Error(error.response.data.content);
+  //   }
+  // },
 
   // getInfoUser: async (idUser) => {
   //   try {

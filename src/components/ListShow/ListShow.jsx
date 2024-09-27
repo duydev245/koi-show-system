@@ -22,7 +22,7 @@ const ListShow = () => {
 
             {/* List Show */}
             <Row>
-                <Col span={8} className='p-4'>
+                <Col span={12} className='p-4'>
                     <Card
                         onClick={() => { handleOnClick(1) }}
                         hoverable
@@ -34,7 +34,7 @@ const ListShow = () => {
                         </div>
                     </Card>
                 </Col>
-                <Col span={8} className='p-4'>
+                <Col span={12} className='p-4'>
                     <Card
                         onClick={() => { handleOnClick(1) }}
                         hoverable
@@ -46,20 +46,7 @@ const ListShow = () => {
                         </div>
                     </Card>
                 </Col>
-                <Col span={8} className='p-4'>
-                    <Card
-                        onClick={() => { handleOnClick(1) }}
-                        hoverable
-                        cover={<img alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
-                    >
-                        <div className='font-semibold'>
-                            <Typography className='text-2xl'>Sekiguchi Grow Out Contest 2021</Typography>
-                            <Text className='text-lg' type="danger">Finished</Text>
-                        </div>
-                    </Card>
-                </Col>
-
-                <Col span={8} className='p-4'>
+                <Col span={12} className='p-4'>
                     <Card
                         onClick={() => { handleOnClick(1) }}
                         hoverable
@@ -72,7 +59,20 @@ const ListShow = () => {
                     </Card>
                 </Col>
 
-                <Col span={8} className='p-4'>
+                <Col span={12} className='p-4'>
+                    <Card
+                        onClick={() => { handleOnClick(1) }}
+                        hoverable
+                        cover={<img alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
+                    >
+                        <div className='font-semibold'>
+                            <Typography className='text-2xl'>Sekiguchi Grow Out Contest 2021</Typography>
+                            <Text className='text-lg' type="danger">Finished</Text>
+                        </div>
+                    </Card>
+                </Col>
+
+                <Col span={12} className='p-4'>
                     <Card
                         onClick={() => { handleOnClick(1) }}
                         hoverable

@@ -47,9 +47,9 @@ const Login = () => {
         mutationFn: (payload) => userApi.login(payload),
         onSuccess: (data) => {
             console.log("🚀 ~ Login ~ data:", data)
-            // setLocalStorage("user", data?.user);
+            setLocalStorage("user", data?.payload);
             // setLocalStorage("token", data?.token);
-            // dispatch(setUser(data?.user));
+            dispatch(setUser(data?.payload));
         },
         onError: (error) => {
             messageApi.open({
@@ -65,8 +65,8 @@ const Login = () => {
             email: values.email,
             password: values.password,
         };
-        console.log("🚀 ~ onSubmit ~ payload:", payload)
-        // handleLogin(payload);
+        // console.log("🚀 ~ onSubmit ~ payload:", payload)
+        handleLogin(payload);
     };
 
     return (

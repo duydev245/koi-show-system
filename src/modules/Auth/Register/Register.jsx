@@ -90,11 +90,11 @@ const Register = () => {
       password: values.password,
       name: values.name,
       phone: values.phone,
-      birthday: values.birthday,
+      dateOfBirth: dayjs(values.birthday).format('YYYY-MM-DD'),
       gender: values.gender,
-      role: "USER",
+      // role: "USER",
     };
-    console.log("🚀 ~ onSubmit ~ payload:", payload)
+    // console.log("🚀 ~ onSubmit ~ payload:", payload)
     handleRegister(payload);
   };
 
