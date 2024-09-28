@@ -10,6 +10,7 @@ import { ShowGuide } from '../../../components/ShowGuide';
 import { Card, Col, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { LoadingComponent } from '../../../components/LoadingComponent';
 
 const KoiShowDetails = () => {
   const navigate = useNavigate();
@@ -24,6 +25,12 @@ const KoiShowDetails = () => {
 
   const handleOnClick = (idKoi) => {
     return navigate(`/koi-details/${idKoi}`);
+  }
+
+  let isloading = true;
+
+  if (!isloading) {
+    return <LoadingComponent />;
   }
 
   return (

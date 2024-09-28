@@ -127,7 +127,7 @@ const MemberManagement = () => {
 
             <h3 className="font-medium text-3xl mb-3">List Member</h3>
             <Table
-                rowKey="user_id"
+                rowKey="id"
                 columns={columns}
                 dataSource={dataSource}
                 pagination={true}

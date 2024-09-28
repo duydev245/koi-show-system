@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
+import { LoadingComponent } from '../../components/LoadingComponent';
 
 const AuthLayout = ({ children }) => {
     const navigate = useNavigate();
@@ -17,9 +18,7 @@ const AuthLayout = ({ children }) => {
     return (
         <>
             {isLoading ? (
-                <div className="loading-indicator">
-                    <div className="spinner"></div>
-                </div>
+                 <LoadingComponent />
             ) : (
                 <>
                     <div className='authLayout'>

@@ -67,9 +67,9 @@ const Register = () => {
 
   const { mutate: handleRegister } = useMutation({
     mutationFn: (payload) => userApi.register(payload),
-    onSuccess: () => {
+    onSuccess: (data) => {
       messageApi.open({
-        content: "Đăng ký thành công",
+        content: data.message,
         type: "success",
         duration: 3,
       });

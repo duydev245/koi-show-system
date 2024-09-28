@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { removeUser } from '../../redux/slices/user.slice';
 import { removeLocalStorage } from '../../utils';
 import { PATH } from '../../routes/path';
+import { LoadingComponent } from '../../components/LoadingComponent';
 
 const { Header, Sider, Content } = Layout;
 
@@ -46,9 +47,7 @@ const AdminLayout = ({ children }) => {
         <>
             {
                 isLoading ? (
-                    <div className="loading-indicator" >
-                        <div className="spinner"></div>
-                    </div >
+                    <LoadingComponent />
                 ) : (
                     <Layout className="h-screen">
                         <Sider trigger={null} collapsible collapsed={collapsed}>
