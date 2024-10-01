@@ -18,7 +18,7 @@ const AuthLayout = ({ children }) => {
     return (
         <>
             {isLoading ? (
-                 <LoadingComponent />
+                <LoadingComponent />
             ) : (
                 <>
                     <div className='authLayout'>
