@@ -6,7 +6,7 @@ export const userApi = {
   login: async (data) => {
     try {
       const response = await fetcher.post(
-        `/Authentication/login`,
+        `/User/login`,
         data
       );
 
@@ -20,7 +20,7 @@ export const userApi = {
   register: async (payload) => {
     try {
       const response = await fetcher.post(
-        `/Authentication/signup`,
+        `/User/signup`,
         payload
       );
       console.log("🚀 ~ register: ~ response:", response)

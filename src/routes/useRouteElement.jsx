@@ -18,6 +18,7 @@ import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
 import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 import { MemberManagement } from '../modules/Admin/MemberManagement'
+import RegisterPage from '../modules/User/RegisterPage/RegisterPage'
 
 // Authen
 const RejectedRouter = () => {
@@ -38,8 +39,8 @@ const RejectedRouter = () => {
     return <Navigate to={PATH.HOME} />;
 };
 
-// Member Role -ProfilePage
-const ProtectedUserRouter = () => {
+// Profile Page for each role
+const ProfilePageRouter = () => {
     const { currentUser } = useSelector((state) => state.user);
 
     if (!currentUser) {
@@ -63,6 +64,21 @@ const ProtectedUserRouter = () => {
     }
 
     return <Navigate to={PATH.HOME} />;
+};
+
+// Member role 
+const ProtectedMemberRouter = () => {
+    const { currentUser } = useSelector((state) => state.user);
+
+    if (currentUser === null) {
+        return <Navigate to={PATH.LOGIN} />;
+    }
+
+    return currentUser.role === "Member" ? (
+        <Outlet />
+    ) : (
+        <Navigate to={PATH.HOME} />
+    );
 };
 
 // Admin role
@@ -126,6 +142,7 @@ const useRouteElement = () => {
             ]
 
         },
+        // MEMBER
         // HOME PAGE
         {
             path: PATH.HOME,
@@ -154,8 +171,23 @@ const useRouteElement = () => {
         {
             path: PATH.PROFILE,
             element: (
-                <ProtectedUserRouter />
+                <ProfilePageRouter />
             )
+        },
+        // REGISTER
+        {
+            path: PATH.HOME,
+            element: <ProtectedMemberRouter />,
+            children: [
+                {
+                    path: PATH.KOI_REGISTER,
+                    element: (
+                        <UserLayout>
+                            <RegisterPage />
+                        </UserLayout>
+                    )
+                },
+            ]
         },
         // ADMIN
         {
