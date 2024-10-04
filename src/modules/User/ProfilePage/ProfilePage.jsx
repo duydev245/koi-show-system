@@ -228,70 +228,72 @@ const ProfilePage = () => {
 
 
     return (
-        <div className="container mx-auto grid lg:flex gap-10 py-5">
-            {/* left section */}
-            <Card
-                className='basis-3/12 block lg:sticky top-0 lg:top-20 h-fit border-gray-200 '
-            >
-                {/* avatar user (optional) */}
-                <div className="space-y-3">
-                    <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" />
-                </div>
-
-                <div className="space-y-4 mt-3">
-
-                    <div className="flex justify-start items-center gap-3">
-                        <img className="w-6" alt="" src="https://cdn-icons-png.flaticon.com/512/5972/5972778.png" />
-                        <p className="font-bold text-xl">Email Verified</p>
+        <>
+            <div className="container mx-auto grid lg:flex gap-10 py-5">
+                {/* left section */}
+                <Card
+                    className='basis-3/12 block lg:sticky top-0 lg:top-20 h-fit border-gray-200 '
+                >
+                    {/* avatar user (optional) */}
+                    <div className="space-y-3">
+                        <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" />
                     </div>
 
-                    <button className="w-auto underline font-bold text-sm">Edit profile</button>
+                    <div className="space-y-4 mt-3">
 
-                    <div className='text-lg'>
-                        <p className="font-semibold text-gray-500">Your name:</p>
-                        <p className="font-semibold">{currentUser.name}</p>
+                        <div className="flex justify-start items-center gap-3">
+                            <img className="w-6" alt="" src="https://cdn-icons-png.flaticon.com/512/5972/5972778.png" />
+                            <p className="font-bold text-xl">Email Verified</p>
+                        </div>
+
+                        <button className="w-auto underline font-bold text-sm">Edit profile</button>
+
+                        <div className='text-lg'>
+                            <p className="font-semibold text-gray-500">Your name:</p>
+                            <p className="font-semibold">{currentUser.name}</p>
+                        </div>
+                        <div className='text-lg'>
+                            <p className="font-semibold text-gray-500">Email address:</p>
+                            <p className="font-semibold">{currentUser.email}</p>
+                        </div>
+                        <div className='text-lg'>
+                            <p className="font-semibold text-gray-500">Phone number:</p>
+                            <p className="font-semibold">{currentUser.phone}</p>
+                        </div>
                     </div>
-                    <div className='text-lg'>
-                        <p className="font-semibold text-gray-500">Email address:</p>
-                        <p className="font-semibold">{currentUser.email}</p>
+                </Card>
+
+                {/* right section */}
+                <div className='basis-9/12 space-y-4'>
+                    {/* Processing Registration */}
+                    <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
+                        <h1 className="font-bold text-2xl">Processing Registration:</h1>
+                        <Table
+                            rowKey="koi_id"
+                            columns={columnsProcessing}
+                            dataSource={dataSourceProcessing}
+                            pagination={false}
+                            loading={false}
+                            scroll={{ y: 350 }}
+                        />
                     </div>
-                    <div className='text-lg'>
-                        <p className="font-semibold text-gray-500">Phone number:</p>
-                        <p className="font-semibold">{currentUser.phone}</p>
+
+                    {/* Completed Registration */}
+                    <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
+                        <h1 className="font-bold text-2xl">Completed Registration:</h1>
+                        <Table
+                            rowKey="koi_id"
+                            columns={columnsCompleted}
+                            dataSource={dataSourceCompleted}
+                            pagination={false}
+                            loading={false}
+                            scroll={{ y: 350 }}
+                        />
                     </div>
-                </div>
-            </Card>
 
-            {/* right section */}
-            <div className='basis-9/12 space-y-4'>
-                {/* Processing Registration */}
-                <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
-                    <h1 className="font-bold text-2xl">Processing Registration:</h1>
-                    <Table
-                        rowKey="koi_id"
-                        columns={columnsProcessing}
-                        dataSource={dataSourceProcessing}
-                        pagination={false}
-                        loading={false}
-                        scroll={{ y: 350 }}
-                    />
                 </div>
-
-                {/* Completed Registration */}
-                <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
-                    <h1 className="font-bold text-2xl">Completed Registration:</h1>
-                    <Table
-                        rowKey="koi_id"
-                        columns={columnsCompleted}
-                        dataSource={dataSourceCompleted}
-                        pagination={false}
-                        loading={false}
-                        scroll={{ y: 350 }}
-                    />
-                </div>
-
             </div>
-        </div>
+        </>
     )
 }
 

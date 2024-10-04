@@ -44,11 +44,10 @@ const Login = () => {
     });
 
     const { mutate: handleLogin } = useMutation({
+        mutationKey: ['login'],
         mutationFn: (payload) => userApi.login(payload),
         onSuccess: (data) => {
-            console.log("🚀 ~ Login ~ data:", data)
             setLocalStorage("user", data?.payload);
-            // setLocalStorage("token", data?.token);
             dispatch(setUser(data?.payload));
         },
         onError: (error) => {
@@ -65,7 +64,6 @@ const Login = () => {
             email: values.email,
             password: values.password,
         };
-        // console.log("🚀 ~ onSubmit ~ payload:", payload)
         handleLogin(payload);
     };
 

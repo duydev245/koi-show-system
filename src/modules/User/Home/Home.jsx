@@ -7,7 +7,7 @@ const Home = () => {
 
     return (
         <>
-            <Banner bannerShow={'/bgAuth.jpg'} />
+            <Banner bannerShow={'/bg-koi-1.jpg'} />
             <div className='container mx-auto'>
                 {/* CurrentShow */}
                 <CurrentShow />

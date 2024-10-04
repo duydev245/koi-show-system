@@ -66,6 +66,7 @@ const Register = () => {
   });
 
   const { mutate: handleRegister } = useMutation({
+    mutationKey: ['register'],
     mutationFn: (payload) => userApi.register(payload),
     onSuccess: (data) => {
       messageApi.open({
@@ -94,7 +95,6 @@ const Register = () => {
       gender: values.gender,
       // role: "USER",
     };
-    // console.log("🚀 ~ onSubmit ~ payload:", payload)
     handleRegister(payload);
   };
 

@@ -12,7 +12,7 @@ const Navbar = () => {
 
   // const currentUser = getLocalStorage("user");
   const { currentUser } = useSelector((state) => state.user);
-  console.log("🚀 ~ Navbar ~ currentUser:", currentUser)
+  // console.log("🚀 ~ Navbar ~ currentUser:", currentUser)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -101,7 +101,7 @@ const Navbar = () => {
                     <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
                       onClick={() => { navigate(PATH.PROFILE) }}
                     >
-                      Settings
+                      Cart
                     </li>
                     <li>
                       <button

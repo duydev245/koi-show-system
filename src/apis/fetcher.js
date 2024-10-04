@@ -2,6 +2,7 @@ import { getLocalStorage } from "../utils/index";
 import axios from "axios";
 import { BASE_URL } from "../constants/urlConfig";
 
+
 const fetcher = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -10,11 +11,11 @@ const fetcher = axios.create({
 });
 
 fetcher.interceptors.request.use((config) => {
-  // const token = getLocalStorage("token");
+  const currentUser = getLocalStorage("user");
 
   config.headers = {
     ...config.headers,
-    token: "accessToken",
+    token: currentUser ? currentUser.token : "accessToken",
   };
 
   return config;

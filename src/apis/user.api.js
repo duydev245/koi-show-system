@@ -23,7 +23,6 @@ export const userApi = {
         `/User/signup`,
         payload
       );
-      console.log("🚀 ~ register: ~ response:", response)
 
       return response.data;
     } catch (error) {
@@ -42,12 +41,12 @@ export const userApi = {
   //   }
   // },
 
-  // getInfoUser: async (idUser) => {
+  // getInfoUser: async () => {
   //   try {
   //     const response = await fetcher.get(
-  //       `/users/${idUser}`
+  //       `/User/personal-information`
   //     );
-  //     return response.data.content;
+  //     return response.data;
   //   } catch (error) {
   //     throw Error(error.response.data.content);
   //   }
