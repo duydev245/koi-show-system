@@ -7,29 +7,53 @@ import { PATH } from '../../../routes/path';
 import { ShowDesc } from '../../../components/ShowDesc';
 import ShowRules from '../../../components/ShowRules/ShowRules';
 import { ShowGuide } from '../../../components/ShowGuide';
-import { Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Pagination, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { LoadingComponent } from '../../../components/LoadingComponent';
+import { useQuery } from '@tanstack/react-query';
+import { showApi } from '../../../apis/show.api';
+import dayjs from "dayjs";
+import { PAGE_SIZE } from '../../../constants';
 
 const KoiShowDetails = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("🚀 ~ KoiShowDetails ~ id:", id)
+  // console.log("🚀 ~ KoiShowDetails ~ id:", id)
 
-  let showName = '1st Kodama Virtual Koi Show';
-  let showStatus = 0;
-  let openForm = '15/10';
-  let closeForm = '25/11';
-  let awardDate = '9/12';
+  const { data: showDetails, isLoading, error } = useQuery({
+    queryKey: ['show-details'],
+    queryFn: () => showApi.getShowDetails(id),
+  });
+  // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
+
+  let showName = showDetails?.showName;
+  let showDesc = showDetails?.showDesc;
+  let showStatus = showDetails?.showStatus;
+  let showReferee = showDetails?.showReferee;
+  let showGroups = showDetails?.showGroups;
+
+  let openForm = dayjs(showDetails?.registrationStartDate).format("DD/MM");
+  let closeForm = dayjs(showDetails?.registrationCloseDate).format("DD/MM");
+  let awardDate = dayjs(showDetails?.startDate).format("DD/MM");
+
+  const { data: listKoi } = useQuery({
+    queryKey: ['list-koi', { currentPage }],
+    queryFn: () => showApi.getListKoiByShow({ pageIndex: currentPage, showID: id }),
+  });
+  // console.log("🚀 ~ KoiShowDetails ~ listKoi:", listKoi)
+
+  const total = listKoi?.totalItems || 0;
+  console.log("🚀 ~ KoiShowDetails ~ total:", total)
 
   const handleOnClick = (idKoi) => {
     return navigate(`/koi-details/${idKoi}`);
   }
 
-  let isloading = true;
-
-  if (!isloading) {
+  console.log("🚀 ~ KoiShowDetails ~ isLoading:", isLoading)
+  if (isLoading && error) {
     return <LoadingComponent />;
   }
 
@@ -40,10 +64,13 @@ const KoiShowDetails = () => {
         <ShowTitle showName={showName} />
 
         <ShowDesc
+          showDesc={showDesc}
           showStatus={showStatus}
           openForm={openForm}
           closeForm={closeForm}
           awardDate={awardDate}
+          showReferee={showReferee}
+          showGroups={showGroups}
         />
 
         <ShowRules
@@ -66,55 +93,68 @@ const KoiShowDetails = () => {
           </div>
           {/* list koi entries */}
           <Row>
-            <Col span={6} className='p-4'>
-              <Card
-                hoverable
-                cover={<img alt="koi-1" src="/koi-1.jpg" />}
-              >
-                <div className="mb-3">
-                  <div className='flex justify-between items-center mb-3 h-[42px]'>
-                    <Typography className='text-2xl font-bold'>Keto</Typography>
-                    <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='3x' />
-                  </div>
-                  <Typography className='text-lg'><span className="font-bold">Koi ID:</span> 11152</Typography>
-                  <Typography className='text-lg'><span className="font-bold">Variety:</span> Kohaku</Typography>
-                  <Typography className='text-lg'><span className="font-bold">Size:</span> 75 Bu + - 30” +</Typography>
-                </div>
-                <div>
-                  <button
-                    onClick={() => { handleOnClick(1) }}
-                    className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-rose-700 hover:text-white duration-300'>
-                    View details
-                  </button>
-                </div>
-              </Card>
-            </Col>
+            {listKoi?.kois.map((koi) => (
+              <Col span={6} key={koi.koiID} className='p-4'>
+                <Card
+                  hoverable
+                  cover={<img alt={koi.koiName} src="/koi-1.jpg" />}
+                >
+                  <div className="mb-3">
+                    <div className='flex justify-center items-center mb-3 h-[42px]'>
+                      {(koi.koiRank === 1) &&
+                        (<>
+                          <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='3x' />
+                          <span className='text-2xl font-bold ms-2'>1st Place Winner</span>
+                        </>)
+                      }
 
-            <Col span={6} className='p-4'>
-              <Card
-                hoverable
-                cover={<img alt="SekiguchiContest" src="/koi-1.jpg" />}
-              >
-                <div className="mb-3">
-                  <div className='flex justify-between items-center mb-3 h-[42px]'>
-                    <Typography className='text-2xl font-bold'>Keto</Typography>
-                    {/* <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='3x' /> */}
-                  </div>
-                  <Typography className='text-lg'><span className="font-bold">Koi ID:</span> 11152</Typography>
-                  <Typography className='text-lg'><span className="font-bold">Variety:</span> Kohaku</Typography>
-                  <Typography className='text-lg'><span className="font-bold">Size:</span> 75 Bu + - 30” +</Typography>
-                </div>
-                <div>
-                  <button
-                    onClick={() => { handleOnClick(1) }}
-                    className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-rose-700 hover:text-white duration-300'>
-                    View details
-                  </button>
-                </div>
-              </Card>
-            </Col>
+                      {(koi.koiRank === 2) &&
+                        (<>
+                          <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
+                          <span className='text-2xl font-bold ms-2'>2nd Place Winner</span>
+                        </>)
+                      }
 
+                      {(koi.koiRank === 3) &&
+                        (<>
+                          <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='1x' />
+                          <span className='text-2xl font-bold ms-2'>3rd Place Winner</span>
+                        </>)
+                      }
+                    </div>
+
+                    <div className='flex justify-between items-center h-[42px]'>
+                      <Typography className='text-2xl font-bold'>{koi.koiName}</Typography>
+                      {(koi.bestVoted) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
+                    </div>
+
+                    <Typography className='text-lg'><span className="font-bold">Koi ID:</span> {koi.koiID}</Typography>
+                    <Typography className='text-lg'><span className="font-bold">Variety:</span> {koi.koiVariety}</Typography>
+                    <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiVariety}</Typography>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => { handleOnClick(koi.koiID) }}
+                      className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-rose-700 hover:text-white duration-300'>
+                      View details
+                    </button>
+                  </div>
+                </Card>
+              </Col>
+            ))}
           </Row>
+
+          <Pagination
+            className='me-2'
+            align="end"
+            total={total}
+            pageSize={PAGE_SIZE}
+            defaultCurrent={1}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+            showSizeChanger={false}
+          />
         </div>
 
       </div>

@@ -15,7 +15,7 @@ fetcher.interceptors.request.use((config) => {
 
   config.headers = {
     ...config.headers,
-    token: currentUser ? currentUser.token : "accessToken",
+    Authorization: currentUser ? `Bearer ${currentUser.token}` : "accessToken",
   };
 
   return config;

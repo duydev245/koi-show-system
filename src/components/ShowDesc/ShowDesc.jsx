@@ -6,7 +6,7 @@ import { UpcomingShow } from '../UpcomingShow';
 import { OngoingShow } from '../OngoingShow';
 import { EndedShow } from '../EndedShow';
 
-const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
+const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showReferee, showGroups }) => {
     const navigate = useNavigate();
 
     return (
@@ -19,13 +19,20 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
 
                         {/* show status */}
                         <div className="mb-4">
-                            {(showStatus === 0) && (<UpcomingShow />)}
-                            {(showStatus === 1) && (<OngoingShow />)}
-                            {(showStatus === 2) && (<EndedShow />)}
+                            {(showStatus === 'Up Comming') && (<UpcomingShow />)}
+                            {(showStatus === 'On Going') && (<OngoingShow />)}
+                            {(showStatus === 'Finished') && (<EndedShow />)}
                         </div>
 
                         <div className='mb-4'>
-                            <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
+                            {(showDesc) ?
+                                (
+                                    showDesc
+                                ) : (
+                                    <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
+                                )
+                            }
+
                         </div>
 
                         <div className='mb-4'>
@@ -39,8 +46,25 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
                         </div>
 
                         <div className='mb-4'>
+                            <p className='font-bold mb-2'>Show Groups: </p>
+                            <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                {showGroups?.map((gr) => (
+                                    <li key={gr.groupId}>
+                                        {gr.groupName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className='mb-4'>
                             <p className='font-bold mb-2'>Official Judges: </p>
-                            <p>Futoshi Mano from Dainichi Koi Farm and Mitsunori Isa from Isa Koi Farm</p>
+                            <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                {showReferee?.map((ref) => (
+                                    <li key={ref.refereeId}>
+                                        {ref.refereeName}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </Card>
@@ -62,7 +86,7 @@ const ShowDesc = ({ showStatus, openForm, closeForm, awardDate }) => {
                         <p>{awardDate} – Award Ceremony & Judges Seminar</p>
                     </div>
 
-                    {(showStatus === 0) && (
+                    {(showStatus === 'Up Comming') && (
                         <div>
                             <button
                                 onClick={() => { navigate(PATH.KOI_REGISTER) }}
