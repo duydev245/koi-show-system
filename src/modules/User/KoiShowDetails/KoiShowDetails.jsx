@@ -11,9 +11,14 @@ import ShowDesc from './ShowDesc';
 import ShowRules from './ShowRules';
 import ShowGuide from './ShowGuide';
 import ListKoiEntries from './ListKoiEntries';
+import { NotFoundComponent } from '../../../components/NotFoundComponent';
 
 const KoiShowDetails = () => {
   const { id } = useParams();
+
+  if (!id || id === 'undefined') {
+    return <NotFoundComponent />;
+  }
 
   const { data: showDetails, isLoading, error } = useQuery({
     queryKey: ['show-details'],

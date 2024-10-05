@@ -28,11 +28,11 @@ const RejectedRouter = () => {
         return <Outlet />;
     }
 
-    if (currentUser.role === 'ADMIN') {
+    if (currentUser.role === 'Admin') {
         return <Navigate to={PATH.ADMIN} />;
     }
 
-    if (currentUser.role === 'STAFF') {
+    if (currentUser.role === 'Staff') {
         return <Navigate to={PATH.STAFF} />;
     }
 
@@ -47,11 +47,11 @@ const ProfilePageRouter = () => {
         return <Navigate to={PATH.LOGIN} />;
     }
 
-    if (currentUser.role === 'ADMIN') {
+    if (currentUser.role === 'Admin') {
         return <Navigate to={PATH.ADMIN} />;
     }
 
-    if (currentUser.role === 'STAFF') {
+    if (currentUser.role === 'Staff') {
         return <Navigate to={PATH.STAFF} />;
     }
 
@@ -89,7 +89,7 @@ const ProtectedRouter = () => {
         return <Navigate to={PATH.LOGIN} />;
     }
 
-    return currentUser.role === "ADMIN" ? (
+    return currentUser.role === "Admin" ? (
         <Outlet />
     ) : (
         <Navigate to={PATH.HOME} />

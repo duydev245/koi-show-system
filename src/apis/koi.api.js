@@ -1,9 +1,10 @@
 import fetcher from "./fetcher";
+import fetcherNoAuth from "./fetcherNoAuth";
 
 export const koiApi = {
     getKoiDetails: async (id) => {
         try {
-            const response = await fetcher.get(
+            const response = await fetcherNoAuth.get(
                 `/KoiShow/koi-detail?koiId=${id}`
             );
 

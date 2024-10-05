@@ -53,11 +53,11 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showRe
                                 <p className='font-bold mb-2'>
                                     {(showStatus === 'Finished') ? 'Show Award:' : 'Show Groups:'}
                                 </p>
-                                <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                <ul style={{ listStyleType: 'disc' }} className="ps-7">
                                     {showGroups?.map((gr) => (
                                         <li key={gr.groupId}>
                                             <p>{gr.groupName}</p>
-                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-9 font-normal">
+                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
                                                 {
                                                     gr.koiDetails.map((koi) => (
                                                         <li key={koi?.koiID} className='mb-1'>
@@ -80,7 +80,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showRe
 
                             <div>
                                 <p className='font-bold mb-2'>Official Judges: </p>
-                                <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                <ul style={{ listStyleType: 'disc' }} className="ps-7">
                                     {showReferee?.map((ref) => (
                                         <li key={ref.refereeId}>
                                             {ref.refereeName}

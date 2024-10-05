@@ -1,11 +1,12 @@
 import { PAGE_SIZE } from "../constants";
 import fetcher from "./fetcher";
+import fetcherNoAuth from "./fetcherNoAuth";
 
 export const userApi = {
 
   login: async (data) => {
     try {
-      const response = await fetcher.post(
+      const response = await fetcherNoAuth.post(
         `/User/login`,
         data
       );
@@ -19,7 +20,7 @@ export const userApi = {
 
   register: async (payload) => {
     try {
-      const response = await fetcher.post(
+      const response = await fetcherNoAuth.post(
         `/User/signup`,
         payload
       );
@@ -30,17 +31,6 @@ export const userApi = {
     }
   },
 
-  // getListUser: async () => {
-  //   try {
-  //     const response = await fetcher.get(
-  //       `/users`
-  //     );
-  //     return response.data;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
-
   getInfoUser: async () => {
     try {
       const response = await fetcher.get(
@@ -48,7 +38,7 @@ export const userApi = {
       );
       return response.data?.payload;
     } catch (error) {
-      throw Error(error.response.data.content);
+      throw Error(error.response.data.message);
     }
   },
 
@@ -61,9 +51,21 @@ export const userApi = {
 
       return response.data;
     } catch (error) {
-      throw Error(error.response.data.content);
+      throw Error(error.response.data.message);
     }
   },
+
+
+  // getListUser: async () => {
+  //   try {
+  //     const response = await fetcher.get(
+  //       `/users`
+  //     );
+  //     return response.data;
+  //   } catch (error) {
+  //     throw Error(error.response.data.content);
+  //   }
+  // },
 
   // addUser: async (payload) => {
   //   try {
@@ -77,8 +79,6 @@ export const userApi = {
   //     throw Error(error.response.data.content);
   //   }
   // },
-
-
 
   // deleteUser: async (idUser) => {
   //   try {

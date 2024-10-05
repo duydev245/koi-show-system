@@ -55,11 +55,11 @@ const CurrentShow = ({ currentShow }) => {
                                             <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='2x' />
                                             <h4 className='text-2xl font-bold ms-1'>Koi Award:</h4>
                                         </div>
-                                        <ul style={{ listStyleType: 'disc' }} className="text-xl ps-9">
+                                        <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
                                             {groupShow.map((group) => (
                                                 <li key={group?.groupId} className='mb-2'>
                                                     <p>{group?.groupName}:</p>
-                                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-9 font-normal">
+                                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
                                                         {group?.koiRegistrations.map((koi) => (
                                                             <li key={koi?.koiId} className='mb-1'>
                                                                 <div className='flex items-center justify-start'>

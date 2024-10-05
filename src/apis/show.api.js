@@ -1,11 +1,12 @@
 import { PAGE_SIZE } from "../constants";
 import fetcher from "./fetcher";
+import fetcherNoAuth from "./fetcherNoAuth";
 
 export const showApi = {
 
     getShowDetails: async (id) => {
         try {
-            const response = await fetcher.get(
+            const response = await fetcherNoAuth.get(
                 `/KoiShow/show-detail?showID=${id}`
             );
 
@@ -24,7 +25,7 @@ export const showApi = {
         };
 
         try {
-            const response = await fetcher.get(
+            const response = await fetcherNoAuth.get(
                 `/KoiShow/koibyshow`,
                 { params }
             );
