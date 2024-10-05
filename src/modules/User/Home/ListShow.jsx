@@ -26,7 +26,7 @@ const ListShow = ({ dataList }) => {
                 {listShow.map((show) => (
                     <Col key={show.showId} span={12} className='p-4'>
                         <Card
-                            onClick={() => { handleOnClick(1) }}
+                            onClick={() => { handleOnClick(show.showId) }}
                             hoverable
                             cover={<img alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
                         >
