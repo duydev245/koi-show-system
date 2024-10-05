@@ -1,8 +1,8 @@
 import React from 'react'
+import 'animate.css'
 import { Card, Col, Row, Typography } from 'antd';
-import { SearchForm } from '../SearchForm'
 import { useNavigate } from 'react-router-dom';
-import 'animate.css';
+import { SearchForm } from '../../../components/SearchForm';
 
 const ListShow = () => {
     const { Text } = Typography;

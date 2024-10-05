@@ -1,7 +1,7 @@
 import React from 'react'
 import { Banner } from '../../../components/Banner'
-import { CurrentShow } from '../../../components/CurrentShow';
-import { ListShow } from '../../../components/ListShow';
+import CurrentShow from './CurrentShow';
+import ListShow from './ListShow';
 
 const Home = () => {
 

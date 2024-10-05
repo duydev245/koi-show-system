@@ -246,7 +246,10 @@ const ProfilePage = () => {
                             <p className="font-bold text-xl">Email Verified</p>
                         </div>
 
-                        <button className="w-auto underline font-bold text-sm">Edit profile</button>
+                        <div>
+                            <button className="w-auto underline font-bold text-sm block">Edit profile</button>
+                            <button className="w-auto underline font-bold text-sm block">Change password</button>
+                        </div>
 
                         <div className='text-lg'>
                             <p className="font-semibold text-gray-500">Your name:</p>

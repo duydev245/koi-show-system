@@ -1,1 +1,0 @@
-export { default as ShowDesc } from './ShowDesc'

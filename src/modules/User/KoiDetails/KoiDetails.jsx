@@ -5,16 +5,21 @@ import { Card, Image, Popconfirm } from 'antd';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from '@tanstack/react-query';
+import { koiApi } from '../../../apis/koi.api';
 
 
 const KoiDetails = () => {
     const [vote, setVote] = useState('Vote');
 
     const { id } = useParams();
-    console.log("🚀 ~ KoiDetails ~ id:", id)
 
-    let koiName = 'Keto';
+    const { data: koiDetails, isLoading, error } = useQuery({
+        queryKey: ['koi-details'],
+        queryFn: () => koiApi.getKoiDetails(id),
+    });
+    console.log("🚀 ~ KoiDetails ~ koiDetails:", koiDetails)
 
     const handleVote = () => {
         if (vote === 'Vote') {
@@ -28,40 +33,64 @@ const KoiDetails = () => {
 
     return (
         <>
-            <KoiTitle koiName={koiName} />
+            <KoiTitle koiName={koiDetails?.koiName} />
             <div className='container mx-auto'>
                 <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>
                     <div className='basis-6/12 space-y-6 lg:sticky w-full lg:h-full top-32'>
                         <Card hoverable className='p-5'>
                             <h4 className='text-3xl font-bold mb-5 text-center'>Koi Details</h4>
+
+                            <div className='flex justify-center items-center mb-3 h-[42px]'>
+                                {(koiDetails?.rank === 1) &&
+                                    (<>
+                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='3x' />
+                                        <span className='text-3xl font-bold ms-2'>1st Place Winner</span>
+                                    </>)
+                                }
+
+                                {(koiDetails?.rank === 2) &&
+                                    (<>
+                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
+                                        <span className='text-3xl font-bold ms-2'>2nd Place Winner</span>
+                                    </>)
+                                }
+
+                                {(koiDetails?.rank === 3) &&
+                                    (<>
+                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='1x' />
+                                        <span className='text-3xl font-bold ms-2'>3rd Place Winner</span>
+                                    </>)
+                                }
+                            </div>
+
                             <div className='text-xl'>
 
                                 <div className='mb-4 flex justify-between items-center'>
                                     <div>
                                         <p className='font-bold mb-2'>KOI ID: </p>
-                                        <p>11152</p>
+                                        <p>{koiDetails?.koiID}</p>
                                     </div>
-                                    <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='3x' />
+                                    {(koiDetails?.bestVote) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
                                 </div>
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>KOI Name: </p>
-                                    <p>Keto</p>
+                                    <p>{koiDetails?.koiName}</p>
                                 </div>
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Size: </p>
-                                    <p>75 Bu + - 30” +</p>
+                                    <p>{koiDetails?.koiSize}</p>
                                 </div>
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Variety: </p>
-                                    <p>Kohaku</p>
+                                    <p>{koiDetails?.koiVariety}</p>
                                 </div>
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Description: </p>
-                                    <p>We named this koi Keto because it has been so slender but it is finally starting to widen up.</p>
+                                    <p>{koiDetails?.koiDesc}</p>
                                 </div>
 
                                 <div className='mb-4 font-bold'>
@@ -106,6 +135,7 @@ const KoiDetails = () => {
                                         className='object-fit w-full'
                                     />
                                 </div>
+
                                 <div className='relative'>
                                     <div className='z-10 inset-0 absolute top-0'>
                                         <Image
@@ -119,6 +149,7 @@ const KoiDetails = () => {
                                         className='object-fit w-full'
                                     />
                                 </div>
+
                                 <div className='relative'>
                                     <div className='z-10 inset-0 absolute top-0'>
                                         <Image

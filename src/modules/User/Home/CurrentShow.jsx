@@ -1,18 +1,17 @@
-import { Card, Row, Col } from 'antd'
-import React from 'react'
-import ShowTitle from '../ShowTitle/ShowTitle'
-import { UpcomingShow } from '../UpcomingShow';
-import { OngoingShow } from '../OngoingShow';
-import { EndedShow } from '../EndedShow';
+import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Card, Col, Row } from 'antd';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { ShowTitle } from '../../../components/ShowTitle';
+import { UpcomingShow } from '../../../components/UpcomingShow';
+import { OngoingShow } from '../../../components/OngoingShow';
+import { EndedShow } from '../../../components/EndedShow';
 
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
 
     let showStatus = currentShow?.status;
-
     let groupShow = currentShow?.groups;
 
     const navigate = useNavigate();

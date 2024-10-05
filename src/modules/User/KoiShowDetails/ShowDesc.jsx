@@ -1,10 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../routes/path';
 import { Card } from 'antd';
-import { UpcomingShow } from '../UpcomingShow';
-import { OngoingShow } from '../OngoingShow';
-import { EndedShow } from '../EndedShow';
+import { PATH } from '../../../routes/path';
+import { UpcomingShow } from '../../../components/UpcomingShow';
+import { OngoingShow } from '../../../components/OngoingShow';
+import { EndedShow } from '../../../components/EndedShow';
+
 
 const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showReferee, showGroups }) => {
     const navigate = useNavigate();

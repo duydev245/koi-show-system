@@ -4,9 +4,6 @@ import { Banner } from '../../../components/Banner';
 import { ShowTitle } from '../../../components/ShowTitle';
 import 'animate.css';
 import { PATH } from '../../../routes/path';
-import { ShowDesc } from '../../../components/ShowDesc';
-import ShowRules from '../../../components/ShowRules/ShowRules';
-import { ShowGuide } from '../../../components/ShowGuide';
 import { Card, Col, Pagination, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
@@ -15,19 +12,20 @@ import { useQuery } from '@tanstack/react-query';
 import { showApi } from '../../../apis/show.api';
 import dayjs from "dayjs";
 import { PAGE_SIZE } from '../../../constants';
+import ShowDesc from './ShowDesc';
+import ShowRules from './ShowRules';
+import ShowGuide from './ShowGuide';
 
 const KoiShowDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const navigate = useNavigate();
   const { id } = useParams();
-  // console.log("🚀 ~ KoiShowDetails ~ id:", id)
 
   const { data: showDetails, isLoading, error } = useQuery({
     queryKey: ['show-details'],
     queryFn: () => showApi.getShowDetails(id),
   });
-  // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
+  console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
 
   let showName = showDetails?.showName;
   let showDesc = showDetails?.showDesc;
@@ -52,7 +50,6 @@ const KoiShowDetails = () => {
     return navigate(`/koi-details/${idKoi}`);
   }
 
-  console.log("🚀 ~ KoiShowDetails ~ isLoading:", isLoading)
   if (isLoading && error) {
     return <LoadingComponent />;
   }
