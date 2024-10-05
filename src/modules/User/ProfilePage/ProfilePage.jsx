@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, message, Table, Tag, Typography } from 'antd';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { getLocalStorage } from '../../../utils';
+import { getLocalStorage, setLocalStorage } from '../../../utils';
 import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, SyncOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
 import { useOpenModal } from '../../../hooks/useOpenModal';
@@ -11,6 +11,8 @@ import InfoModal from './InfoModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userApi } from '../../../apis/user.api';
 import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/slices/user.slice';
+import PwModal from './PwModal';
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -19,6 +21,7 @@ const ProfilePage = () => {
     const [messageApi, contextHolder] = message.useMessage();
 
     const { isOpen: isOpenInfoModal, openModal: openInfoModal, closeModal: closeInfoModal } = useOpenModal();
+    const { isOpen: isOpenPwModal, openModal: openPwModal, closeModal: closePwModal } = useOpenModal();
 
     const currentUser = getLocalStorage("user");
 
@@ -32,8 +35,8 @@ const ProfilePage = () => {
     const { mutate: handleUpdateUserApi, isPending: isPendingUpdate } = useMutation({
         mutationFn: (payload) => userApi.updateInfoUser(payload),
         onSuccess: (data) => {
-            // setLocalStorage("user", data);
-            // dispatch(setUser(data));
+            setLocalStorage("user", data?.payload);
+            dispatch(setUser(data?.payload));
             messageApi.open({
                 content: data?.message || "Update successfully",
                 type: "success",
@@ -44,6 +47,26 @@ const ProfilePage = () => {
                 queryKey: ["info-user"],
                 type: "active",
             });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
+
+    // update password info api
+    const { mutate: handleUpdatePass, isPending: isPendingUpdatePass } = useMutation({
+        mutationFn: (payload) => userApi.updatePasswordUser(payload),
+        onSuccess: (data) => {
+            messageApi.open({
+                content: data?.message || "Update successfully",
+                type: "success",
+                duration: 3,
+            });
+            closePwModal();
         },
         onError: (error) => {
             messageApi.open({
@@ -290,7 +313,7 @@ const ProfilePage = () => {
 
                         <div className='space-y-1'>
                             <button onClick={openInfoModal} className="w-auto underline font-bold text-base block">Edit profile</button>
-                            <button className="w-auto underline font-bold text-base block">Change password</button>
+                            <button onClick={openPwModal} className="w-auto underline font-bold text-base block">Change password</button>
                         </div>
 
                         <div className='text-lg'>
@@ -348,7 +371,13 @@ const ProfilePage = () => {
                 handleUpdateUserApi={handleUpdateUserApi}
             />
 
-
+            <PwModal
+                key={"updatePass"}
+                isOpen={isOpenPwModal}
+                onCloseModal={closePwModal}
+                isPending={isPendingUpdatePass}
+                handleUpdatePass={handleUpdatePass}
+            />
         </>
     )
 }

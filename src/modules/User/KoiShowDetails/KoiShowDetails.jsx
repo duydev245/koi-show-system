@@ -26,7 +26,7 @@ const KoiShowDetails = () => {
   });
   // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
 
-  let showName = showDetails?.showName;
+  let showName = showDetails?.showTitle;
   let showDesc = showDetails?.showDesc;
   let showStatus = showDetails?.showStatus;
   let showReferee = showDetails?.showReferee;
@@ -34,7 +34,8 @@ const KoiShowDetails = () => {
 
   let openForm = dayjs(showDetails?.registrationStartDate).format("DD/MM");
   let closeForm = dayjs(showDetails?.registrationCloseDate).format("DD/MM");
-  let awardDate = dayjs(showDetails?.startDate).format("DD/MM");
+  let startDate = dayjs(showDetails?.startDate).format("DD/MM");
+  let endDate = dayjs(showDetails?.endDate).format("DD/MM");
 
   if (isLoading && error) {
     return <LoadingComponent />;
@@ -51,19 +52,20 @@ const KoiShowDetails = () => {
           showStatus={showStatus}
           openForm={openForm}
           closeForm={closeForm}
-          awardDate={awardDate}
+          startDate={startDate}
+          endDate={endDate}
           showReferee={showReferee}
           showGroups={showGroups}
         />
 
         <ShowRules
           closeForm={closeForm}
-          awardDate={awardDate}
+          endDate={endDate}
         />
 
         <ShowGuide
           closeForm={closeForm}
-          awardDate={awardDate}
+          endDate={endDate}
         />
 
         {/* koi entries */}

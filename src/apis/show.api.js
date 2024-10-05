@@ -21,7 +21,7 @@ export const showApi = {
         const params = {
             pageIndex: payload.pageIndex,
             pageSize: payload.pageSize || PAGE_SIZE,
-            showID: payload.showID * 1  
+            showID: payload.showID * 1
         };
 
         try {
@@ -37,15 +37,15 @@ export const showApi = {
         }
     },
 
-    // getLatestShow: async () => {
-    //     try {
-    //         const response = await fetcher.get(
-    //             `/KoiShow/closest-show`);
+    getListShow: async () => {
+        try {
+            const response = await fetcherNoAuth.get(
+                `/KoiShow/closest-show`);
 
-    //         return response.data?.payload;
+            return response.data?.payload;
 
-    //     } catch (error) {
-    //         throw Error(error.response.data.message);
-    //     }
-    // },
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

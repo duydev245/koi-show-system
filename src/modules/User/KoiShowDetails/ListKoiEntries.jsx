@@ -42,21 +42,21 @@ const ListKoiEntries = ({ showName, showID }) => {
                         >
                             <div className="mb-3">
                                 <div className='flex justify-center items-center mb-3 h-[42px]'>
-                                    {(koi.koiRank === 1) &&
+                                    {(koi.rank === 1) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='3x' />
                                             <span className='text-2xl font-bold ms-2'>1st Place Winner</span>
                                         </>)
                                     }
 
-                                    {(koi.koiRank === 2) &&
+                                    {(koi.rank === 2) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
                                             <span className='text-2xl font-bold ms-2'>2nd Place Winner</span>
                                         </>)
                                     }
 
-                                    {(koi.koiRank === 3) &&
+                                    {(koi.rank === 3) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='1x' />
                                             <span className='text-2xl font-bold ms-2'>3rd Place Winner</span>
@@ -66,12 +66,12 @@ const ListKoiEntries = ({ showName, showID }) => {
 
                                 <div className='flex justify-between items-center h-[42px]'>
                                     <Typography className='text-2xl font-bold'>{koi.koiName}</Typography>
-                                    {(koi.bestVoted) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
+                                    {(koi.isBestVote) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
                                 </div>
 
                                 <Typography className='text-lg'><span className="font-bold">Koi ID:</span> {koi.koiID}</Typography>
                                 <Typography className='text-lg'><span className="font-bold">Variety:</span> {koi.koiVariety}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiVariety}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiSize}</Typography>
                             </div>
                             <div>
                                 <button

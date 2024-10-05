@@ -2,7 +2,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 
-const ShowRules = ({ closeForm, awardDate }) => {
+const ShowRules = ({ closeForm, endDate }) => {
     const [dropdownRule, setDropdownRule] = useState(false);
 
     const toggleRule = () => {
@@ -124,7 +124,7 @@ const ShowRules = ({ closeForm, awardDate }) => {
                 {/* Awards */}
                 <div className='mb-8'>
                     <h4 className='text-4xl font-bold mb-5'>Awards:</h4>
-                    <h4 className='text-xl font-semibold mb-5'>Awards will be announced during virtual award ceremony after <span className='font-bold text-red-600'>{awardDate}!</span></h4>
+                    <h4 className='text-xl font-semibold mb-5'>Awards will be announced during virtual award ceremony after <span className='font-bold text-red-600'>{endDate}!</span></h4>
                     <div className='text-lg  mb-5'>
                         <p className='mb-5'>No Koi can win more than one award, except for special awards.</p>
                         <p>* Delivery of the prizes - FREE delivery to a winner in the U.S.A. Winners from outside US must pay the shipping. Please note some countries may not allow import of prize items such as koi food. In such cases, no compensation will be provided.</p>

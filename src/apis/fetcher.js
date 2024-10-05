@@ -14,7 +14,7 @@ const isTokenValid = (token) => {
       return false;
     }
 
-    const currentTime = Math.floor(Date.now() / 1000);
+    const currentTime = (Math.floor(Date.now() / 1000)) - 5;
 
     return decodedToken.exp > currentTime;
   } catch (error) {

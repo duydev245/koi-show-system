@@ -1,7 +1,7 @@
 import { Card } from 'antd'
 import React from 'react'
 
-const ShowGuide = ({ closeForm, awardDate }) => {
+const ShowGuide = ({ closeForm, endDate }) => {
     return (
         <div className='grid grid-cols-1 lg:flex gap-5 mb-8'>
 
@@ -17,7 +17,7 @@ const ShowGuide = ({ closeForm, awardDate }) => {
                             <li>Checkout to pay for and list your koi on the website that have been submitted.</li>
                             <li>You can upvote and bookmark your favorite koi at anytime to support the People's Choice Award.</li>
                             <li>Koi Registration closes on <span className='font-bold text-red-600'>{closeForm}</span></li>
-                            <li>Award Ceremony with Judges Seminar will be <span className='font-bold text-red-600'> {awardDate}</span> on Zoom/GG Meet</li>
+                            <li>Award Ceremony with Judges Seminar will be <span className='font-bold text-red-600'> {endDate}</span> on Zoom/GG Meet</li>
                         </ul>
 
                         <p className='mb-5'>Remember to invite friends who can create accounts and vote your koi to get more votes. (don't abuse this feature!)</p>

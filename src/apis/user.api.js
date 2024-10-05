@@ -54,6 +54,20 @@ export const userApi = {
       throw Error(error.response.data.message);
     }
   },
+  
+  updatePasswordUser: async (payload) => {
+    console.log("🚀 ~ updatePasswordUser: ~ payload:", payload)
+    try {
+      const response = await fetcher.put(
+        `/User/change-password`,
+        payload
+      );
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.message);
+    }
+  },
 
 
   // getListUser: async () => {

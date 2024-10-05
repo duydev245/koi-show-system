@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
-const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showReferee, showGroups }) => {
+const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
     const navigate = useNavigate();
 
     return (
@@ -105,9 +105,9 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showRe
                     </div>
 
                     <div className='text-lg mb-3 font-semibold'>
-                        <p>{openForm} – Registration Opens</p>
-                        <p>{closeForm} – Registration Closes</p>
-                        <p>{awardDate} – Award Ceremony & Judges Seminar</p>
+                        <p>{openForm}: Registration Opens</p>
+                        <p>{closeForm}: Registration Closes</p>
+                        <p>{startDate} - {endDate}: Award Ceremony & Judges Seminar</p>
                     </div>
 
                     {(showStatus === 'Up Comming') && (

@@ -11,8 +11,8 @@ import { EndedShow } from '../../../components/EndedShow';
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
 
-    let showStatus = currentShow?.status;
-    let groupShow = currentShow?.groups;
+    let showStatus = currentShow?.showStatus;
+    let groupShow = currentShow?.showGroups;
 
     const navigate = useNavigate();
 
@@ -22,33 +22,38 @@ const CurrentShow = ({ currentShow }) => {
 
     return (
         <>
-            <ShowTitle showName={currentShow?.title} />
+            <ShowTitle showName={currentShow?.showTitle} />
 
             <div className='p-4 mb-5'>
                 <Card hoverable onClick={() => { handleOnClick(currentShow?.showId) }} >
                     <Row gutter={[0, 10]}>
                         <Col span={24}>
+                            {/* currentShow?.showBanner */}
                             <img className='w-full rounded-lg' src="/show-1.jpg" alt="" />
                         </Col>
                         <Col span={24}>
                             <div className='text-2xl'>
                                 {/* show status */}
-                                {(showStatus === 0) && (<UpcomingShow />)}
-                                {(showStatus === 1) && (<OngoingShow />)}
-                                {(showStatus === 2) && (<EndedShow />)}
+                                {(showStatus === 'Up Comming') && (<UpcomingShow />)}
+                                {(showStatus === 'On Going') && (<OngoingShow />)}
+                                {(showStatus === 'Finished') && (<EndedShow />)}
                             </div>
                         </Col>
                         <Col span={12} className='pe-2'>
 
                             <div className='text-lg'>
                                 <h4 className='text-2xl font-bold mb-2'>About:</h4>
-                                <p>
-                                    The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.
-                                </p>
+                                {(currentShow?.showDesc) ?
+                                    (
+                                        currentShow?.showDesc
+                                    ) : (
+                                        <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
+                                    )
+                                }
                             </div>
                         </Col>
                         <Col span={12} className='ps-2'>
-                            {(showStatus === 2) ?
+                            {(showStatus === 'Finished') ?
                                 (
                                     <div className='font-semibold'>
                                         <div className='flex items-center justify-start mb-2'>
@@ -56,11 +61,13 @@ const CurrentShow = ({ currentShow }) => {
                                             <h4 className='text-2xl font-bold ms-1'>Koi Award:</h4>
                                         </div>
                                         <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
+
                                             {groupShow.map((group) => (
                                                 <li key={group?.groupId} className='mb-2'>
-                                                    <p>{group?.groupName}:</p>
+                                                    <p>{group?.groupName}</p>
                                                     <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-                                                        {group?.koiRegistrations.map((koi) => (
+
+                                                        {group?.koiDetails.map((koi) => (
                                                             <li key={koi?.koiId} className='mb-1'>
                                                                 <div className='flex items-center justify-start'>
                                                                     <p>Rank {koi?.rank}: {koi?.koiName}</p>
@@ -71,21 +78,22 @@ const CurrentShow = ({ currentShow }) => {
                                                                 </div>
                                                             </li>
                                                         ))}
+
                                                     </ul>
                                                 </li>
                                             ))}
+
                                         </ul>
                                     </div>
                                 ) : (
                                     <div className='font-semibold'>
                                         <h4 className='text-2xl font-bold mb-2'>Official Judges:</h4>
                                         <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
-                                            <li>
-                                                <p>Futoshi Mano</p>
-                                            </li>
-                                            <li>
-                                                <p>Mitsunori Isa </p>
-                                            </li>
+                                            {currentShow?.showReferee.map((ref) => (
+                                                <li key={ref.refereeId}>
+                                                    {ref.refereeName}
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 )
