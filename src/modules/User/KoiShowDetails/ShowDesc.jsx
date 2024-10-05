@@ -5,6 +5,8 @@ import { PATH } from '../../../routes/path';
 import { UpcomingShow } from '../../../components/UpcomingShow';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showReferee, showGroups }) => {
@@ -46,27 +48,48 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, awardDate, showRe
                             <p>Cedar Plaque, Trophy, and Certificate are the top awards There will be many other awards, prizes by our sponsors and even a People’s Choice Award, as voted on by your peers.</p>
                         </div>
 
-                        <div className='mb-4'>
-                            <p className='font-bold mb-2'>Show Groups: </p>
-                            <ul style={{ listStyleType: 'disc' }} className="ps-8">
-                                {showGroups?.map((gr) => (
-                                    <li key={gr.groupId}>
-                                        {gr.groupName}
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="mb-4 grid grid-cols-2">
+                            <div>
+                                <p className='font-bold mb-2'>
+                                    {(showStatus === 'Finished') ? 'Show Award:' : 'Show Groups:'}
+                                </p>
+                                <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                    {showGroups?.map((gr) => (
+                                        <li key={gr.groupId}>
+                                            <p>{gr.groupName}</p>
+                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-9 font-normal">
+                                                {
+                                                    gr.koiDetails.map((koi) => (
+                                                        <li key={koi?.koiID} className='mb-1'>
+                                                            <div className='flex items-center justify-start'>
+                                                                <p>Rank {koi?.rank}: {koi?.koiName}</p>
+                                                                {(koi?.bestVote)
+                                                                    && (<FontAwesomeIcon className='text-rose-700 ms-3' icon={faHeart} size='lg' />)
+                                                                }
+
+                                                            </div>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+
+                            <div>
+                                <p className='font-bold mb-2'>Official Judges: </p>
+                                <ul style={{ listStyleType: 'disc' }} className="ps-8">
+                                    {showReferee?.map((ref) => (
+                                        <li key={ref.refereeId}>
+                                            {ref.refereeName}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
-                        <div className='mb-4'>
-                            <p className='font-bold mb-2'>Official Judges: </p>
-                            <ul style={{ listStyleType: 'disc' }} className="ps-8">
-                                {showReferee?.map((ref) => (
-                                    <li key={ref.refereeId}>
-                                        {ref.refereeName}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
                     </div>
                 </Card>
             </div>
