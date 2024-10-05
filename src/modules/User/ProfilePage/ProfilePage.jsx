@@ -6,11 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { getLocalStorage } from '../../../utils';
 import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, SyncOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
+import { useOpenModal } from '../../../hooks/useOpenModal';
+import InfoModal from './InfoModal';
+import { useQuery } from '@tanstack/react-query';
+import { userApi } from '../../../apis/user.api';
 
 const ProfilePage = () => {
 
     const navigate = useNavigate();
+    const { isOpen: isOpenInfoModal, openModal: openInfoModal, closeModal: closeInfoModal } = useOpenModal();
+
     const currentUser = getLocalStorage("user");
+
+    // dataUser
+    const { data: dataUser, isLoading: isLoadingUser, error } = useQuery({
+        queryKey: ["info-user"],
+        queryFn: () => userApi.getInfoUser(),
+    });
 
     const columnsProcessing = [
         // Registration ID
@@ -119,7 +131,6 @@ const ProfilePage = () => {
             status: 1,
         }
     ];
-
 
     const columnsCompleted = [
         // Registration ID
@@ -246,9 +257,9 @@ const ProfilePage = () => {
                             <p className="font-bold text-xl">Email Verified</p>
                         </div>
 
-                        <div>
-                            <button className="w-auto underline font-bold text-sm block">Edit profile</button>
-                            <button className="w-auto underline font-bold text-sm block">Change password</button>
+                        <div className='space-y-1'>
+                            <button onClick={openInfoModal} className="w-auto underline font-bold text-base block">Edit profile</button>
+                            <button className="w-auto underline font-bold text-base block">Change password</button>
                         </div>
 
                         <div className='text-lg'>
@@ -296,6 +307,17 @@ const ProfilePage = () => {
 
                 </div>
             </div>
+
+
+
+            <InfoModal
+                key={"update"}
+                data={dataUser}
+                isOpen={isOpenInfoModal}
+                onCloseModal={closeInfoModal}
+                isPending={false}
+            // handleUpdateUserApi={handleUpdateUserApi}
+            />
         </>
     )
 }

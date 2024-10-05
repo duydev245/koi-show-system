@@ -41,16 +41,16 @@ export const userApi = {
   //   }
   // },
 
-  // getInfoUser: async () => {
-  //   try {
-  //     const response = await fetcher.get(
-  //       `/User/personal-information`
-  //     );
-  //     return response.data;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
+  getInfoUser: async () => {
+    try {
+      const response = await fetcher.get(
+        `/User/profile`
+      );
+      return response.data?.payload;
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
 
   // addUser: async (payload) => {
   //   try {

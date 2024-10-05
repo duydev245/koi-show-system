@@ -28,7 +28,7 @@ const InfoModal = (
             .matches(/^[0-9]+$/, "*Số điện thoại không được là kí tự !")
             .min(9, "*Số điện thoại phải trên 9 kí tự !")
             .max(15, "*Số điện thoại không được quá 15 kí tự !"),
-        birthday: yup
+        dateOfBirth: yup
             .string()
             .nullable()
             .required("*Ngày Sinh Nhật không được bỏ trống ! "),
@@ -45,7 +45,7 @@ const InfoModal = (
             email: data?.email || "",
             name: data?.name || "",
             phone: data?.phone || "",
-            birthday: data?.birthday || null,
+            dateOfBirth: data?.dateOfBirth || null,
             gender: data?.gender,
         },
         resolver: yupResolver(schema),
@@ -57,7 +57,7 @@ const InfoModal = (
             setValue("email", data?.email);
             setValue("name", data?.name);
             setValue("phone", data?.phone);
-            setValue("birthday", data?.birthday);
+            setValue("dateOfBirth", data?.dateOfBirth);
             setValue("gender", data?.gender);
         } else if (!isOpen) {
             reset();
@@ -70,11 +70,11 @@ const InfoModal = (
             email: values.email,
             name: values.name,
             phone: values.phone,
-            birthday: values.birthday,
+            dateOfBirth: values.dateOfBirth,
             gender: values.gender,
         };
-        // console.log("🚀 ~ onSubmit ~ payload:", payload)
-        handleUpdateUserApi(payload);
+        console.log("🚀 ~ onSubmit ~ payload:", payload)
+        // handleUpdateUserApi(payload);
     };
 
     return (
@@ -190,14 +190,14 @@ const InfoModal = (
                             <span className="text-red-600">* </span>
                             Ngày Sinh Nhật:
                         </label>
-                        {errors.birthday && (
+                        {errors.dateOfBirth && (
                             <span className="mt-1 text-base text-red-500">
                                 {" "}
-                                {errors.birthday.message}
+                                {errors.dateOfBirth.message}
                             </span>
                         )}
                         <Controller
-                            name="birthday"
+                            name="dateOfBirth"
                             control={control}
 
                             render={({ field }) => (
@@ -206,7 +206,7 @@ const InfoModal = (
                                     size="large"
                                     className="mt-1 w-full"
                                     placeholder="DD/MM/YYYY"
-                                    status={errors.birthday ? "error" : ""}
+                                    status={errors.dateOfBirth ? "error" : ""}
                                     format={"DD/MM/YYYY"}
                                     value={field.value ? dayjs(field.value) : null}
                                     onChange={(date) =>

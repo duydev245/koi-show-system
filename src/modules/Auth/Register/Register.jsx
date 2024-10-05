@@ -40,7 +40,7 @@ const Register = () => {
       .matches(/^[0-9]+$/, "*Phone number must contain only digits!")
       .min(9, "*Phone number must be at least 9 digits!")
       .max(11, "*Phone number must not exceed 11 digits!"),
-    birthday: yup
+    dateOfBirth: yup
       .string()
       .nullable()
       .required("*Date of birth is required!"),
@@ -58,7 +58,7 @@ const Register = () => {
       confirmPassword: "",
       name: "",
       phone: "",
-      birthday: null,
+      dateOfBirth: null,
       gender: true,
     },
     resolver: yupResolver(schema),
@@ -91,7 +91,7 @@ const Register = () => {
       password: values.password,
       name: values.name,
       phone: values.phone,
-      dateOfBirth: dayjs(values.birthday).format('YYYY-MM-DD'),
+      dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
       gender: values.gender,
       // role: "USER",
     };
@@ -248,17 +248,17 @@ const Register = () => {
               }}
             />
           </Col>
-          {/* birthday */}
+          {/* dateOfBirth */}
           <Col span={12}>
             <label className="text-base text-black font-semibold">*Date of birth:</label>
-            {errors.birthday && (
+            {errors.dateOfBirth && (
               <span className=" text-base text-red-500">
                 {" "}
-                {errors.birthday.message}
+                {errors.dateOfBirth.message}
               </span>
             )}
             <Controller
-              name="birthday"
+              name="dateOfBirth"
               control={control}
               render={({ field }) => (
                 <DatePicker
@@ -266,7 +266,7 @@ const Register = () => {
                   size="large"
                   className="mt-1 w-full"
                   placeholder="DD/MM/YYYY"
-                  status={errors.birthday ? "error" : ""}
+                  status={errors.dateOfBirth ? "error" : ""}
                   format={"DD/MM/YYYY"}
                   value={field.value ? dayjs(field.value) : null}
                   onChange={(date) =>
