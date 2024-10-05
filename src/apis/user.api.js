@@ -52,6 +52,19 @@ export const userApi = {
     }
   },
 
+  updateInfoUser: async (payload) => {
+    try {
+      const response = await fetcher.put(
+        `/User/edit-profile`,
+        payload
+      );
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
+
   // addUser: async (payload) => {
   //   try {
   //     const response = await fetcher.post(
@@ -65,18 +78,7 @@ export const userApi = {
   //   }
   // },
 
-  // updateUser: async (payload) => {
-  //   try {
-  //     const response = await fetcher.put(
-  //       `/users/${payload.id}`,
-  //       payload
-  //     );
 
-  //     return response.data.content;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
 
   // deleteUser: async (idUser) => {
   //   try {

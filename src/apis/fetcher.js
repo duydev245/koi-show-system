@@ -10,11 +10,11 @@ const fetcher = axios.create({
 });
 
 fetcher.interceptors.request.use((config) => {
-  const currentUser = getLocalStorage("user");
+  const token = getLocalStorage("token");
 
   config.headers = {
     ...config.headers,
-    Authorization: currentUser ? `Bearer ${currentUser.token}` : "accessToken",
+    Authorization: token ? `Bearer ${token}` : "Bearer accessToken",
   };
 
   return config;

@@ -74,7 +74,7 @@ const Register = () => {
         type: "success",
         duration: 3,
       });
-      navigate(PATH.LOGIN);
+      setTimeout(() => navigate(PATH.LOGIN), 1000);
     },
     onError: (error) => {
       messageApi.open({

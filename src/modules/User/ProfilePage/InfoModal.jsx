@@ -15,23 +15,18 @@ const InfoModal = (
     }
 ) => {
     const schema = yup.object({
-        email: yup
-            .string()
-            .trim()
-            .required("*Email không được bỏ trống !")
-            .email("*Email không hợp lệ !"),
-        name: yup.string().trim().required("*Họ và tên không được bỏ trống !"),
+        name: yup.string().trim().required("* Full name is required!"),
         phone: yup
             .string()
             .trim()
-            .required("*Số điện thoại không được bỏ trống !")
-            .matches(/^[0-9]+$/, "*Số điện thoại không được là kí tự !")
-            .min(9, "*Số điện thoại phải trên 9 kí tự !")
-            .max(15, "*Số điện thoại không được quá 15 kí tự !"),
+            .required("* Phone number is required!")
+            .matches(/^[0-9]+$/, "* Phone number must contain only digits!")
+            .min(9, "* Phone number must be at least 9 digits!")
+            .max(11, "* Phone number must not exceed 11 digits!"),
         dateOfBirth: yup
             .string()
             .nullable()
-            .required("*Ngày Sinh Nhật không được bỏ trống ! "),
+            .required("* Date of birth is required!"),
     });
 
     const {
@@ -66,15 +61,14 @@ const InfoModal = (
 
     const onSubmit = (values) => {
         const payload = {
-            id: data.id,
-            email: values.email,
+            // id: data.id,
+            // email: values.email,
             name: values.name,
             phone: values.phone,
-            dateOfBirth: values.dateOfBirth,
+            dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
             gender: values.gender,
         };
-        console.log("🚀 ~ onSubmit ~ payload:", payload)
-        // handleUpdateUserApi(payload);
+        handleUpdateUserApi(payload);
     };
 
     return (
@@ -82,30 +76,22 @@ const InfoModal = (
             open={isOpen}
             title={
                 <Typography className="text-xl font-medium">
-                    Chỉnh sửa hồ sơ
+                    Edit personal information
                 </Typography>
             }
             centered
             onCancel={onCloseModal}
             footer={null}
-            width={700}
+            width={800}
         >
             <Form className="my-4" onFinish={handleSubmit(onSubmit)}>
-                <Row gutter={[48, 24]}>
+                <Row gutter={[48, 16]}>
                     {/* Email */}
                     <Col span={24}>
                         <label className="text-base text-black">
                             <span className="text-red-600">* </span>
                             Email:
                         </label>
-                        {errors?.email && (
-                            <>
-                                {" "}
-                                <span className="mt-1 text-base text-red-500">
-                                    {errors.email.message}
-                                </span>
-                            </>
-                        )}
                         <Controller
                             name="email"
                             control={control}
@@ -117,25 +103,19 @@ const InfoModal = (
                                         type="text"
                                         size="large"
                                         className="mt-1"
-                                        placeholder="Vui lòng nhập email..."
-                                        status={errors.email ? "error" : ""}
+                                        placeholder="Please enter your email..."
+                                        disabled={!!data}
                                     />
                                 );
                             }}
                         />
                     </Col>
-                    {/* Họ và tên */}
+                    {/* Name */}
                     <Col span={24}>
                         <label className="text-base text-black">
                             <span className="text-red-600">* </span>
-                            Họ và tên:
+                            Name:
                         </label>
-                        {errors?.name && (
-                            <span className="mt-1 text-base text-red-500">
-                                {" "}
-                                {errors.name.message}
-                            </span>
-                        )}
                         <Controller
                             name="name"
                             control={control}
@@ -147,25 +127,25 @@ const InfoModal = (
                                         type="text"
                                         size="large"
                                         className="mt-1"
-                                        placeholder="Vui lòng nhập họ và tên..."
+                                        placeholder="Please enter your full name..."
                                         status={errors.name ? "error" : ""}
                                     />
                                 );
                             }}
                         />
+                        {errors?.name && (
+                            <span className="mt-1 text-base text-red-500">
+                                {" "}
+                                {errors.name.message}
+                            </span>
+                        )}
                     </Col>
-                    {/* Số điện thoại */}
+                    {/* phone */}
                     <Col span={24}>
                         <label className="text-base text-black">
                             <span className="text-red-600">* </span>
-                            Số điện thoại:
+                            Phone Number:
                         </label>
-                        {errors?.phone && (
-                            <span className="mt-1 text-base text-red-500">
-                                {" "}
-                                {errors.phone.message}
-                            </span>
-                        )}
                         <Controller
                             name="phone"
 
@@ -177,25 +157,25 @@ const InfoModal = (
                                         type="text"
                                         size="large"
                                         className="mt-1"
-                                        placeholder="Vui lòng nhập số điện thoại..."
+                                        placeholder="Please enter your phone number..."
                                         status={errors.phone ? "error" : ""}
                                     />
                                 );
                             }}
                         />
+                        {errors?.phone && (
+                            <span className="mt-1 text-base text-red-500">
+                                {" "}
+                                {errors.phone.message}
+                            </span>
+                        )}
                     </Col>
-                    {/* Ngày Sinh Nhật */}
+                    {/* dateOfBirth */}
                     <Col span={12}>
                         <label className="block text-base text-black">
                             <span className="text-red-600">* </span>
-                            Ngày Sinh Nhật:
+                            Date of birth:
                         </label>
-                        {errors.dateOfBirth && (
-                            <span className="mt-1 text-base text-red-500">
-                                {" "}
-                                {errors.dateOfBirth.message}
-                            </span>
-                        )}
                         <Controller
                             name="dateOfBirth"
                             control={control}
@@ -215,12 +195,18 @@ const InfoModal = (
                                 />
                             )}
                         />
+                        {errors.dateOfBirth && (
+                            <span className="mt-1 text-base text-red-500">
+                                {" "}
+                                {errors.dateOfBirth.message}
+                            </span>
+                        )}
                     </Col>
                     {/* Gender */}
                     <Col span={12}>
                         <label className="block text-base text-black">
                             <span className="text-red-600">* </span>
-                            Giới Tính:</label>
+                            Gender:</label>
                         <Controller
                             name="gender"
 
@@ -245,7 +231,7 @@ const InfoModal = (
                             type="primary"
                             className="ml-3"
                         >
-                            Cập nhật
+                            Update
                         </Button>
                     </Col>
                 </Row>

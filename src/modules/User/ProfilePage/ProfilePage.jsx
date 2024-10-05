@@ -1,6 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Table, Tag, Typography } from 'antd';
+import { Button, Card, message, Table, Tag, Typography } from 'antd';
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { getLocalStorage } from '../../../utils';
@@ -8,12 +8,16 @@ import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, SyncOutlined } 
 import dayjs from "dayjs";
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import InfoModal from './InfoModal';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userApi } from '../../../apis/user.api';
+import { useDispatch } from 'react-redux';
 
 const ProfilePage = () => {
-
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const dispatch = useDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
+
     const { isOpen: isOpenInfoModal, openModal: openInfoModal, closeModal: closeInfoModal } = useOpenModal();
 
     const currentUser = getLocalStorage("user");
@@ -22,6 +26,32 @@ const ProfilePage = () => {
     const { data: dataUser, isLoading: isLoadingUser, error } = useQuery({
         queryKey: ["info-user"],
         queryFn: () => userApi.getInfoUser(),
+    });
+
+    // update info api
+    const { mutate: handleUpdateUserApi, isPending: isPendingUpdate } = useMutation({
+        mutationFn: (payload) => userApi.updateInfoUser(payload),
+        onSuccess: (data) => {
+            // setLocalStorage("user", data);
+            // dispatch(setUser(data));
+            messageApi.open({
+                content: data?.message || "Update successfully",
+                type: "success",
+                duration: 3,
+            });
+            closeInfoModal();
+            queryClient.refetchQueries({
+                queryKey: ["info-user"],
+                type: "active",
+            });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
     });
 
     const columnsProcessing = [
@@ -240,6 +270,7 @@ const ProfilePage = () => {
 
     return (
         <>
+            {contextHolder}
             <div className="container mx-auto grid lg:flex gap-10 py-5">
                 {/* left section */}
                 <Card
@@ -308,16 +339,16 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-
-
             <InfoModal
                 key={"update"}
                 data={dataUser}
                 isOpen={isOpenInfoModal}
                 onCloseModal={closeInfoModal}
-                isPending={false}
-            // handleUpdateUserApi={handleUpdateUserApi}
+                isPending={isPendingUpdate}
+                handleUpdateUserApi={handleUpdateUserApi}
             />
+
+
         </>
     )
 }
