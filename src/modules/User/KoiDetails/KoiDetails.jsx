@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
 import { koiApi } from '../../../apis/koi.api';
+import { LoadingComponent } from '../../../components/LoadingComponent';
+import { NotFoundComponent } from '../../../components/NotFoundComponent';
 
 
 const KoiDetails = () => {
@@ -21,6 +23,10 @@ const KoiDetails = () => {
     });
     console.log("🚀 ~ KoiDetails ~ koiDetails:", koiDetails)
 
+    if (!koiDetails) {
+        return <NotFoundComponent />
+    }
+
     const handleVote = () => {
         if (vote === 'Vote') {
             setVote('Unvote');
@@ -29,6 +35,10 @@ const KoiDetails = () => {
         if (vote === 'Unvote') {
             setVote('Vote');
         }
+    }
+
+    if (isLoading && error) {
+        return <LoadingComponent />;
     }
 
     return (
@@ -57,7 +67,7 @@ const KoiDetails = () => {
 
                                 {(koiDetails?.rank === 3) &&
                                     (<>
-                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='1x' />
+                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
                                         <span className='text-3xl font-bold ms-2'>3rd Place Winner</span>
                                     </>)
                                 }
@@ -77,10 +87,15 @@ const KoiDetails = () => {
                                     <p className='font-bold mb-2'>KOI Name: </p>
                                     <p>{koiDetails?.koiName}</p>
                                 </div>
+                                
+                                <div className='mb-4'>
+                                    <p className='font-bold mb-2'>Show Group: </p>
+                                    <p>{koiDetails?.groupName || 'N/A'}</p>
+                                </div>
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Size: </p>
-                                    <p>{koiDetails?.koiSize}</p>
+                                    <p>{koiDetails?.koiSize} cm</p>
                                 </div>
 
                                 <div className='mb-4'>

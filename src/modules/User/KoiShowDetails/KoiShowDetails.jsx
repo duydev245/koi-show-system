@@ -16,15 +16,15 @@ import { NotFoundComponent } from '../../../components/NotFoundComponent';
 const KoiShowDetails = () => {
   const { id } = useParams();
 
-  if (!id || id === 'undefined') {
-    return <NotFoundComponent />;
-  }
-
   const { data: showDetails, isLoading, error } = useQuery({
     queryKey: ['show-details'],
     queryFn: () => showApi.getShowDetails(id),
   });
   // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
+
+  if (!showDetails) {
+    return <NotFoundComponent />;
+  }
 
   let showName = showDetails?.showTitle;
   let showDesc = showDetails?.showDesc;

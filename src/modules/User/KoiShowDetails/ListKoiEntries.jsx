@@ -15,7 +15,7 @@ const ListKoiEntries = ({ showName, showID }) => {
         queryKey: ['list-koi', { currentPage }],
         queryFn: () => showApi.getListKoiByShow({ pageIndex: currentPage, showID }),
     });
-    // console.log("🚀 ~ KoiShowDetails ~ listKoi:", listKoi)
+    console.log("🚀 ~ KoiShowDetails ~ listKoi:", listKoi)
 
     const total = listKoi?.totalItems || 0;
     // console.log("🚀 ~ KoiShowDetails ~ total:", total)
@@ -58,7 +58,7 @@ const ListKoiEntries = ({ showName, showID }) => {
 
                                     {(koi.rank === 3) &&
                                         (<>
-                                            <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='1x' />
+                                            <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
                                             <span className='text-2xl font-bold ms-2'>3rd Place Winner</span>
                                         </>)
                                     }
@@ -70,8 +70,9 @@ const ListKoiEntries = ({ showName, showID }) => {
                                 </div>
 
                                 <Typography className='text-lg'><span className="font-bold">Koi ID:</span> {koi.koiID}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {koi.groupName}</Typography>
                                 <Typography className='text-lg'><span className="font-bold">Variety:</span> {koi.koiVariety}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiSize}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiSize} cm</Typography>
                             </div>
                             <div>
                                 <button

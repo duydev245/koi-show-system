@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SHOW_SIZE, PAGE_SIZE } from "../constants";
 import fetcher from "./fetcher";
 import fetcherNoAuth from "./fetcherNoAuth";
 
@@ -44,6 +44,25 @@ export const showApi = {
 
             return response.data?.payload;
 
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    getListSearchShow: async (payload) => {
+        const params = {
+            pageIndex: payload.pageIndex,
+            pageSize: payload.pageSize || PAGE_SHOW_SIZE,
+            keyword: payload.keyword
+        };
+
+        try {
+            const response = await fetcherNoAuth.get(
+                `/KoiShow/search`,
+                { params }
+            );
+
+            return response.data;
         } catch (error) {
             throw Error(error.response.data.message);
         }

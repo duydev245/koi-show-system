@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const SearchForm = () => {
+const SearchForm = ({ handleSearch }) => {
     const schema = yup.object({
         searchValue: yup
             .string()
@@ -26,9 +26,10 @@ const SearchForm = () => {
 
     const onSubmit = (values) => {
         const payload = {
-            searchValue: values.searchValue,
+            keyword: values.searchValue,
         }
-        console.log("🚀 ~ onSubmit ~ payload:", payload)
+        // console.log("🚀 ~ onSubmit ~ payload:", payload)
+        handleSearch(payload)
     }
 
     return (
@@ -50,7 +51,7 @@ const SearchForm = () => {
                                 type="search"
                                 size='large'
                                 className="block w-full p-4 ps-10 text-base text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-100"
-                                placeholder="Search something..."
+                                placeholder="Please search show here..."
                                 status={errors.searchValue ? "error" : ""}
                             />
                         );
