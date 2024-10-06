@@ -13,6 +13,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalSize, setTotal] = useState(4);
     const [dataList, setDataList] = useState([]);
+    const [searchKeyword, setSearchKeyword] = useState('');
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -48,7 +49,11 @@ const Home = () => {
         },
     });
 
-    const total = totalSize || 4;
+    const onSearch = (payload) => {
+        setCurrentPage(1); // Reset to the first page
+        handleSearch(payload); // Call search with the updated payload
+    };
+
 
     if (!listShow && isLoading && error) {
         return <LoadingComponent />
@@ -66,7 +71,7 @@ const Home = () => {
 
                 {/* Search Bar */}
                 <SearchForm
-                    handleSearch={handleSearch}
+                    handleSearch={onSearch}
                 />
 
                 {/* list show */}
@@ -75,13 +80,13 @@ const Home = () => {
                 <Pagination
                     className='m-2'
                     align="end"
-                    total={total}
+                    total={totalSize}
                     simple
                     pageSize={PAGE_SHOW_SIZE}
-                    defaultCurrent={1}
+                    defaultCurrent={currentPage}
                     onChange={(page) => {
                         setCurrentPage(page);
-                        handleSearch();
+                        handleSearch({ keyword: "", pageIndex: page });
                     }}
                     showSizeChanger={false}
                 />
