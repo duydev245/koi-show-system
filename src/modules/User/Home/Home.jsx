@@ -36,7 +36,7 @@ const Home = () => {
     const { mutate: handleSearch, isPending: isPendingSearch } = useMutation({
         mutationFn: (payload) => showApi.getListSearchShow({ ...payload, pageIndex: currentPage }),
         onSuccess: (data) => {
-            console.log("🚀 ~ ListShow ~ data:", data.payload)
+            // console.log("🚀 ~ ListShow ~ data:", data.payload)
             setTotal(data?.payload.totalItems)
             setDataList(data?.payload.shows);
         },
@@ -50,8 +50,9 @@ const Home = () => {
     });
 
     const onSearch = (payload) => {
-        setCurrentPage(1); // Reset to the first page
-        handleSearch(payload); // Call search with the updated payload
+        setCurrentPage(1);
+        setSearchKeyword(payload.keyword);
+        handleSearch(payload);
     };
 
 
@@ -86,7 +87,7 @@ const Home = () => {
                     defaultCurrent={currentPage}
                     onChange={(page) => {
                         setCurrentPage(page);
-                        handleSearch({ keyword: "", pageIndex: page });
+                        handleSearch({ keyword: searchKeyword, pageIndex: page });
                     }}
                     showSizeChanger={false}
                 />
