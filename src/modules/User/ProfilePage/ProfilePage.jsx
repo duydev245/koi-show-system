@@ -83,13 +83,13 @@ const ProfilePage = () => {
     // dataSourceProcessing
     const { data: dataSourceProcessing, isLoading: isLoadingProcess } = useQuery({
         queryKey: ["list-processing"],
-        queryFn: () => koiApi.getInprocessShow(),
+        queryFn: () => koiApi.getInprocessKoi(),
     });
 
     // dataSourceScored
     const { data: dataSourceScored, isLoading: isLoadingScored } = useQuery({
         queryKey: ["list-scored"],
-        queryFn: () => koiApi.getScoredShow(),
+        queryFn: () => koiApi.getScoredKoi(),
     });
 
 

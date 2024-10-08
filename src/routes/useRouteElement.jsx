@@ -18,7 +18,8 @@ import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
 import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 import { MemberManagement } from '../modules/Admin/MemberManagement'
-import RegisterPage from '../modules/User/RegisterPage/RegisterPage'
+import { CartPage } from '../modules/User/CartPage'
+import { RegisterPage } from '../modules/User/RegisterPage'
 
 // Authen
 const RejectedRouter = () => {
@@ -184,6 +185,14 @@ const useRouteElement = () => {
                     element: (
                         <UserLayout>
                             <RegisterPage />
+                        </UserLayout>
+                    )
+                },
+                {
+                    path: PATH.USER_CART,
+                    element: (
+                        <UserLayout>
+                            <CartPage />
                         </UserLayout>
                     )
                 },

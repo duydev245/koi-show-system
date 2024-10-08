@@ -15,7 +15,20 @@ export const koiApi = {
         }
     },
 
-    getInprocessShow: async () => {
+    getDraftKoi: async () => {
+        try {
+            const response = await fetcher.get(
+                `/KoiRegistration/koi-registration?status=draft`
+            );
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    getInprocessKoi: async () => {
         try {
             const response = await fetcher.get(
                 `/KoiRegistration/koi-registration?status=inprocess`
@@ -28,7 +41,7 @@ export const koiApi = {
         }
     },
 
-    getScoredShow: async () => {
+    getScoredKoi: async () => {
         try {
             const response = await fetcher.get(
                 `/KoiRegistration/koi-registration?status=scored`

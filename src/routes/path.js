@@ -5,6 +5,7 @@ export const PATH = {
     KOI_DETAIL: "/koi-details/:id",
     SHOW_DETAIL: "/show-details/:id",
     KOI_REGISTER: "/koi-register",
+    USER_CART: "/cart",
 
     // AUTH LAYOUT
     AUTH: "/auth",
