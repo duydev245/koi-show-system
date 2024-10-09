@@ -1,0 +1,1 @@
+export { default as MyRegPage } from './MyRegPage'

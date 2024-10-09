@@ -9,7 +9,7 @@ const UnauthorizedComponent = () => {
                 <p className="text-3xl text-gray-600 mb-8">Unauthorized Access</p>
                 <a
                     href="/auth/login"
-                    className="px-4 py-2 bg-rose-700 text-white rounded hover:text-black transition duration-300"
+                    className="px-4 py-2 bg-red-600 text-white rounded hover:text-black transition duration-300"
                 >
                     Go to Login
                 </a>

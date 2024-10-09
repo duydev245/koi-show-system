@@ -10,13 +10,13 @@
 }
 
 /* 
-    HEX: #c70125
-    RGB: rgb(199,1,37)
-    Tailwind: rose-700
+    HEX: #b91c1c
+    RGB: rgb(185 28 28)
+    Tailwind: red-700
 */
 
 :root {
-    --primaryColor: #c70125;
+    --primaryColor: rgb(220 38 38);
 }
 
 button {
@@ -175,4 +175,11 @@ button {
 /* btnAddKoi */
 .btnAddKoi:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+}
+
+
+/* custom menu in profile page */
+.custom-menu-member .ant-menu-item-selected {
+    background-color: rgba(199, 1, 37, 0.08) !important;
+    color: var(--primaryColor) !important;
 }

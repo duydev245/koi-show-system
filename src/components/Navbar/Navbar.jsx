@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`w-full z-[990] py-2 bg-rose-700 smm:bg-black lg:bg-rose-700`}>
+      <nav className={`w-full z-[990] py-2 bg-red-600 smm:bg-black lg:bg-red-600`}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* logo */}
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -64,9 +64,6 @@ const Navbar = () => {
                 ) : (
                   <img className="w-10 h-10 rounded-full object-cover" src="/default-ava.png" />
                 )}
-                <span className={`ml-3 text-white smm:text-white leading-7 uppercase smm:w-28 truncate`}>
-                  {currentUser.name}
-                </span>
               </button>
             ) : (
 
@@ -88,11 +85,7 @@ const Navbar = () => {
             >
               {currentUser ? (
                 <>
-                  <div className="px-4 py-3">
-                    <span className="block text-base text-gray-900 ">{currentUser.name}</span>
-                    <span className="block text-sm  text-gray-500 truncate ">{currentUser.email}</span>
-                  </div>
-                  <ul className="py-2" aria-labelledby="user-menu-button">
+                  <ul className="py-2 min-w-[250px]" aria-labelledby="user-menu-button">
                     <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
                       onClick={() => { navigate(PATH.PROFILE) }}
                     >
@@ -102,6 +95,11 @@ const Navbar = () => {
                       onClick={() => { navigate(PATH.USER_CART) }}
                     >
                       Cart
+                    </li>
+                    <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => { navigate(PATH.PROFILE_MY_SETTINGS) }}
+                    >
+                      Settings
                     </li>
                     <li>
                       <button
@@ -171,11 +169,6 @@ const Navbar = () => {
                   Services
                 </a>
               </li>
-              {/* <li>
-                <a href="#" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
-                  Pricing
-                </a>
-              </li> */}
               <li>
                 <a href="#" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
                   Contact

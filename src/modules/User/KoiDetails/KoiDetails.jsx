@@ -80,7 +80,7 @@ const KoiDetails = () => {
                                         <p className='font-bold mb-2'>KOI ID: </p>
                                         <p>{koiDetails?.koiID}</p>
                                     </div>
-                                    {(koiDetails?.bestVote) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
+                                    {(koiDetails?.bestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
                                 </div>
 
                                 <div className='mb-4'>

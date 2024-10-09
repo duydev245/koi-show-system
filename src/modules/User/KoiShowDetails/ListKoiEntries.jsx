@@ -66,7 +66,7 @@ const ListKoiEntries = ({ showName, showID }) => {
 
                                 <div className='flex justify-between items-center h-[42px]'>
                                     <Typography className='text-2xl font-bold'>{koi.koiName}</Typography>
-                                    {(koi.isBestVote) && (<FontAwesomeIcon className='text-rose-700' icon={faHeart} size='3x' />)}
+                                    {(koi.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
                                 </div>
 
                                 <Typography className='text-lg'><span className="font-bold">Koi ID:</span> {koi.koiID}</Typography>
@@ -77,7 +77,7 @@ const ListKoiEntries = ({ showName, showID }) => {
                             <div>
                                 <button
                                     onClick={() => { handleOnClick(koi.koiID) }}
-                                    className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-rose-700 hover:text-white duration-300'>
+                                    className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                     View details
                                 </button>
                             </div>

@@ -57,7 +57,7 @@ const CurrentShow = ({ currentShow }) => {
                                 (
                                     <div className='font-semibold'>
                                         <div className='flex items-center justify-start mb-2'>
-                                            <FontAwesomeIcon className='text-rose-700' icon={faTrophy} size='2x' />
+                                            <FontAwesomeIcon className='text-red-600' icon={faTrophy} size='2x' />
                                             <h4 className='text-2xl font-bold ms-1'>Koi Award:</h4>
                                         </div>
                                         <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
@@ -72,7 +72,7 @@ const CurrentShow = ({ currentShow }) => {
                                                                 <div className='flex items-center justify-start'>
                                                                     <p>Rank {koi?.rank}: {koi?.koiName}</p>
                                                                     {(koi?.isBestVote)
-                                                                        && (<FontAwesomeIcon className='text-rose-700 ms-3' icon={faHeart} size='lg' />)
+                                                                        && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
                                                                     }
 
                                                                 </div>
@@ -101,7 +101,7 @@ const CurrentShow = ({ currentShow }) => {
                         </Col>
                         <Col span={24}>
                             <button
-                                className='btnAddKoi text-2xl font-bold w-full py-3 rounded-xl bg-rose-700 hover:text-white duration-300'>
+                                className='btnAddKoi text-2xl font-bold w-full py-3 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                 View more
                             </button>
                         </Col>

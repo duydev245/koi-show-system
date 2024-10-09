@@ -20,6 +20,9 @@ import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 import { MemberManagement } from '../modules/Admin/MemberManagement'
 import { CartPage } from '../modules/User/CartPage'
 import { RegisterPage } from '../modules/User/RegisterPage'
+import { MyKoiPage } from '../modules/User/ProfilePage/MyKoiPage'
+import { MyRegPage } from '../modules/User/ProfilePage/MyRegPage'
+import { MyAccSettings } from '../modules/User/ProfilePage/MyAccSettings'
 
 // Authen
 const RejectedRouter = () => {
@@ -171,9 +174,43 @@ const useRouteElement = () => {
         // PROFILE PAGE
         {
             path: PATH.PROFILE,
-            element: (
-                <ProfilePageRouter />
-            )
+            element: <ProtectedMemberRouter />,
+            children: [
+                {
+                    index: true,
+                    element: <Navigate to={PATH.PROFILE_MY_KOI} />,
+                },
+                {
+                    path: PATH.PROFILE_MY_KOI,
+                    element: (
+                        <UserLayout>
+                            <ProfilePage>
+                                <MyKoiPage />
+                            </ProfilePage>
+                        </UserLayout>
+                    )
+                },
+                {
+                    path: PATH.PROFILE_MY_REG,
+                    element: (
+                        <UserLayout>
+                            <ProfilePage>
+                                <MyRegPage />
+                            </ProfilePage>
+                        </UserLayout>
+                    )
+                },
+                {
+                    path: PATH.PROFILE_MY_SETTINGS,
+                    element: (
+                        <UserLayout>
+                            <ProfilePage>
+                                <MyAccSettings />
+                            </ProfilePage>
+                        </UserLayout>
+                    )
+                },
+            ]
         },
         // REGISTER
         {

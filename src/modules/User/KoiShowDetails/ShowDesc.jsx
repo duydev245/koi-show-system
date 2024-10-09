@@ -64,7 +64,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                                                             <div className='flex items-center justify-start'>
                                                                 <p>Rank {koi?.rank}: {koi?.koiName}</p>
                                                                 {(koi?.bestVote)
-                                                                    && (<FontAwesomeIcon className='text-rose-700 ms-3' icon={faHeart} size='lg' />)
+                                                                    && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
                                                                 }
 
                                                             </div>
@@ -114,7 +114,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                         <div>
                             <button
                                 onClick={() => { navigate(PATH.KOI_REGISTER) }}
-                                className='btnAddKoi text-2xl font-bold w-3/5 py-5 rounded-xl bg-rose-700 hover:text-white duration-300'>
+                                className='btnAddKoi text-2xl font-bold w-3/5 py-5 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                 Add Koi entry
                             </button>
                         </div>

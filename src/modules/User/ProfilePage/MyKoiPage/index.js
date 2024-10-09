@@ -1,0 +1,1 @@
+export { default as MyKoiPage } from './MyKoiPage'

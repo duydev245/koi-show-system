@@ -58,7 +58,7 @@ const SearchForm = ({ handleSearch }) => {
                     }}
                 />
 
-                <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-rose-700 hover:bg-rose-800 hover:text-black font-medium rounded-lg text-base px-4 py-2 duration-300">Search</button>
+                <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-red-600 hover:text-black font-medium rounded-lg text-base px-4 py-2 duration-300">Search</button>
             </div>
         </Form>
     )

@@ -1,11 +1,16 @@
 export const PATH = {
     // USER LAYOUT
     HOME: "/",
-    PROFILE: "/profile",
     KOI_DETAIL: "/koi-details/:id",
     SHOW_DETAIL: "/show-details/:id",
     KOI_REGISTER: "/koi-register",
     USER_CART: "/cart",
+
+    // USER PROFILE LAYOUT
+    PROFILE: "/profile",
+    PROFILE_MY_KOI: "/profile/my-koi",
+    PROFILE_MY_REG: "/profile/my-reg",
+    PROFILE_MY_SETTINGS: "/profile/account-settings",
 
     // AUTH LAYOUT
     AUTH: "/auth",
