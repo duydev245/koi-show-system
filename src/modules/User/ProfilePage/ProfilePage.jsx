@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
-import { message, Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 import { FileTextOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SettingOutlined, SolutionOutlined } from '@ant-design/icons';
 import { PATH } from '../../../routes/path';
 
@@ -73,7 +73,6 @@ const ProfilePage = ({ children }) => {
                         minHeight: 450,
                     }}
                 >
-
                     {children}
                 </Content>
 
