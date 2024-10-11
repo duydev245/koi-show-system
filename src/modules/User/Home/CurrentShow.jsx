@@ -65,9 +65,9 @@ const CurrentShow = ({ currentShow }) => {
                                             {groupShow.map((group) => (
                                                 <li key={group?.groupId} className='mb-2'>
                                                     <p>{group?.groupName}</p>
-                                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
+                                                    {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
 
-                                                        {group?.koiDetails.map((koi) => (
+                                                        {group?.registrations.map((koi) => (
                                                             <li key={koi?.koiId} className='mb-1'>
                                                                 <div className='flex items-center justify-start'>
                                                                     <p>Rank {koi?.rank}: {koi?.koiName}</p>
@@ -79,7 +79,7 @@ const CurrentShow = ({ currentShow }) => {
                                                             </li>
                                                         ))}
 
-                                                    </ul>
+                                                    </ul> */}
                                                 </li>
                                             ))}
 

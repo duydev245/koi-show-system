@@ -1,13 +1,14 @@
 import React from 'react'
 import { getLocalStorage, setLocalStorage } from '../../../../utils';
 import { useOpenModal } from '../../../../hooks/useOpenModal';
-import { Card, message } from 'antd';
+import { Breadcrumb, Card, message } from 'antd';
 import InfoModal from './InfoModal';
 import PwModal from './PwModal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userApi } from '../../../../apis/user.api';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../../redux/slices/user.slice';
+import { PATH } from '../../../../routes/path';
 
 const MyAccSettings = () => {
 
@@ -76,9 +77,25 @@ const MyAccSettings = () => {
     return (
         <>
             {contextHolder}
+
+            <div className="flex items-center justify-between mb-2">
+                <Breadcrumb
+                    separator=">"
+                    items={[
+                        {
+                            title: "Dashboard",
+                        },
+                        {
+                            title: "My Account Settings",
+                            href: PATH.PROFILE_MY_SETTINGS,
+                        },
+                    ]}
+                />
+            </div>
+            
             <Card
                 hoverable
-                className='block h-fit px-8'
+                className='block h-fit'
             >
 
                 <div className="space-y-4">

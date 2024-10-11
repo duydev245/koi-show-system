@@ -40,7 +40,7 @@ export const showApi = {
     getListShow: async () => {
         try {
             const response = await fetcherNoAuth.get(
-                `/KoiShow/closest-show`);
+                `/Show/closest-show`);
 
             return response.data?.payload;
 
@@ -58,7 +58,7 @@ export const showApi = {
 
         try {
             const response = await fetcherNoAuth.get(
-                `/KoiShow/search`,
+                `/Show/search`,
                 { params }
             );
 
