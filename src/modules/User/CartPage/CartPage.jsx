@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
-import { koiApi } from '../../../apis/koi.api';
 import dayjs from "dayjs";
 import { Button, Popconfirm, Table, Tag, Typography } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import 'animate.css';
+import { registrationApi } from '../../../apis/registration.api';
 
 const CartPage = () => {
 
   // dataSourceDraft
   const { data: dataSourceDraft, isLoading } = useQuery({
     queryKey: ["list-draft"],
-    queryFn: () => koiApi.getDraftKoi(),
+    queryFn: () => registrationApi.getListRegByUser('draft'),
   });
 
   const feeKoi = 5;

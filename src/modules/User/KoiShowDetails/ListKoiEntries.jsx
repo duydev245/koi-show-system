@@ -1,27 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { showApi } from '../../../apis/show.api';
 import { Card, Col, Pagination, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { PAGE_SIZE } from '../../../constants';
+import { registrationApi } from '../../../apis/registration.api';
 
 const ListKoiEntries = ({ showName, showID }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
 
-    const { data: listKoi } = useQuery({
-        queryKey: ['list-koi', { currentPage }],
-        queryFn: () => showApi.getListKoiByShow({ pageIndex: currentPage, showID }),
+    const { data: listRegistration } = useQuery({
+        queryKey: ['list-registration', { currentPage }],
+        queryFn: () => registrationApi.getListRegByShowId({ pageIndex: currentPage, showID }),
     });
-    console.log("🚀 ~ KoiShowDetails ~ listKoi:", listKoi)
+    // console.log("🚀 ~ KoiShowDetails ~ listRegistration:", listRegistration)
 
-    const total = listKoi?.totalItems || 0;
+    const total = listRegistration?.totalItems || 0;
     // console.log("🚀 ~ KoiShowDetails ~ total:", total)
 
     const handleOnClick = (idKoi) => {
-        return navigate(`/koi-details/${idKoi}`);
+        return navigate(`/registration-details/${idKoi}`);
     }
 
     return (
@@ -34,29 +34,29 @@ const ListKoiEntries = ({ showName, showID }) => {
             </div>
             {/* list koi entries */}
             <Row>
-                {listKoi?.kois.map((koi) => (
-                    <Col span={6} key={koi.koiID} className='p-4'>
+                {listRegistration?.kois.map((reg) => (
+                    <Col span={6} key={reg.id} className='p-4'>
                         <Card
                             hoverable
-                            cover={<img alt={koi.koiName} src="/koi-1.jpg" />}
+                            cover={<img alt={reg.name} src="/koi-1.jpg" />}
                         >
                             <div className="mb-3">
                                 <div className='flex justify-center items-center mb-3 h-[42px]'>
-                                    {(koi.rank === 1) &&
+                                    {(reg.rank === 1) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='3x' />
                                             <span className='text-2xl font-bold ms-2'>1st Place Winner</span>
                                         </>)
                                     }
 
-                                    {(koi.rank === 2) &&
+                                    {(reg.rank === 2) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
                                             <span className='text-2xl font-bold ms-2'>2nd Place Winner</span>
                                         </>)
                                     }
 
-                                    {(koi.rank === 3) &&
+                                    {(reg.rank === 3) &&
                                         (<>
                                             <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
                                             <span className='text-2xl font-bold ms-2'>3rd Place Winner</span>
@@ -65,18 +65,18 @@ const ListKoiEntries = ({ showName, showID }) => {
                                 </div>
 
                                 <div className='flex justify-between items-center h-[42px]'>
-                                    <Typography className='text-2xl font-bold'>{koi.koiName}</Typography>
-                                    {(koi.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
+                                    <Typography className='text-2xl font-bold'>{reg.name}</Typography>
+                                    {(reg.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
                                 </div>
 
-                                <Typography className='text-lg'><span className="font-bold">Koi ID:</span> {koi.koiID}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {koi.groupName}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Variety:</span> {koi.koiVariety}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Size:</span> {koi.koiSize} cm</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Registration ID:</span> {reg.id}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {reg.groupName}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Variety:</span> {reg.variety}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Size:</span> {reg.size} cm</Typography>
                             </div>
                             <div>
                                 <button
-                                    onClick={() => { handleOnClick(koi.koiID) }}
+                                    onClick={() => { handleOnClick(reg.id) }}
                                     className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                     View details
                                 </button>
@@ -92,7 +92,7 @@ const ListKoiEntries = ({ showName, showID }) => {
                 total={total}
                 simple
                 pageSize={PAGE_SIZE}
-                defaultCurrent={1}
+                current={currentPage}
                 onChange={(page) => {
                     setCurrentPage(page);
                 }}

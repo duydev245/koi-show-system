@@ -57,9 +57,9 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                                     {showGroups?.map((gr) => (
                                         <li key={gr.groupId}>
                                             <p>{gr.groupName}</p>
-                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
+                                            {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
                                                 {
-                                                    gr.koiDetails.map((koi) => (
+                                                    gr.registrations.map((koi) => (
                                                         <li key={koi?.koiID} className='mb-1'>
                                                             <div className='flex items-center justify-start'>
                                                                 <p>Rank {koi?.rank}: {koi?.koiName}</p>
@@ -71,7 +71,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                                                         </li>
                                                     ))
                                                 }
-                                            </ul>
+                                            </ul> */}
                                         </li>
                                     ))}
                                 </ul>

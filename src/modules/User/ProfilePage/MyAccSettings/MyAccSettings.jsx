@@ -92,12 +92,15 @@ const MyAccSettings = () => {
                     ]}
                 />
             </div>
-            
+
             <Card
                 hoverable
                 className='block h-fit'
             >
-
+                <div className="space-y-3">
+                    <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" />
+                </div>
+                
                 <div className="space-y-4">
                     <h1 className="font-bold text-4xl text-black">General Information:</h1>
 

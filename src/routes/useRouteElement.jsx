@@ -23,6 +23,7 @@ import { RegisterPage } from '../modules/User/RegisterPage'
 import { MyKoiPage } from '../modules/User/ProfilePage/MyKoiPage'
 import { MyRegPage } from '../modules/User/ProfilePage/MyRegPage'
 import { MyAccSettings } from '../modules/User/ProfilePage/MyAccSettings'
+import { RegDetails } from '../modules/User/RegDetails'
 
 // Authen
 const RejectedRouter = () => {
@@ -44,31 +45,31 @@ const RejectedRouter = () => {
 };
 
 // Profile Page for each role
-const ProfilePageRouter = () => {
-    const { currentUser } = useSelector((state) => state.user);
+// const ProfilePageRouter = () => {
+//     const { currentUser } = useSelector((state) => state.user);
 
-    if (!currentUser) {
-        return <Navigate to={PATH.LOGIN} />;
-    }
+//     if (!currentUser) {
+//         return <Navigate to={PATH.LOGIN} />;
+//     }
 
-    if (currentUser.role === 'Admin') {
-        return <Navigate to={PATH.ADMIN} />;
-    }
+//     if (currentUser.role === 'Admin') {
+//         return <Navigate to={PATH.ADMIN} />;
+//     }
 
-    if (currentUser.role === 'Staff') {
-        return <Navigate to={PATH.STAFF} />;
-    }
+//     if (currentUser.role === 'Staff') {
+//         return <Navigate to={PATH.STAFF} />;
+//     }
 
-    if (currentUser.role === 'Member') {
-        return (
-            <UserLayout>
-                <ProfilePage />
-            </UserLayout>
-        );
-    }
+//     if (currentUser.role === 'Member') {
+//         return (
+//             <UserLayout>
+//                 <ProfilePage />
+//             </UserLayout>
+//         );
+//     }
 
-    return <Navigate to={PATH.HOME} />;
-};
+//     return <Navigate to={PATH.HOME} />;
+// };
 
 // Member role 
 const ProtectedMemberRouter = () => {
@@ -163,12 +164,12 @@ const useRouteElement = () => {
                     <KoiShowDetails />
                 </UserLayout>
         },
-        // KOI DETAILS
+        // REGISTRATION DETAILS
         {
-            path: PATH.KOI_DETAIL,
+            path: PATH.REG_DETAIL,
             element:
                 <UserLayout>
-                    <KoiDetails />
+                    <RegDetails />
                 </UserLayout>
         },
         // PROFILE PAGE

@@ -7,27 +7,7 @@ export const showApi = {
     getShowDetails: async (id) => {
         try {
             const response = await fetcherNoAuth.get(
-                `/KoiShow/show-detail?showID=${id}`
-            );
-
-            return response.data.payload;
-
-        } catch (error) {
-            throw Error(error.response.data.message);
-        }
-    },
-
-    getListKoiByShow: async (payload) => {
-        const params = {
-            pageIndex: payload.pageIndex,
-            pageSize: payload.pageSize || PAGE_SIZE,
-            showID: payload.showID * 1
-        };
-
-        try {
-            const response = await fetcherNoAuth.get(
-                `/KoiShow/koibyshow`,
-                { params }
+                `/Show/show-detail?showID=${id}`
             );
 
             return response.data.payload;
@@ -63,6 +43,19 @@ export const showApi = {
             );
 
             return response.data;
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    getKoiVariety: async () => {
+        try {
+            const response = await fetcherNoAuth.get(
+                `/Show/get-all-varieties`
+            );
+
+            return response.data.payload;
+
         } catch (error) {
             throw Error(error.response.data.message);
         }

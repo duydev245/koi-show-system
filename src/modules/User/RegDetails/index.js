@@ -1,0 +1,1 @@
+export { default as RegDetails } from './RegDetails'

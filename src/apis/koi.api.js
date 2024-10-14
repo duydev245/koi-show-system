@@ -15,10 +15,10 @@ export const koiApi = {
         }
     },
 
-    getDraftKoi: async () => {
+    getListKoiByUser: async () => {
         try {
             const response = await fetcher.get(
-                `/KoiRegistration/koi-registration?status=draft`
+                `/Koi/get-koi-by-user`
             );
 
             return response.data.payload;
@@ -28,11 +28,14 @@ export const koiApi = {
         }
     },
 
-    getInprocessKoi: async () => {
+    addKoiByUser: async (payload) => {
         try {
-            const response = await fetcher.get(
-                `/KoiRegistration/koi-registration?status=inprocess`
-            );
+            const response = await fetcher.post(
+                `/Koi/create-koi`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             return response.data.payload;
 
@@ -41,16 +44,4 @@ export const koiApi = {
         }
     },
 
-    getScoredKoi: async () => {
-        try {
-            const response = await fetcher.get(
-                `/KoiRegistration/koi-registration?status=scored`
-            );
-
-            return response.data.payload;
-
-        } catch (error) {
-            throw Error(error.response.data.message);
-        }
-    },
 }

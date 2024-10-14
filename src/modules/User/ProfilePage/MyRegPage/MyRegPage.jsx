@@ -2,22 +2,22 @@ import { Breadcrumb } from 'antd'
 import React from 'react'
 import { PATH } from '../../../../routes/path'
 import { useQuery } from '@tanstack/react-query';
-import { koiApi } from '../../../../apis/koi.api';
 import InprocessTable from './InprocessTable';
 import ScoredTable from './ScoredTable';
+import { registrationApi } from '../../../../apis/registration.api';
 
 const MyRegPage = () => {
 
     // dataSourceProcessing
     const { data: dataSourceProcessing, isLoading: isLoadingProcess } = useQuery({
         queryKey: ["list-processing"],
-        queryFn: () => koiApi.getInprocessKoi(),
+        queryFn: () => registrationApi.getListRegByUser('inprocess'),
     });
 
     // dataSourceScored
     const { data: dataSourceScored, isLoading: isLoadingScored } = useQuery({
         queryKey: ["list-scored"],
-        queryFn: () => koiApi.getScoredKoi(),
+        queryFn: () => registrationApi.getListRegByUser('scored'),
     });
 
     return (

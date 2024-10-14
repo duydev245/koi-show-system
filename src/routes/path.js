@@ -3,6 +3,7 @@ export const PATH = {
     HOME: "/",
     KOI_DETAIL: "/koi-details/:id",
     SHOW_DETAIL: "/show-details/:id",
+    REG_DETAIL: "/registration-details/:id",
     KOI_REGISTER: "/koi-register",
     USER_CART: "/cart",
 

@@ -1,4 +1,4 @@
-export const PAGE_SIZE = 10; // koi list items
+export const PAGE_SIZE = 10; // registration list items
 
 export const PAGE_SHOW_SIZE = 6; // show list items
 
