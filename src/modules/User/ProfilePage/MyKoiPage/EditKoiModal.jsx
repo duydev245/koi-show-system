@@ -2,6 +2,8 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Image, Input, message, Modal, Row, Select, Typography, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const EditKoiModal = ({
     data,
@@ -17,6 +19,20 @@ const EditKoiModal = ({
     const [imageUrl, setImageUrl] = useState(undefined);
     const [messageApi, contextHolder] = message.useMessage();
 
+    const schema = yup.object({
+        name: yup.string().trim().required("*Name is required!"),
+        size: yup.number().required("*Size is required!").nullable(),
+        variety: yup.number().required("*Koi variety is required!").nullable(),
+        description: yup
+            .string()
+            .trim()
+            .required("*Description is required!")
+            .test("minWords", "*Description must be at least 5 words", (value) => {
+                if (!value) return false;
+                const wordCount = value.split(/\s+/).filter(Boolean).length;
+                return wordCount >= 5;
+            }),
+    });
 
     const {
         control,
@@ -32,8 +48,8 @@ const EditKoiModal = ({
             description: "",
             image: undefined,
         },
-        // resolver: yupResolver(schema),
-        // criteriaMode: "all",
+        resolver: yupResolver(schema),
+        criteriaMode: "all",
     });
 
     useEffect(() => {
@@ -70,8 +86,8 @@ const EditKoiModal = ({
         setValue('image', undefined);
     };
 
-
     const onSubmit = (values) => {
+        // console.log("🚀 ~ onSubmit ~ values:", values)
         const payload = new FormData();
         let hasChanges = false;
 

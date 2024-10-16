@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
+import { Alert, Breadcrumb, Button, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
 import React, { useState } from 'react'
 import { PATH } from '../../../../routes/path'
 import { koiApi } from '../../../../apis/koi.api';
@@ -214,7 +214,7 @@ const MyKoiPage = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary" danger disabled={false}>
+              <Button type="primary" danger disabled={isPendingDelete}>
                 <DeleteOutlined />
               </Button>
             </Popconfirm>
@@ -254,14 +254,23 @@ const MyKoiPage = () => {
 
       </div>
 
-      <Table
-        rowKey="id"
-        columns={columns}
-        dataSource={dataSource}
-        pagination={false}
-        loading={isLoadingListKoi}
-        scroll={{ y: 700 }}
-      />
+      {dataSource && dataSource.length > 0 ? (
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+          loading={isLoadingListKoi}
+          scroll={{ y: 700 }}
+        />
+      ) : (
+        <Alert
+          message="Notification"
+          description="You have not registered any Koi."
+          type="info"
+          showIcon
+        />
+      )}
 
       <AddKoiModal
         key={'adding-koi-modal'}
