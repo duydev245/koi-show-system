@@ -40,7 +40,7 @@ export const registrationApi = {
     getListRegByUser: async (status) => {
         try {
             const response = await fetcher.get(
-                `/Registration/member-registrations?status=${status}`
+                `/Registration/registrations-by-member?status=${status}`
             );
 
             return response.data.payload;

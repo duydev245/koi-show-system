@@ -62,7 +62,7 @@ const CurrentShow = ({ currentShow }) => {
                                         </div>
                                         <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
 
-                                            {groupShow.map((group) => (
+                                            {groupShow?.map((group) => (
                                                 <li key={group?.groupId} className='mb-2'>
                                                     <p>{group?.groupName}</p>
                                                     {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">

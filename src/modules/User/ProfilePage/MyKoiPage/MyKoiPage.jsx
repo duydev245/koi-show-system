@@ -1,23 +1,45 @@
 import { Breadcrumb, Button, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { PATH } from '../../../../routes/path'
 import { koiApi } from '../../../../apis/koi.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { useOpenModal } from '../../../../hooks/useOpenModal';
 import AddKoiModal from './AddKoiModal';
+import EditKoiModal from './EditKoiModal';
+import { showApi } from '../../../../apis/show.api';
 
 const MyKoiPage = () => {
 
   const queryClient = useQueryClient();
   const [messageApi, contextHolder] = message.useMessage();
+  const [idEdit, setIdEdit] = useState(undefined);
 
   const { isOpen: isOpenAddModal, openModal: openAddModal, closeModal: closeAddModal } = useOpenModal();
+  const { isOpen: isOpenEditModal, openModal: openEditModal, closeModal: closeEditModal } = useOpenModal();
+
+  const handleCloseEditModal = () => {
+    closeEditModal();
+    setIdEdit(undefined);
+  }
 
   // dataListKoi
   const { data: dataListKoi, isLoading: isLoadingListKoi } = useQuery({
     queryKey: ["list-koi"],
     queryFn: () => koiApi.getListKoiByUser(),
+  });
+
+  // dataListVariety
+  const { data: dataListVariety, isLoading: isLoadingVariety } = useQuery({
+    queryKey: ["list-variety"],
+    queryFn: () => showApi.getKoiVariety(),
+  });
+
+  // dataKoi
+  const { data: dataKoi, isLoading: isLoadingKoi } = useQuery({
+    queryKey: ["data-koi"],
+    queryFn: () => koiApi.getKoiDetails(idEdit),
+    enabled: !!idEdit,
   });
 
   // handleAddKoiApi
@@ -30,6 +52,53 @@ const MyKoiPage = () => {
         duration: 3,
       });
       closeAddModal();
+      queryClient.refetchQueries({
+        queryKey: ["list-koi"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
+  // handleUpdateKoiApi
+  const { mutate: handleUpdateKoiApi, isPending: isPendingUpdate } = useMutation({
+    mutationFn: (payload) => koiApi.updateKoiByUser(payload),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Update Koi successfully",
+        type: "success",
+        duration: 3,
+      });
+      handleCloseEditModal();
+      queryClient.refetchQueries({
+        queryKey: ["list-koi"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
+  // handleDeleteKoiApi
+  const { mutate: handleDeleteKoiApi, isPending: isPendingDelete } = useMutation({
+    mutationFn: (id) => koiApi.deleteKoiByUser(id),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Delete Koi successfully",
+        type: "success",
+        duration: 3,
+      });
       queryClient.refetchQueries({
         queryKey: ["list-koi"],
         type: "active",
@@ -126,7 +195,8 @@ const MyKoiPage = () => {
               type="primary"
               className="mr-2"
               onClick={() => {
-                alert(record.koiID)
+                setIdEdit(record.koiID);
+                openEditModal();
               }}
               loading={false}
             >
@@ -136,7 +206,9 @@ const MyKoiPage = () => {
             <Popconfirm
               title="Delete Koi"
               description="Are you sure to delete this koi?"
-              onConfirm={() => { alert(record.koiID) }}
+              onConfirm={() => {
+                handleDeleteKoiApi(record.koiID)
+              }}
               onCancel={() => { }}
               placement="right"
               okText="Yes"
@@ -192,10 +264,25 @@ const MyKoiPage = () => {
       />
 
       <AddKoiModal
+        key={'adding-koi-modal'}
         isOpen={isOpenAddModal}
         onCloseModal={closeAddModal}
         isPending={isPendingAdd}
         handleAddKoiApi={handleAddKoiApi}
+        dataListVariety={dataListVariety}
+        isLoadingVariety={isLoadingVariety}
+      />
+
+      <EditKoiModal
+        key={'editting-koi-modal'}
+        data={dataKoi}
+        isOpen={isOpenEditModal}
+        onCloseModal={handleCloseEditModal}
+        isLoading={isLoadingKoi}
+        isPending={isPendingUpdate}
+        handleUpdateKoiApi={handleUpdateKoiApi}
+        dataListVariety={dataListVariety}
+        isLoadingVariety={isLoadingVariety}
       />
     </>
   )

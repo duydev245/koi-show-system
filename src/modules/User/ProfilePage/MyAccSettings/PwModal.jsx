@@ -46,11 +46,14 @@ const PwModal = (
     });
 
     const onSubmit = (values) => {
-        const payload = {
-            curentPassword: values.currentPassword,
-            newPassword: values.newPassword,
-        };
-        // console.log("🚀 ~ onSubmit ~ payload:", payload)
+        // const payload = {
+        //     curentPassword: values.currentPassword,
+        //     newPassword: values.newPassword,
+        // };
+        const payload = new FormData();
+        payload.append('CurentPassword', values.currentPassword);
+        payload.append('NewPassword', values.newPassword);
+        
         handleUpdatePass(payload);
     };
 

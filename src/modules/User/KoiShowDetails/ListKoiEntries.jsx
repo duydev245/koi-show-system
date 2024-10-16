@@ -34,7 +34,7 @@ const ListKoiEntries = ({ showName, showID }) => {
             </div>
             {/* list koi entries */}
             <Row>
-                {listRegistration?.kois.map((reg) => (
+                {listRegistration?.registrations.map((reg) => (
                     <Col span={6} key={reg.id} className='p-4'>
                         <Card
                             hoverable
@@ -70,7 +70,7 @@ const ListKoiEntries = ({ showName, showID }) => {
                                 </div>
 
                                 <Typography className='text-lg'><span className="font-bold">Registration ID:</span> {reg.id}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {reg.groupName}</Typography>
+                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {reg.group}</Typography>
                                 <Typography className='text-lg'><span className="font-bold">Variety:</span> {reg.variety}</Typography>
                                 <Typography className='text-lg'><span className="font-bold">Size:</span> {reg.size} cm</Typography>
                             </div>

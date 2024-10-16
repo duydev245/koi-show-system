@@ -60,14 +60,21 @@ const InfoModal = (
     }, [data, isOpen, setValue, reset]);
 
     const onSubmit = (values) => {
-        const payload = {
-            // id: data.id,
-            // email: values.email,
-            name: values.name,
-            phone: values.phone,
-            dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
-            gender: values.gender,
-        };
+        // const payload = {
+        //     // id: data.id,
+        //     // email: values.email,
+        //     name: values.name,
+        //     phone: values.phone,
+        //     dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
+        //     gender: values.gender,
+        // };
+
+        const payload = new FormData();
+        payload.append('Name', values.name);
+        payload.append('Phone', values.phone);
+        payload.append('DateOfBirth', dayjs(values.dateOfBirth).format('YYYY-MM-DD'));
+        payload.append('Gender', values.gender);
+
         handleUpdateUserApi(payload);
     };
 

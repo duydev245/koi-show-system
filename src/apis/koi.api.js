@@ -4,8 +4,8 @@ import fetcherNoAuth from "./fetcherNoAuth";
 export const koiApi = {
     getKoiDetails: async (id) => {
         try {
-            const response = await fetcherNoAuth.get(
-                `/KoiShow/koi-detail?koiId=${id}`
+            const response = await fetcher.get(
+                `/Koi/koi-detail?koiId=${id}`
             );
 
             return response.data.payload;
@@ -36,6 +36,35 @@ export const koiApi = {
                     "Content-Type": "multipart/form-data",
                 },
             });
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    updateKoiByUser: async (payload) => {
+        try {
+            const response = await fetcher.put(
+                `/Koi/update-koi`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    deleteKoiByUser: async (id) => {
+        try {
+            const response = await fetcher.delete(
+                `/Koi/delete-koi?koiId=${id}`
+            );
 
             return response.data.payload;
 

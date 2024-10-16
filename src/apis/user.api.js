@@ -7,7 +7,7 @@ export const userApi = {
   login: async (data) => {
     try {
       const response = await fetcherNoAuth.post(
-        `/User/login`,
+        `/Authentication/login`,
         data
       );
 
@@ -21,7 +21,7 @@ export const userApi = {
   register: async (payload) => {
     try {
       const response = await fetcherNoAuth.post(
-        `/User/signup`,
+        `/Authentication/signup`,
         payload
       );
 
@@ -45,30 +45,32 @@ export const userApi = {
   updateInfoUser: async (payload) => {
     try {
       const response = await fetcher.put(
-        `/User/edit-profile`,
-        payload
-      );
+        `/User/edit-profile`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       return response.data;
     } catch (error) {
       throw Error(error.response.data.message);
     }
   },
-  
+
   updatePasswordUser: async (payload) => {
-    console.log("🚀 ~ updatePasswordUser: ~ payload:", payload)
     try {
       const response = await fetcher.put(
-        `/User/change-password`,
-        payload
-      );
+        `/User/change-password`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       return response.data;
     } catch (error) {
       throw Error(error.response.data.message);
     }
   },
-
 
   // getListUser: async () => {
   //   try {

@@ -1,47 +1,22 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Image, Input, Modal, Row, Select, Typography, Upload } from 'antd'
+import { Button, Col, Form, Image, Input, message, Modal, Row, Select, Typography, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-const AddKoiModal = ({
+const EditKoiModal = ({
+    data,
     isOpen,
     onCloseModal,
+    isLoading,
     isPending,
-    handleAddKoiApi,
+    handleUpdateKoiApi,
     dataListVariety,
-    isLoadingVariety
+    isLoadingVariety,
 }) => {
-
     const [fileList, setFileList] = useState([]);
     const [imageUrl, setImageUrl] = useState(undefined);
+    const [messageApi, contextHolder] = message.useMessage();
 
-    const schema = yup.object({
-        name: yup.string().trim().required("*Name is required!"),
-        size: yup.number().required("*Size is required!").nullable(),
-        variety: yup.string().required("*Koi variety is required!").nullable(),
-        description: yup
-            .string()
-            .trim()
-            .required("*Description is required!")
-            .test("minWords", "*Description must be at least 5 words", (value) => {
-                if (!value) return false;
-                const wordCount = value.split(/\s+/).filter(Boolean).length;
-                return wordCount >= 5;
-            }),
-        image: yup
-            .mixed()
-            .required("*Image is required!")
-            .test("fileSize", "*File is too large! (max 1 MB)", (value) => {
-                return value && value.size <= 1 * 1024 * 1024;
-            })
-            .test("fileFormat", "*Unsupported file format", (value) => {
-                if (!value) return false; // Skip validation if no file is selected
-                const acceptedFormats = ['image/jpeg', 'image/png']; // Accept JPG, PNG
-                return acceptedFormats.includes(value.type); // Check MIME type
-            }),
-    });
 
     const {
         control,
@@ -57,11 +32,24 @@ const AddKoiModal = ({
             description: "",
             image: undefined,
         },
-        resolver: yupResolver(schema),
-        criteriaMode: "all",
+        // resolver: yupResolver(schema),
+        // criteriaMode: "all",
     });
 
-    const handleChange = ({ fileList }) => {    
+    useEffect(() => {
+        if (data && isOpen) {
+            setValue("name", data?.koiName);
+            setValue("size", data?.koiSize);
+            setValue("variety", data?.varietyId);
+            setValue("description", data?.koiDesc);
+            setImageUrl(data?.koiImg);
+        } else if (!isOpen) {
+            reset();
+            setImageUrl(undefined);
+        }
+    }, [data, isOpen, setValue, reset]);
+
+    const handleChange = ({ fileList }) => {
         setFileList(fileList);
         // Show preview of the selected image
         if (fileList.length > 0) {
@@ -82,36 +70,58 @@ const AddKoiModal = ({
         setValue('image', undefined);
     };
 
-    useEffect(() => {
-        if (!isOpen) {
-            handleDelete();
-            reset();
-        }
-    }, [isOpen]);
 
     const onSubmit = (values) => {
         const payload = new FormData();
+        let hasChanges = false;
 
-        payload.append("Name", values.name);
-        payload.append("Description", values.description);
-        payload.append("Image", values.image);
-        payload.append("Size", values.size);
-        payload.append("VarietyId", values.variety);
+        if (values.name !== data.koiName) {
+            payload.append("Name", values.name);
+            hasChanges = true;
+        }
+        
+        if (values.description !== data.koiDesc) {
+            payload.append("Description", values.description);
+            hasChanges = true;
+        }
 
-        // for (let [key, value] of payload.entries()) {
-        //     console.log(`${key}:`, value);
-        // }
+        if (values.image !== undefined) {
+            payload.append("Image", values.image);
+            hasChanges = true;
+        }
 
-        handleAddKoiApi(payload);
+        if (values.size !== data.koiSize) {
+            payload.append("Size", values.size);
+            hasChanges = true;
+        }
+        
+        if (values.variety !== data.varietyId) {
+            payload.append("VarietyId", values.variety);
+            hasChanges = true;
+        }
+
+        if (hasChanges) {
+            payload.append("Id", data.koiID);
+
+            // for (let [key, value] of payload.entries()) {
+            //     console.log(`${key}:`, value);
+            // }
+
+            handleUpdateKoiApi(payload);
+        } else {
+            console.log("No changes detected, update not required.");
+        }
     };
 
     return (
         <>
+            {contextHolder}
             <Modal
                 open={isOpen}
+                loading={isLoading}
                 title={
                     <Typography className="text-xl font-medium">
-                        Add your Koi information
+                        Edit your Koi information
                     </Typography>
                 }
                 centered
@@ -198,7 +208,7 @@ const AddKoiModal = ({
                                             className="mt-1 w-full"
                                             placeholder="Please select your Koi variety..."
                                             allowClear
-                                            defaultValue={undefined}
+                                            defaultValue={data?.varietyId}
                                             status={errors.variety ? "error" : ""}
                                             loading={isLoadingVariety}
                                             options={
@@ -266,7 +276,6 @@ const AddKoiModal = ({
                                 showUploadList={false}
                             >
                                 <button
-                                
                                     style={{ border: 0, background: "none" }}
                                     type="button"
                                 >
@@ -325,14 +334,14 @@ const AddKoiModal = ({
                                 type="primary"
                                 className="ml-3"
                             >
-                                Add Koi
+                                Edit Koi
                             </Button>
                         </Col>
                     </Row>
                 </Form>
-            </Modal >
+            </Modal>
         </>
     )
 }
 
-export default AddKoiModal
+export default EditKoiModal

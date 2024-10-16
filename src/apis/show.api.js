@@ -7,7 +7,7 @@ export const showApi = {
     getShowDetails: async (id) => {
         try {
             const response = await fetcherNoAuth.get(
-                `/Show/show-detail?showID=${id}`
+                `/Show/show-by-id?showID=${id}`
             );
 
             return response.data.payload;

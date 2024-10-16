@@ -76,14 +76,14 @@ const RegDetails = () => {
 
                                 <div className='mb-4 flex justify-between items-center'>
                                     <div>
-                                        <p className='font-bold mb-2'>KOI ID: </p>
+                                        <p className='font-bold mb-2'>Registration ID: </p>
                                         <p>{regDetails?.id}</p>
                                     </div>
                                     {(regDetails?.bestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
                                 </div>
 
                                 <div className='mb-4'>
-                                    <p className='font-bold mb-2'>KOI Name: </p>
+                                    <p className='font-bold mb-2'>Koi Name: </p>
                                     <p>{regDetails?.name}</p>
                                 </div>
 
