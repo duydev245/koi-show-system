@@ -79,7 +79,7 @@ const EditKoiModal = ({
             payload.append("Name", values.name);
             hasChanges = true;
         }
-        
+
         if (values.description !== data.koiDesc) {
             payload.append("Description", values.description);
             hasChanges = true;
@@ -94,7 +94,7 @@ const EditKoiModal = ({
             payload.append("Size", values.size);
             hasChanges = true;
         }
-        
+
         if (values.variety !== data.varietyId) {
             payload.append("VarietyId", values.variety);
             hasChanges = true;
@@ -102,14 +102,16 @@ const EditKoiModal = ({
 
         if (hasChanges) {
             payload.append("Id", data.koiID);
-
+            handleUpdateKoiApi(payload);
             // for (let [key, value] of payload.entries()) {
             //     console.log(`${key}:`, value);
             // }
-
-            handleUpdateKoiApi(payload);
         } else {
-            console.log("No changes detected, update not required.");
+            messageApi.open({
+                content: "No changes detected, update not required.",
+                type: "warning",
+                duration: 3,
+            });
         }
     };
 
