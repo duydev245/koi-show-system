@@ -26,9 +26,10 @@ const KoiShowDetails = () => {
     return <NotFoundComponent />;
   }
 
+  let showID = showDetails?.showId;
   let showName = showDetails?.showTitle;
   let showDesc = showDetails?.showDesc;
-  let showStatus = showDetails?.showStatus;
+  let showStatus = showDetails?.showStatus.toLowerCase();
   let showReferee = showDetails?.showReferee;
   let showGroups = showDetails?.showGroups;
 
@@ -49,6 +50,8 @@ const KoiShowDetails = () => {
         <ShowTitle showName={showName} />
 
         <ShowDesc
+          showID={showID}
+          showName={showName}
           showDesc={showDesc}
           showStatus={showStatus}
           openForm={openForm}

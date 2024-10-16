@@ -24,6 +24,7 @@ import { MyKoiPage } from '../modules/User/ProfilePage/MyKoiPage'
 import { MyRegPage } from '../modules/User/ProfilePage/MyRegPage'
 import { MyAccSettings } from '../modules/User/ProfilePage/MyAccSettings'
 import { RegDetails } from '../modules/User/RegDetails'
+import { NotFoundComponent } from '../components/NotFoundComponent'
 
 // Authen
 const RejectedRouter = () => {
@@ -307,8 +308,17 @@ const useRouteElement = () => {
                 },
 
             ]
-        }
+        },
 
+        // Route direct to 404 Page if not exist any path above
+        {
+            path: "*",
+            element: (
+                <UserLayout>
+                    <NotFoundComponent />
+                </UserLayout>
+            )
+        }
     ])
 
     return routes;

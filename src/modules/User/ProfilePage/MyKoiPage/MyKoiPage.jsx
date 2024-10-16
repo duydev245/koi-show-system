@@ -256,7 +256,7 @@ const MyKoiPage = () => {
 
       {dataSource && dataSource.length > 0 ? (
         <Table
-          rowKey="id"
+          rowKey="koiID"
           columns={columns}
           dataSource={dataSource}
           pagination={false}

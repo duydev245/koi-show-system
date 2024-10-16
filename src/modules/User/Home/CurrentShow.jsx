@@ -11,7 +11,7 @@ import { EndedShow } from '../../../components/EndedShow';
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
 
-    let showStatus = currentShow?.showStatus;
+    let showStatus = currentShow?.showStatus.toLowerCase();
     let groupShow = currentShow?.showGroups;
 
     const navigate = useNavigate();
@@ -34,9 +34,9 @@ const CurrentShow = ({ currentShow }) => {
                         <Col span={24}>
                             <div className='text-2xl'>
                                 {/* show status */}
-                                {(showStatus === 'Up Comming') && (<UpcomingShow />)}
-                                {(showStatus === 'On Going') && (<OngoingShow />)}
-                                {(showStatus === 'Finished') && (<EndedShow />)}
+                                {(showStatus === 'up comming') && (<UpcomingShow />)}
+                                {(showStatus === 'on going') && (<OngoingShow />)}
+                                {(showStatus === 'finished') && (<EndedShow />)}
                             </div>
                         </Col>
                         <Col span={12} className='pe-2'>
@@ -53,7 +53,7 @@ const CurrentShow = ({ currentShow }) => {
                             </div>
                         </Col>
                         <Col span={12} className='ps-2'>
-                            {(showStatus === 'Finished') ?
+                            {(showStatus === 'finished') ?
                                 (
                                     <div className='font-semibold'>
                                         <div className='flex items-center justify-start mb-2'>

@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
-const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
+const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
     const navigate = useNavigate();
 
     return (
@@ -22,9 +22,9 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
 
                         {/* show status */}
                         <div className="mb-4">
-                            {(showStatus === 'Up Comming') && (<UpcomingShow />)}
-                            {(showStatus === 'On Going') && (<OngoingShow />)}
-                            {(showStatus === 'Finished') && (<EndedShow />)}
+                            {(showStatus === 'up comming') && (<UpcomingShow />)}
+                            {(showStatus === 'on going') && (<OngoingShow />)}
+                            {(showStatus === 'finished') && (<EndedShow />)}
                         </div>
 
                         <div className='mb-4'>
@@ -51,7 +51,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                         <div className="mb-4 grid grid-cols-2">
                             <div>
                                 <p className='font-bold mb-2'>
-                                    {(showStatus === 'Finished') ? 'Show Award:' : 'Show Groups:'}
+                                    {(showStatus === 'finished') ? 'Show Award:' : 'Show Groups:'}
                                 </p>
                                 <ul style={{ listStyleType: 'disc' }} className="ps-7">
                                     {showGroups?.map((gr) => (
@@ -59,7 +59,7 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                                             <p>{gr.groupName}</p>
                                             {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
                                                 {
-                                                    gr.registrations.map((koi) => (
+                                                    gr?.kois.map((koi) => (
                                                         <li key={koi?.koiID} className='mb-1'>
                                                             <div className='flex items-center justify-start'>
                                                                 <p>Rank {koi?.rank}: {koi?.koiName}</p>
@@ -110,10 +110,10 @@ const ShowDesc = ({ showDesc, showStatus, openForm, closeForm, endDate, startDat
                         <p>{startDate} - {endDate}: Award Ceremony & Judges Seminar</p>
                     </div>
 
-                    {(showStatus === 'Up Comming') && (
+                    {(showStatus === 'up comming') && (
                         <div>
                             <button
-                                onClick={() => { navigate(PATH.KOI_REGISTER) }}
+                                onClick={() => navigate(PATH.KOI_REGISTER, { state: { showId: showID, showName: showName } })}
                                 className='btnAddKoi text-2xl font-bold w-3/5 py-5 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                 Add Koi entry
                             </button>
