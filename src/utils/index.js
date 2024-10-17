@@ -11,3 +11,9 @@ export const getLocalStorage = (key) => {
 export const removeLocalStorage = (key) => {
     localStorage.removeItem(key);
 };
+
+export const convertToEmbedUrl = (watchUrl) => {
+    const url = new URL(watchUrl);
+    const videoId = url.searchParams.get('v');
+    return `https://www.youtube.com/embed/${videoId}`;
+}

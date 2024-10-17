@@ -19,7 +19,7 @@ const AddKoiModal = ({
 
     const schema = yup.object({
         name: yup.string().trim().required("*Name is required!"),
-        size: yup.number().required("*Size is required!").nullable(),
+        size: yup.number('*Size must be number!').min(15, '*Size must be over 15cm!').required("*Size is required!").nullable(),
         variety: yup.string().required("*Koi variety is required!").nullable(),
         description: yup
             .string()
@@ -266,7 +266,7 @@ const AddKoiModal = ({
                                 showUploadList={false}
                             >
                                 <button
-                                
+
                                     style={{ border: 0, background: "none" }}
                                     type="button"
                                 >
