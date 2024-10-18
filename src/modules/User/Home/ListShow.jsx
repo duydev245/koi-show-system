@@ -37,9 +37,14 @@ const ListShow = ({ dataList, isPending }) => {
                                 <Typography className='text-2xl'>{show.showTitle}</Typography>
 
                                 {/* show status */}
-                                {(show.showStatus.toLowerCase() === 'up comming') && (<Text className='text-lg' type="success">Upcoming</Text>)}
-                                {(show.showStatus.toLowerCase() === 'on going') && (<Text className='text-lg' type="success">Ongoing</Text>)}
-                                {(show.showStatus.toLowerCase() === 'finished') && (<Text className='text-lg' type="danger">Finished</Text>)}
+                                {(show.showStatus.toLowerCase() === 'on going') &&
+                                    (<Text className='text-lg uppercase' type="success">Ongoing</Text>)}
+
+                                {(show.showStatus.toLowerCase() === 'scoring') &&
+                                    (<Text className='text-lg uppercase' type="warning">Scoring</Text>)}
+
+                                {(show.showStatus.toLowerCase() === 'finished') &&
+                                    (<Text className='text-lg uppercase' type="danger">Finished</Text>)}
                             </div>
                         </Card>
                     </Col>

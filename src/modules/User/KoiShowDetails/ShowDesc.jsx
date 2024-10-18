@@ -2,11 +2,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'antd';
 import { PATH } from '../../../routes/path';
-import { UpcomingShow } from '../../../components/UpcomingShow';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { ScoringShow } from '../../../components/ScoringShow';
 
 
 const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
@@ -22,8 +20,8 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
 
                         {/* show status */}
                         <div className="mb-4">
-                            {(showStatus === 'up comming') && (<UpcomingShow />)}
                             {(showStatus === 'on going') && (<OngoingShow />)}
+                            {(showStatus === 'scoring') && (<ScoringShow />)}
                             {(showStatus === 'finished') && (<EndedShow />)}
                         </div>
 

@@ -4,9 +4,9 @@ import { Card, Col, Row } from 'antd';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ShowTitle } from '../../../components/ShowTitle';
-import { UpcomingShow } from '../../../components/UpcomingShow';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
+import { ScoringShow } from '../../../components/ScoringShow';
 
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
@@ -34,8 +34,8 @@ const CurrentShow = ({ currentShow }) => {
                         <Col span={24}>
                             <div className='text-2xl'>
                                 {/* show status */}
-                                {(showStatus === 'up comming') && (<UpcomingShow />)}
                                 {(showStatus === 'on going') && (<OngoingShow />)}
+                                {(showStatus === 'scoring') && (<ScoringShow />)}
                                 {(showStatus === 'finished') && (<EndedShow />)}
                             </div>
                         </Col>
