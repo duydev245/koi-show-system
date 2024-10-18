@@ -33,4 +33,5 @@ export const PATH = {
     // REFEREE LAYOUT
     REFEREE: "/referee",
     REFEREE_SCORE: "/referee/score-koi",
+    REFEREE_ACCOUNT_SETTINGS: "/referee/account-settings",
 }

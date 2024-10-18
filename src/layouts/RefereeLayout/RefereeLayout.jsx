@@ -1,9 +1,10 @@
 import React from 'react'
 
-const RefereeLayout = () => {
+const RefereeLayout = ({ children }) => {
     return (
         <div>
             RefereeLayout
+            {children}
             RefereeLayout
         </div>
     )

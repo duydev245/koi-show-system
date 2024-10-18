@@ -25,6 +25,9 @@ import { MyRegPage } from '../modules/User/ProfilePage/MyRegPage'
 import { MyAccSettings } from '../modules/User/ProfilePage/MyAccSettings'
 import { RegDetails } from '../modules/User/RegDetails'
 import { NotFoundComponent } from '../components/NotFoundComponent'
+import { RefereeLayout } from '../layouts/RefereeLayout'
+import { AccountReferee } from '../modules/Referee/AccountReferee'
+import { ScoreKoi } from '../modules/Referee/ScoreKoi'
 
 // Authen
 const RejectedRouter = () => {
@@ -40,6 +43,10 @@ const RejectedRouter = () => {
 
     if (currentUser.role === 'Staff') {
         return <Navigate to={PATH.STAFF} />;
+    }
+
+    if (currentUser.role === 'Referee') {
+        return <Navigate to={PATH.REFEREE} />;
     }
 
     return <Navigate to={PATH.HOME} />;
@@ -110,7 +117,22 @@ const ProtectedStaffRouter = () => {
         return <Navigate to={PATH.LOGIN} />;
     }
 
-    return currentUser.role === "STAFF" ? (
+    return currentUser.role === "Staff" ? (
+        <Outlet />
+    ) : (
+        <Navigate to={PATH.HOME} />
+    );
+};
+
+// Referee role
+const ProtectedRefereeRouter = () => {
+    const { currentUser } = useSelector((state) => state.user);
+
+    if (currentUser === null) {
+        return <Navigate to={PATH.LOGIN} />;
+    }
+
+    return currentUser.role === "Referee" ? (
         <Outlet />
     ) : (
         <Navigate to={PATH.HOME} />
@@ -307,6 +329,33 @@ const useRouteElement = () => {
                     )
                 },
 
+            ]
+        },
+        // REFEREE
+        {
+            path: PATH.REFEREE,
+            element: <ProtectedRefereeRouter />,
+            children: [
+                {
+                    index: true,
+                    element: <Navigate to={PATH.REFEREE_SCORE} />
+                },
+                {
+                    path: PATH.REFEREE_SCORE,
+                    element: (
+                        <RefereeLayout>
+                            <ScoreKoi />
+                        </RefereeLayout>
+                    )
+                },
+                {
+                    path: PATH.REFEREE_ACCOUNT_SETTINGS,
+                    element: (
+                        <RefereeLayout>
+                            <AccountReferee />
+                        </RefereeLayout>
+                    )
+                },
             ]
         },
 

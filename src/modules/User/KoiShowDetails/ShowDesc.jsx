@@ -110,7 +110,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                         <p>{startDate} - {endDate}: Award Ceremony & Judges Seminar</p>
                     </div>
 
-                    {(showStatus === 'up comming') && (
+                    {(showStatus === 'on going') && (
                         <div>
                             <button
                                 onClick={() => navigate(PATH.KOI_REGISTER, { state: { showId: showID, showName: showName } })}

@@ -51,7 +51,7 @@ export const showApi = {
     getKoiVariety: async () => {
         try {
             const response = await fetcherNoAuth.get(
-                `/Show/get-all-varieties`
+                `/Variety/get-all-varieties`
             );
 
             return response.data.payload;

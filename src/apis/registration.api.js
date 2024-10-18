@@ -49,5 +49,21 @@ export const registrationApi = {
             throw Error(error.response.data.message);
         }
     },
-    
+
+    postRegistration: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Registration/create-registration`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
 }

@@ -86,21 +86,34 @@ const Navbar = () => {
               {currentUser ? (
                 <>
                   <ul className="py-2 min-w-[250px]" aria-labelledby="user-menu-button">
-                    <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => { navigate(PATH.PROFILE) }}
-                    >
-                      Dashboard
-                    </li>
-                    <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => { navigate(PATH.USER_CART) }}
-                    >
-                      Cart
-                    </li>
-                    <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => { navigate(PATH.PROFILE_MY_SETTINGS) }}
-                    >
-                      Settings
-                    </li>
+                    {currentUser.role === 'Member' ? (
+                      <>
+                        <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => { navigate(PATH.PROFILE) }}
+                        >
+                          Dashboard
+                        </li>
+                        <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => { navigate(PATH.USER_CART) }}
+                        >
+                          Cart
+                        </li>
+                        <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => { navigate(PATH.PROFILE_MY_SETTINGS) }}
+                        >
+                          Settings
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => { navigate(PATH.LOGIN) }}
+                        >
+                          Go to your Dashboard
+                        </li>
+                      </>
+                    )}
+
                     <li>
                       <button
                         className="block rounded px-4 w-full py-2 text-base text-left text-red-800 hover:bg-red-100 "

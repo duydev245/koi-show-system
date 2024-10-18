@@ -1,19 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { koiApi } from '../../../apis/koi.api';
-import { Alert, Button, Col, Form, Image, Input, Popconfirm, Row, Select, Table, Typography, Upload } from 'antd';
+import { Alert, Button, Col, Form, Image, Input, message, Popconfirm, Row, Select, Table, Typography, Upload } from 'antd';
 import { DeleteOutlined, PlusOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { PATH } from '../../../routes/path';
 import 'animate.css';
 import { Controller, useForm } from 'react-hook-form';
 import { showApi } from '../../../apis/show.api';
 import { convertToEmbedUrl } from '../../../utils';
+import { registrationApi } from '../../../apis/registration.api';
 
 const RegisterPage = () => {
 
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [idKoi, setIdKoi] = useState('');
   const [dropdownReg, setDropdownReg] = useState(false);
@@ -51,6 +53,26 @@ const RegisterPage = () => {
     queryFn: () => showApi.getKoiVariety(),
     enabled: !!idKoi,
   });
+
+  // handleCreateReg
+  const { mutate: handleCreateReg, isPending: isPendingCreate } = useMutation({
+    mutationFn: (payload) => registrationApi.postRegistration(payload),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Create successfully",
+        type: "success",
+        duration: 3,
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
 
   const columns = [
     // Koi Name
@@ -198,25 +220,27 @@ const RegisterPage = () => {
   const onSubmit = (values) => {
     const payload = new FormData();
 
-    payload.append("Name", values.name);
-    payload.append("Description", values.description);
+    payload.append("ShowId", showId);
+    payload.append("KoiId", dataKoi?.koiID);
     payload.append("Size", values.size);
-    payload.append("VarietyId", values.variety);
     payload.append("Image1", values.image1);
     payload.append("Image2", values.image2);
     payload.append("Image3", values.image3);
     payload.append("Video", convertToEmbedUrl(values.video));
+    payload.append("Description", values.description);
+    // payload.append("Name", values.name);
+    // payload.append("VarietyId", values.variety);
 
-    for (let [key, value] of payload.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // for (let [key, value] of payload.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
 
-    // handleAddKoiApi(payload);
+    handleCreateReg(payload);
   };
 
   return (
     <>
-
+      {contextHolder}
       {/* className={`${dropdownReg ? 'hidden' : 'block'}`} */}
       <div className={`${dropdownReg ? 'hidden' : 'block'} container mx-auto my-5 space-y-4 min-h-[500px]`}>
         <h1 className='text-black text-3xl font-bold'>Please choose one of your Koi to register</h1>
@@ -273,6 +297,7 @@ const RegisterPage = () => {
                     return (
                       <Input
                         {...field}
+                        readOnly
                         type="text"
                         size="large"
                         className="mt-1"
@@ -337,6 +362,7 @@ const RegisterPage = () => {
                         className="mt-1 w-full"
                         placeholder="Please select your Koi variety..."
                         allowClear
+                        disabled
                         defaultValue={dataKoi?.varietyId}
                         status={errors.variety ? "error" : ""}
                         loading={isLoadingVariety}
