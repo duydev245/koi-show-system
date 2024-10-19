@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { showApi } from '../../../apis/show.api';
 import { useQuery } from '@tanstack/react-query';
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Button, Table } from 'antd';
+import { Button, Table, Tag } from 'antd';
+import { useOpenModal } from '../../../hooks/useOpenModal';
+import ScoringModal from './ScoringModal';
 
 const ScoreKoi = () => {
+
+    const { isOpen: isOpenScoringModal, openModal: openScoringModal, closeModal: closeScoringModal } = useOpenModal();
 
     const [listGroups, setListGroups] = useState([]);
     const [showName, setShowName] = useState('');
@@ -25,6 +29,11 @@ const ScoreKoi = () => {
         }
     }, [data]);
 
+    const handleCloseEditModal = () => {
+        closeScoringModal();
+        setDataScore({});
+    }
+
     return (
         <>
             <div className='flex flex-col justify-center items-start mb-4'>
@@ -39,13 +48,25 @@ const ScoreKoi = () => {
                         {
                             title: "ID",
                             key: "reg-id",
-                            dataIndex: "registrationId",
+                            dataIndex: "koiID",
                         },
                         // Koi Name
                         {
                             title: "Name",
                             key: "koi-name",
                             dataIndex: "koiName",
+                        },
+                        // Status
+                        {
+                            title: "Status",
+                            key: "score-status",
+                            render: () => {
+                                return (
+                                    <Tag color="error">
+                                        NOT SCORE
+                                    </Tag>
+                                )
+                            }
                         },
                         // Action
                         {
@@ -58,7 +79,8 @@ const ScoreKoi = () => {
                                         size='large'
                                         loading={false}
                                         onClick={() => {
-                                            console.log(record)
+                                            setDataScore(record);
+                                            openScoringModal();
                                         }}>
                                         <PlusSquareOutlined />
                                     </Button>
@@ -80,7 +102,7 @@ const ScoreKoi = () => {
                                     </div>
                                 </div>
                                 <Table
-                                    rowKey="registrationId"
+                                    rowKey="koiID"
                                     columns={columns}
                                     dataSource={dataSource}
                                     pagination={false}
@@ -91,6 +113,12 @@ const ScoreKoi = () => {
                     )
                 })
             )}
+
+            <ScoringModal
+                isOpen={isOpenScoringModal}
+                onCloseModal={handleCloseEditModal}
+                data={dataScore}
+            />
         </>
     )
 }

@@ -26,7 +26,7 @@ const RegisterPage = () => {
 
   const showId = state?.showId;
   const showName = state?.showName;
-  console.log("🚀 ~ RegisterPage ~ showId, showName:", showId, showName);
+  // console.log("🚀 ~ RegisterPage ~ showId, showName:", showId, showName);
 
   useEffect(() => {
     if (!showId) {

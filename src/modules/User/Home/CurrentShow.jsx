@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card, Col, Row } from 'antd';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ShowTitle } from '../../../components/ShowTitle';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
 import { ScoringShow } from '../../../components/ScoringShow';
@@ -22,16 +21,18 @@ const CurrentShow = ({ currentShow }) => {
 
     return (
         <>
-            <ShowTitle showName={currentShow?.showTitle} />
+            {/* <ShowTitle showName={currentShow?.showTitle} /> */}
 
             <div className='p-4 mb-5'>
                 <Card hoverable onClick={() => { handleOnClick(currentShow?.showId) }} >
                     <Row gutter={[0, 10]}>
                         <Col span={24}>
                             {/* currentShow?.showBanner */}
-                            <img className='w-full rounded-lg' src="/show-1.jpg" alt="" />
+                            {/* <img className='w-full rounded-lg h-[350px]' src="/show-1.jpg" alt="" /> */}
+                            <img className='w-full rounded-lg h-[350px]' src={currentShow?.showBanner} alt="" />
                         </Col>
                         <Col span={24}>
+                            <h4 className='text-4xl font-bold mb-2'>{currentShow?.showTitle}</h4>
                             <div className='text-2xl'>
                                 {/* show status */}
                                 {(showStatus === 'on going') && (<OngoingShow />)}
@@ -65,9 +66,8 @@ const CurrentShow = ({ currentShow }) => {
                                             {groupShow?.map((group) => (
                                                 <li key={group?.groupId} className='mb-2'>
                                                     <p>{group?.groupName}</p>
-                                                    {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-
-                                                        {group?.registrations.map((koi) => (
+                                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
+                                                        {group?.kois.map((koi) => (
                                                             <li key={koi?.koiId} className='mb-1'>
                                                                 <div className='flex items-center justify-start'>
                                                                     <p>Rank {koi?.rank}: {koi?.koiName}</p>
@@ -78,8 +78,7 @@ const CurrentShow = ({ currentShow }) => {
                                                                 </div>
                                                             </li>
                                                         ))}
-
-                                                    </ul> */}
+                                                    </ul>
                                                 </li>
                                             ))}
 
