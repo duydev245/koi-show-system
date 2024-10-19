@@ -5,6 +5,8 @@ import { PATH } from '../../../routes/path';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
 import { ScoringShow } from '../../../components/ScoringShow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
@@ -25,6 +27,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                             {(showStatus === 'finished') && (<EndedShow />)}
                         </div>
 
+                        {/* showDesc */}
                         <div className='mb-4'>
                             {(showDesc) ?
                                 (
@@ -55,21 +58,32 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                                     {showGroups?.map((gr) => (
                                         <li key={gr.groupId}>
                                             <p>{gr.groupName}</p>
-                                            {/* <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-                                                {
-                                                    gr?.kois.map((koi) => (
-                                                        <li key={koi?.koiID} className='mb-1'>
-                                                            <div className='flex items-center justify-start'>
-                                                                <p>Rank {koi?.rank}: {koi?.koiName}</p>
-                                                                {(koi?.bestVote)
-                                                                    && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
-                                                                }
+                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
+                                                {(showStatus === 'finished') ?
+                                                    (
+                                                        gr.registrations?.map((koi, index) => (
+                                                            <li key={index} className='mb-1'>
+                                                                <div className='flex items-center justify-start'>
+                                                                    <p>Rank {koi?.rank}: {koi?.name}</p>
+                                                                    {(koi?.isBestVote)
+                                                                        && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
+                                                                    }
 
-                                                            </div>
-                                                        </li>
-                                                    ))
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    ) : (
+                                                        gr.criterion?.map((item, index) => (
+                                                            <li key={index} className='mb-1'>
+                                                                <div className='flex items-center justify-start'>
+                                                                    <p>{item?.criterionName}: {item.percentage}%</p>
+                                                                    
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    )
                                                 }
-                                            </ul> */}
+                                            </ul>
                                         </li>
                                     ))}
                                 </ul>

@@ -31,8 +31,8 @@ const ListShow = ({ dataList, isPending }) => {
                         <Card
                             onClick={() => { handleOnClick(show.showId) }}
                             hoverable
-                            // cover={<img alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
-                            cover={<img className='h-[250px]' alt={show.showTitle} src={show.showBanner} />}
+                            // cover={<img className='h-[385px]' alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
+                            cover={<img className='h-[385px]' alt={show.showTitle} src={show.showBanner} />}
                         >
                             <div className='font-semibold'>
                                 <Typography className='text-2xl'>{show.showTitle}</Typography>

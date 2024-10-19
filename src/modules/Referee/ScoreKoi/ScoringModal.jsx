@@ -96,8 +96,8 @@ const ScoringModal = ({
                         <Carousel infiniteLoop useKeyboardArrows autoPlay>
                             {imgUrls && (
                                 imgUrls.map((url, index) => (
-                                    <div className='relative'>
-                                        <div key={index} className='z-10 inset-0 absolute top-0'>
+                                    <div key={index} className='relative'>
+                                        <div className='z-10 inset-0 absolute top-0'>
                                             <Image
                                                 className='object-fit w-full'
                                                 preview={true}

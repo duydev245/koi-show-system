@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { KoiTitle } from '../../../components/KoiTitle';
 import { Card, Image, Popconfirm } from 'antd';
@@ -13,6 +13,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 const RegDetails = () => {
     const [vote, setVote] = useState('Vote');
+    const [imgUrls, setImgUrls] = useState([]);
 
     const { id } = useParams();
 
@@ -22,9 +23,12 @@ const RegDetails = () => {
     });
     // console.log("🚀 ~ regDetails ~ regDetails:", regDetails)
 
-    if (!regDetails) {
-        return <NotFoundComponent />
-    }
+    useEffect(() => {
+        if (regDetails) {
+            const newUrls = [regDetails.image1, regDetails.image2, regDetails.image3].filter(Boolean);
+            setImgUrls(newUrls);
+        }
+    }, [regDetails]);
 
     const handleVote = () => {
         if (vote === 'Vote') {
@@ -36,8 +40,12 @@ const RegDetails = () => {
         }
     }
 
-    if (isLoading && error) {
+    if (isLoading) {
         return <LoadingComponent />;
+    }
+
+    if (error) {
+        return <NotFoundComponent />
     }
 
     return (
@@ -89,7 +97,7 @@ const RegDetails = () => {
 
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Show Group: </p>
-                                    <p>{regDetails?.groupName || 'N/A'}</p>
+                                    <p>{regDetails?.group || 'N/A'}</p>
                                 </div>
 
                                 <div className='mb-4'>
@@ -136,48 +144,23 @@ const RegDetails = () => {
                     <div className='basis-6/12 space-y-5'>
                         <Card hoverable>
                             <Carousel infiniteLoop useKeyboardArrows autoPlay>
-                                <div className='relative'>
-                                    <div className='z-10 inset-0 absolute top-0'>
-                                        <Image
-                                            className='object-fit w-full'
-                                            preview={true}
-                                            src="/koi-1.jpg"
-                                        />
-                                    </div>
-                                    <img
-                                        src="/koi-1.jpg"
-                                        className='object-fit w-full'
-                                    />
-                                </div>
-
-                                <div className='relative'>
-                                    <div className='z-10 inset-0 absolute top-0'>
-                                        <Image
-                                            className='object-fit w-full'
-                                            preview={true}
-                                            src="/koi-1.jpg"
-                                        />
-                                    </div>
-                                    <img
-                                        src="/koi-1.jpg"
-                                        className='object-fit w-full'
-                                    />
-                                </div>
-
-                                <div className='relative'>
-                                    <div className='z-10 inset-0 absolute top-0'>
-                                        <Image
-                                            className='object-fit w-full'
-                                            preview={true}
-                                            src="/koi-1.jpg"
-                                        />
-                                    </div>
-                                    <img
-                                        src="/koi-1.jpg"
-                                        className='object-fit w-full'
-                                    />
-                                </div>
-
+                                {imgUrls && (
+                                    imgUrls.map((url, index) => (
+                                        <div key={index} className='relative'>
+                                            <div className='z-10 inset-0 absolute top-0'>
+                                                <Image
+                                                    className='object-fit w-full'
+                                                    preview={true}
+                                                    src={url}
+                                                />
+                                            </div>
+                                            <img
+                                                src={url}
+                                                className='object-fit w-full'
+                                            />
+                                        </div>
+                                    ))
+                                )}
                             </Carousel>
                         </Card>
                     </div>
@@ -188,7 +171,7 @@ const RegDetails = () => {
                         <h4 className='text-xl font-semibold mb-5'>Watch Keto video</h4>
                         <iframe
                             className='w-full h-[700px]'
-                            src="https://www.youtube.com/embed/PAEbwU9OrPk"
+                            src={regDetails?.video}
                             allowFullScreen
                         ></iframe>
                     </Card>

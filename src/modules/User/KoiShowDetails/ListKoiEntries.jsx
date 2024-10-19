@@ -38,7 +38,9 @@ const ListKoiEntries = ({ showName, showID }) => {
                     <Col span={6} key={reg.id} className='p-4'>
                         <Card
                             hoverable
-                            cover={<img alt={reg.name} src="/koi-1.jpg" />}
+                            onClick={() => { handleOnClick(reg.id) }}
+                            // cover={<img alt={reg.name} src="/koi-1.jpg" />}
+                            cover={<img className='md:h-[305px] lg:h-[478px] ' alt={reg.name} src={reg.image1} />}
                         >
                             <div className="mb-3">
                                 <div className='flex justify-center items-center mb-3 h-[42px]'>
@@ -76,7 +78,6 @@ const ListKoiEntries = ({ showName, showID }) => {
                             </div>
                             <div>
                                 <button
-                                    onClick={() => { handleOnClick(reg.id) }}
                                     className='btnAddKoi text-xl w-full font-bold py-2 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                     View details
                                 </button>

@@ -22,9 +22,11 @@ const KoiShowDetails = () => {
   });
   // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
 
-  if (!showDetails) {
-    return <NotFoundComponent />;
-  }
+  // dataListVariety
+  const { data: dataListVariety } = useQuery({
+    queryKey: ["list-variety"],
+    queryFn: () => showApi.getKoiVariety(),
+  });
 
   let showID = showDetails?.showId;
   let showName = showDetails?.showTitle;
@@ -38,14 +40,20 @@ const KoiShowDetails = () => {
   let startDate = dayjs(showDetails?.startDate).format("DD/MM");
   let endDate = dayjs(showDetails?.endDate).format("DD/MM");
 
-  if (isLoading && error) {
+  if (isLoading) {
     return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <NotFoundComponent />;
   }
 
   return (
     <>
       {/* showDetails?.showBanner */}
-      <Banner bannerShow={'/show-1.jpg'} />
+      {/* <Banner bannerShow={'/show-1.jpg'} /> */}
+      <Banner bannerShow={showDetails?.showBanner} />
+
       <div className='container mx-auto'>
         <ShowTitle showName={showName} />
 
@@ -63,6 +71,7 @@ const KoiShowDetails = () => {
         />
 
         <ShowRules
+          dataListVariety={dataListVariety}
           closeForm={closeForm}
           endDate={endDate}
         />

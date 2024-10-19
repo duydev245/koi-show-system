@@ -28,8 +28,8 @@ const CurrentShow = ({ currentShow }) => {
                     <Row gutter={[0, 10]}>
                         <Col span={24}>
                             {/* currentShow?.showBanner */}
-                            {/* <img className='w-full rounded-lg h-[350px]' src="/show-1.jpg" alt="" /> */}
-                            <img className='w-full rounded-lg h-[350px]' src={currentShow?.showBanner} alt="" />
+                            {/* <img className='w-full rounded-lg md:h-[350px] lg:h-[480px]' src="/show-1.jpg" alt="" /> */}
+                            <img className='w-full rounded-lg md:h-[350px] lg:h-[480px]' src={currentShow?.showBanner} alt="" />
                         </Col>
                         <Col span={24}>
                             <h4 className='text-4xl font-bold mb-2'>{currentShow?.showTitle}</h4>

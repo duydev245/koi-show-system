@@ -2,7 +2,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 
-const ShowRules = ({ closeForm, endDate }) => {
+const ShowRules = ({ dataListVariety, closeForm, endDate }) => {
     const [dropdownRule, setDropdownRule] = useState(false);
 
     const toggleRule = () => {
@@ -91,16 +91,11 @@ const ShowRules = ({ closeForm, endDate }) => {
                         <div className='basis-6/12'>
                             <h4 className='text-xl font-semibold mb-5'>Variety Categories:</h4>
                             <ul className='ms-5 text-lg' style={{ listStyleType: 'disc' }}>
-                                <li>Kohaku</li>
-                                <li>Taisho Sanke</li>
-                                <li>Showa</li>
-                                <li>Utsurimono</li>
-                                <li>Asagi & Shusui</li>
-                                <li>Koromo & Goshiki</li>
-                                <li>Kawarimono (including Bekko, Muji)</li>
-                                <li>Hikarimono (Hikarimoyo / HikariUtsuri / Hikari Muji)</li>
-                                <li>Tancho</li>
-                                <li>KinGinrin</li>
+
+                                {dataListVariety && dataListVariety.map((item, index) => (
+                                    <li key={index}>{item.varietyName}</li>
+                                ))}
+                                
                                 <li>
                                     *No Doitsu Hirenaga butterfly category. They will go under each variety category.
                                 </li>
@@ -127,7 +122,7 @@ const ShowRules = ({ closeForm, endDate }) => {
                     <h4 className='text-xl font-semibold mb-5'>Awards will be announced during virtual award ceremony after <span className='font-bold text-red-600'>{endDate}!</span></h4>
                     <div className='text-lg  mb-5'>
                         <p className='mb-5'>No Koi can win more than one award, except for special awards.</p>
-                        <p>* Delivery of the prizes - FREE delivery to a winner in the U.S.A. Winners from outside US must pay the shipping. Please note some countries may not allow import of prize items such as koi food. In such cases, no compensation will be provided.</p>
+                        <p>* Delivery of the prizes - FREE delivery to a winner in the Vietnam. Winners from outside Vietnam must pay the shipping. Please note some countries may not allow import of prize items such as koi food. In such cases, no compensation will be provided.</p>
                     </div>
 
                     <div className='grid grid-cols-1 lg:flex'>
