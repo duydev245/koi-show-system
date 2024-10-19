@@ -2,16 +2,16 @@ import { Button, Col, Form, Image, Input, Modal, Row, Typography } from 'antd'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 const ScoringModal = ({
     data,
     isOpen,
     onCloseModal,
     isPending,
-    handleUpdateKoiApi,
+    handleScoringApi,
 }) => {
-    console.log("🚀 ~ data:", data)
+    // console.log("🚀 ~ data:", data)
 
     const [imgUrls, setImgUrls] = useState([]);
     const [criterions, setCriterions] = useState([]);
@@ -27,7 +27,6 @@ const ScoringModal = ({
         }
     }, [data]);
 
-
     const {
         control,
         handleSubmit,
@@ -35,16 +34,27 @@ const ScoringModal = ({
         formState: { errors },
         reset,
     } = useForm({
-        defaultValues: {
-
-        },
         // resolver: yupResolver(schema),
         // criteriaMode: "all",
     });
 
     const onSubmit = (values) => {
-        console.log(values)
+        const payload = {
+            registraionId: data?.registrationId,
+            scores: criterions.map((criterion, index) => ({
+                criterionId: criterion.criterionId,
+                score: values.criterionScore[index] * 1 || 0,
+            })),
+        };
+        // console.log("🚀 ~ onSubmit ~ payload:", payload)
+        handleScoringApi(payload);
     };
+
+    useEffect(() => {
+        if (!isOpen) {
+            reset();
+        }
+    }, [isOpen]);
 
     return (
         <>
@@ -101,11 +111,11 @@ const ScoringModal = ({
                                             <Image
                                                 className='object-fit w-full'
                                                 preview={true}
-                                                src="/koi-1.jpg"
+                                                src={url}
                                             />
                                         </div>
                                         <img
-                                            src="/koi-1.jpg"
+                                            src={url}
                                             className='object-fit w-full'
                                         />
                                     </div>
@@ -122,7 +132,7 @@ const ScoringModal = ({
 
                         <iframe
                             className='w-full h-[500px]'
-                            src="https://www.youtube.com/embed/PAEbwU9OrPk"
+                            src={data.video}
                             allowFullScreen
                             frameborder="0"
                         >
@@ -132,42 +142,50 @@ const ScoringModal = ({
 
                     <Col span={24}>
                         <Form className="my-4" onFinish={handleSubmit(onSubmit)}>
-                            <Typography className="text-2xl font-bold text-red-600">
-                                Scoring
-                            </Typography>
-                            <Row gutter={[0, 5]}>
+                            <Row gutter={[0, 10]}>
+                                <Col span={24}>
+                                    <Typography className="text-2xl font-bold text-red-600">
+                                        Scoring (0-100/Criteria)
+                                    </Typography>
+                                </Col>
+
                                 {criterions && criterions.map((criterion, index) => (
                                     <Col key={index} span={24} className='flex items-center justify-between'>
                                         <label className="text-lg text-black font-semibold">
-                                            {++index}. Criterion {criterion.criterionName}:
+                                            {criterion.criterionName} Criteria ({criterion.percentage}%):
                                         </label>
-                                        <Input
-                                            type="number"
-                                            size="large"
-                                            value={criterion?.score || ''}
-                                            className="mt-1 w-1/2"
+                                        <Controller
+                                            name={`criterionScore[${index}]`}
+                                            control={control}
+                                            defaultValue={criterion.score || ''}
+                                            render={({ field }) => (
+                                                <Input
+                                                    {...field}
+                                                    type="number"
+                                                    size="large"
+                                                    className="mt-1 w-1/2"
+                                                />
+                                            )}
                                         />
                                     </Col>
                                 ))}
+                                <Col span={24} className="flex justify-end">
+                                    <Button size="large" type="default" onClick={onCloseModal}>
+                                        Cancel
+                                    </Button>
+
+                                    <Button
+                                        loading={isPending}
+                                        htmlType="submit"
+                                        size="large"
+                                        type="primary"
+                                        className="ml-3"
+                                    >
+                                        Save score
+                                    </Button>
+                                </Col>
                             </Row>
                         </Form>
-                    </Col>
-
-
-                    <Col span={24} className="flex justify-end">
-                        <Button size="large" type="default" onClick={onCloseModal}>
-                            Cancel
-                        </Button>
-
-                        <Button
-                            loading={false}
-                            htmlType="submit"
-                            size="large"
-                            type="primary"
-                            className="ml-3"
-                        >
-                            Save score
-                        </Button>
                     </Col>
                 </Row>
 

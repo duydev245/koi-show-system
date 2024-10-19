@@ -66,4 +66,18 @@ export const registrationApi = {
         }
     },
 
+    postScoringReg: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Score/save-scores`, payload
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+
 }

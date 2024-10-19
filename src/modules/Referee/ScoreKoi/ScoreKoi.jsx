@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { showApi } from '../../../apis/show.api';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Button, Table, Tag } from 'antd';
+import { Button, message, Table, Tag } from 'antd';
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import ScoringModal from './ScoringModal';
+import { registrationApi } from '../../../apis/registration.api';
 
 const ScoreKoi = () => {
 
     const { isOpen: isOpenScoringModal, openModal: openScoringModal, closeModal: closeScoringModal } = useOpenModal();
+    const [messageApi, contextHolder] = message.useMessage();
+    const queryClient = useQueryClient();
 
     const [listGroups, setListGroups] = useState([]);
     const [showName, setShowName] = useState('');
@@ -34,8 +37,34 @@ const ScoreKoi = () => {
         setDataScore({});
     }
 
+    // score api
+    const { mutate: handleScoringApi, isPending: isPendingScoring } = useMutation({
+        mutationFn: (payload) => registrationApi.postScoringReg(payload),
+        onSuccess: () => {
+            messageApi.open({
+                content: data?.message || "Scoring successfully",
+                type: "success",
+                duration: 3,
+            });
+            handleCloseEditModal();
+            queryClient.refetchQueries({
+                queryKey: ["list-koi"],
+                type: "active",
+            });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
+
+
     return (
         <>
+            {contextHolder}
             <div className='flex flex-col justify-center items-start mb-4'>
                 <h1 className='text-black text-2xl font-bold'>{showName}</h1>
             </div>
@@ -48,7 +77,7 @@ const ScoreKoi = () => {
                         {
                             title: "ID",
                             key: "reg-id",
-                            dataIndex: "koiID",
+                            dataIndex: "registrationId",
                         },
                         // Koi Name
                         {
@@ -87,37 +116,37 @@ const ScoreKoi = () => {
                                 );
                             },
                         },
-                    ]
+                    ];
 
-                    const dataSource = group.kois || []
+                    const dataSource = group.kois || [];
 
                     return (
-                        <>
-                            <div key={index} className='bg-gray-100 rounded-lg p-3 mb-3'>
-                                <div className='grid grid-cols-2 mb-4 px-3'>
-                                    <p className="font-semibold">{group.groupName}</p>
-                                    <div className="font-semibold">
-                                        <p className="text-green-600"><span>Scored:</span> {group.scored}</p>
-                                        <p className="text-red-600"><span>Not Scored:</span> {group.amountNotScored}</p>
-                                    </div>
+                        <div key={index} className='bg-gray-100 rounded-lg p-3 mb-3'>
+                            <div className='grid grid-cols-2 mb-4 px-3'>
+                                <p className="font-semibold text-xl">{group.groupName}</p>
+                                <div className="font-semibold text-base">
+                                    <p className="text-green-600"><span>Scored:</span> {group.scored}</p>
+                                    <p className="text-red-600"><span>Not Scored:</span> {group.amountNotScored}</p>
                                 </div>
-                                <Table
-                                    rowKey="koiID"
-                                    columns={columns}
-                                    dataSource={dataSource}
-                                    pagination={false}
-                                    loading={false}
-                                />
                             </div>
-                        </>
+                            <Table
+                                rowKey="registrationId"
+                                columns={columns}
+                                dataSource={dataSource}
+                                pagination={false}
+                                loading={isLoading}
+                            />
+                        </div>
                     )
                 })
             )}
 
             <ScoringModal
                 isOpen={isOpenScoringModal}
+                isPending={isPendingScoring}
                 onCloseModal={handleCloseEditModal}
                 data={dataScore}
+                handleScoringApi={handleScoringApi}
             />
         </>
     )
