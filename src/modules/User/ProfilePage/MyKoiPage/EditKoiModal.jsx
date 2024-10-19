@@ -21,7 +21,7 @@ const EditKoiModal = ({
 
     const schema = yup.object({
         name: yup.string().trim().required("*Name is required!"),
-        size: yup.number('*Size must be number!').min(15, '*Size must be over 15cm!').required("*Size is required!").nullable(),
+        size: yup.number().typeError('*Size must be number!').min(15, '*Size must be over 15cm!').required("*Size is required!").nullable(),
         variety: yup.number().required("*Koi variety is required!").nullable(),
         description: yup
             .string()

@@ -3,6 +3,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const ScoringModal = ({
     data,
@@ -12,6 +14,18 @@ const ScoringModal = ({
     handleScoringApi,
 }) => {
     // console.log("🚀 ~ data:", data)
+
+    const schema = Yup.object().shape({
+        criterions: Yup.array().of(
+            Yup.object().shape({
+                score: Yup.number()
+                    .typeError('*Score must be a number')
+                    .min(0, '*Score cannot be less than 0')
+                    .max(100, '*Score cannot be more than 100')
+                    .required('*Score is required')
+            })
+        ),
+    });
 
     const [imgUrls, setImgUrls] = useState([]);
     const [criterions, setCriterions] = useState([]);
@@ -34,17 +48,26 @@ const ScoringModal = ({
         formState: { errors },
         reset,
     } = useForm({
-        // resolver: yupResolver(schema),
-        // criteriaMode: "all",
+        defaultValues: {
+            criterions: criterions.map((criterion) => ({
+                score: criterion.score || "",
+            })),
+        },
+        resolver: yupResolver(schema),
+        criteriaMode: "all",
     });
 
     const onSubmit = (values) => {
         const payload = {
-            registraionId: data?.registrationId,
-            scores: criterions.map((criterion, index) => ({
-                criterionId: criterion.criterionId,
-                score: values.criterionScore[index] * 1 || 0,
-            })),
+            scoreDetail: [
+                {
+                    registraionId: data?.registrationId,
+                    scores: criterions.map((criterion, index) => ({
+                        criterionId: criterion.criterionId,
+                        score: values.criterions[index].score * 1,
+                    })),
+                }
+            ]
         };
         // console.log("🚀 ~ onSubmit ~ payload:", payload)
         handleScoringApi(payload);
@@ -151,20 +174,32 @@ const ScoringModal = ({
 
                                 {criterions && criterions.map((criterion, index) => (
                                     <Col key={index} span={24} className='flex items-center justify-between'>
-                                        <label className="text-lg text-black font-semibold">
-                                            {criterion.criterionName} Criteria ({criterion.percentage}%):
-                                        </label>
+
+                                        <div className='flex flex-col'>
+                                            <label className="text-lg text-black font-semibold">
+                                                {criterion.criterionName} Criteria ({criterion.percentage}%):
+                                            </label>
+                                            {errors?.criterions?.[index]?.score && (
+                                                <span className="text-base text-red-500">
+                                                    {errors.criterions[index].score.message}
+                                                </span>
+                                            )}
+                                        </div>
+
                                         <Controller
-                                            name={`criterionScore[${index}]`}
+                                            name={`criterions[${index}].score`}
                                             control={control}
                                             defaultValue={criterion.score || ''}
                                             render={({ field }) => (
-                                                <Input
-                                                    {...field}
-                                                    type="number"
-                                                    size="large"
-                                                    className="mt-1 w-1/2"
-                                                />
+                                                <>
+                                                    <Input
+                                                        {...field}
+                                                        type="number"
+                                                        size="large"
+                                                        className="mt-1 w-1/2"
+                                                        status={errors?.criterions?.[index]?.score ? 'error' : ''}  
+                                                    />
+                                                </>
                                             )}
                                         />
                                     </Col>

@@ -89,11 +89,14 @@ const ScoreKoi = () => {
                         {
                             title: "Status",
                             key: "score-status",
-                            render: () => {
+                            dataIndex: "isScored",
+                            render: (isScored) => {
                                 return (
-                                    <Tag color="error">
-                                        NOT SCORE
-                                    </Tag>
+                                    isScored ? (
+                                        <Tag color="success">SCORED</Tag>
+                                    ) : (
+                                        <Tag color="error">NOT SCORED</Tag>
+                                    )
                                 )
                             }
                         },
