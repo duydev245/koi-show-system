@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { showApi } from '../../../apis/show.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Button, message, Table, Tag } from 'antd';
+import { Breadcrumb, Button, message, Table, Tag } from 'antd';
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import ScoringModal from './ScoringModal';
 import { registrationApi } from '../../../apis/registration.api';
+import { PATH } from '../../../routes/path';
 
 const ScoreKoi = () => {
 
@@ -65,6 +66,21 @@ const ScoreKoi = () => {
     return (
         <>
             {contextHolder}
+            <div className="flex items-center justify-between mb-2">
+                <Breadcrumb
+                    separator=">"
+                    items={[
+                        {
+                            title: "Dashboard",
+                        },
+                        {
+                            title: "Score Koi",
+                            href: PATH.REFEREE_SCORE,
+                        },
+                    ]}
+                />
+            </div>
+
             <div className='flex flex-col justify-center items-start mb-4'>
                 <h1 className='text-black text-2xl font-bold'>{showName}</h1>
             </div>
