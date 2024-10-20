@@ -50,7 +50,7 @@ const ScoringModal = ({
     } = useForm({
         defaultValues: {
             criterions: criterions.map((criterion) => ({
-                score: criterion.score || "",
+                score: criterion.score1 || "",
             })),
         },
         resolver: yupResolver(schema),
@@ -74,10 +74,14 @@ const ScoringModal = ({
     };
 
     useEffect(() => {
-        if (!isOpen) {
+        if (isOpen) {
+            criterions.forEach((criterion, index) => {
+                setValue(`criterions[${index}].score`, criterion.score1); 
+            });
+        } else {
             reset();
         }
-    }, [isOpen]);
+    }, [isOpen, criterions, setValue, reset]);
 
     return (
         <>
@@ -189,7 +193,6 @@ const ScoringModal = ({
                                         <Controller
                                             name={`criterions[${index}].score`}
                                             control={control}
-                                            defaultValue={criterion.score || ''}
                                             render={({ field }) => (
                                                 <>
                                                     <Input
@@ -197,7 +200,7 @@ const ScoringModal = ({
                                                         type="number"
                                                         size="large"
                                                         className="mt-1 w-1/2"
-                                                        status={errors?.criterions?.[index]?.score ? 'error' : ''}  
+                                                        status={errors?.criterions?.[index]?.score ? 'error' : ''}
                                                     />
                                                 </>
                                             )}

@@ -19,6 +19,7 @@ const RegisterPage = () => {
 
   const [idKoi, setIdKoi] = useState('');
   const [dropdownReg, setDropdownReg] = useState(false);
+  const [actionType, setActionType] = useState(null);
 
   const toggleReg = () => {
     setDropdownReg(!dropdownReg);
@@ -63,6 +64,15 @@ const RegisterPage = () => {
         type: "success",
         duration: 3,
       });
+
+      setTimeout(() => {
+        if (actionType === 'checkout') {
+          navigate(PATH.USER_CART);
+        } else if (actionType === 'registerMore') {
+          window.location.reload();
+        }
+        setActionType(null);
+      }, 1500);
     },
     onError: (error) => {
       messageApi.open({
@@ -513,24 +523,51 @@ const RegisterPage = () => {
               </Col>
 
               <Col span={24} className="flex justify-end">
-                <Button
-                  loading={false}
-                  htmlType="submit"
-                  size="large"
-                  type="default"
-                  className="ml-3"
+                <Popconfirm
+                  title="Notification"
+                  description="Are you sure to register more?"
+                  onConfirm={() => {
+                    setActionType('registerMore');
+                    handleSubmit(onSubmit)();
+                  }}
+                  onCancel={() => { }}
+                  placement="right"
+                  okText="Yes"
+                  cancelText="No"
                 >
-                  Register more?
-                </Button>
-                <Button
-                  loading={false}
-                  htmlType="submit"
-                  size="large"
-                  type="primary"
-                  className="ml-3"
+                  <Button
+                    loading={isPendingCreate}
+                    htmlType="button"
+                    size="large"
+                    type="default"
+                    className="ml-3"
+                  >
+                    Register more?
+                  </Button>
+                </Popconfirm>
+
+                <Popconfirm
+                  title="Notification"
+                  description="Are you sure to checkout?"
+                  onConfirm={() => {
+                    setActionType('checkout');
+                    handleSubmit(onSubmit)();
+                  }}
+                  onCancel={() => { }}
+                  placement="right"
+                  okText="Yes"
+                  cancelText="No"
                 >
-                  Check out
-                </Button>
+                  <Button
+                    loading={isPendingCreate}
+                    htmlType="button"
+                    size="large"
+                    type="primary"
+                    className="ml-3"
+                  >
+                    Check out
+                  </Button>
+                </Popconfirm>
               </Col>
             </Row>
           </Form>
