@@ -92,4 +92,39 @@ export const registrationApi = {
         }
     },
 
+    getPendingRegList: async (payload) => {
+        const params = {
+            pageIndex: payload.pageIndex,
+            pageSize: payload.pageSize || PAGE_SIZE, // 10
+        };
+
+        try {
+            const response = await fetcher.get(
+                `/Registration/pending-registration`,
+                { params }
+            );
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    putEvaluateReg: async (payload) => {
+        try {
+            const response = await fetcher.put(
+                `/Registration/update-registration`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
 }

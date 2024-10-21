@@ -161,7 +161,6 @@ const ScoringModal = ({
                             className='w-full h-[500px]'
                             src={data.video}
                             allowFullScreen
-                            frameborder="0"
                         >
                         </iframe>
 

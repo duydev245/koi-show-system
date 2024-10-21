@@ -29,7 +29,8 @@ export const PATH = {
     // STAFF LAYOUT 
     STAFF: "/staff",
     STAFF_REFEREE: "/staff/referee",
-    STAFF_APLLYCATION: "/staff/check-application",
+    STAFF_APLLYCATION: "/staff/evaluate-registration",
+    STAFF_ACCOUNT_SETTINGS: "/staff/account-settings",
 
     // REFEREE LAYOUT
     REFEREE: "/referee",

@@ -29,6 +29,7 @@ import { AccountReferee } from '../modules/Referee/AccountReferee'
 import { ScoreKoi } from '../modules/Referee/ScoreKoi'
 import { DashBoardAdmin } from '../modules/Admin/DashBoardAdmin'
 import { VarietyManangement } from '../modules/Admin/VarietyManangement'
+import { AccountStaff } from '../modules/Staff/AccountStaff'
 
 // Authen
 const RejectedRouter = () => {
@@ -81,6 +82,7 @@ const RejectedRouter = () => {
 // };
 
 // Member role 
+
 const ProtectedMemberRouter = () => {
     const { currentUser } = useSelector((state) => state.user);
 
@@ -327,13 +329,20 @@ const useRouteElement = () => {
                             <ApplicationManagement />
                         </StaffLayout>
                     )
-
                 },
                 {
                     path: PATH.STAFF_REFEREE,
                     element: (
                         <StaffLayout>
                             <RefereeManagement />
+                        </StaffLayout>
+                    )
+                },
+                {
+                    path: PATH.STAFF_ACCOUNT_SETTINGS,
+                    element: (
+                        <StaffLayout>
+                            <AccountStaff />
                         </StaffLayout>
                     )
                 },
