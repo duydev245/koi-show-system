@@ -12,6 +12,7 @@ import ShowRules from './ShowRules';
 import ShowGuide from './ShowGuide';
 import ListKoiEntries from './ListKoiEntries';
 import { NotFoundComponent } from '../../../components/NotFoundComponent';
+import { varietyApi } from '../../../apis/variety.api';
 
 const KoiShowDetails = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const KoiShowDetails = () => {
   // dataListVariety
   const { data: dataListVariety } = useQuery({
     queryKey: ["list-variety"],
-    queryFn: () => showApi.getKoiVariety(),
+    queryFn: () => varietyApi.getAllVariety(),
   });
 
   let showID = showDetails?.showId;

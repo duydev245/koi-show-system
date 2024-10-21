@@ -6,7 +6,9 @@ import {
     CalendarOutlined,
     PictureOutlined,
     HomeOutlined,
-    SettingOutlined
+    SettingOutlined,
+    BarChartOutlined,
+    ProductOutlined
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { useDispatch } from 'react-redux';
@@ -63,19 +65,24 @@ const AdminLayout = ({ children }) => {
                                 }}
                                 items={[
                                     {
-                                        key: PATH.ADMIN_STAFF,
-                                        icon: <UserOutlined />,
-                                        label: "Staff Management",
-                                    },
-                                    {
-                                        key: PATH.ADMIN_MEMBER,
-                                        icon: <UserOutlined />,
-                                        label: "Member Management",
+                                        key: PATH.ADMIN_DASHBOARD,
+                                        icon: <BarChartOutlined />,
+                                        label: "Dashboard & Statistics",
                                     },
                                     {
                                         key: PATH.ADMIN_SHOW,
                                         icon: <CalendarOutlined />,
                                         label: "Show Management",
+                                    },
+                                    {
+                                        key: PATH.ADMIN_STAFF,
+                                        icon: <UserOutlined />,
+                                        label: "Staff Management",
+                                    },
+                                    {
+                                        key: PATH.ADMIN_VARIETY,
+                                        icon: <ProductOutlined />,
+                                        label: "Variety Management",
                                     },
                                     {
                                         key: PATH.ADMIN_ACCOUNT_SETTINGS,

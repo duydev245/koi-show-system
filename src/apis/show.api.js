@@ -48,19 +48,6 @@ export const showApi = {
         }
     },
 
-    getKoiVariety: async () => {
-        try {
-            const response = await fetcherNoAuth.get(
-                `/Variety/get-all-varieties`
-            );
-
-            return response.data.payload;
-
-        } catch (error) {
-            throw Error(error.response.data.message);
-        }
-    },
-
     getListScored: async () => {
         try {
             const response = await fetcher.get(

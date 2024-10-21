@@ -17,7 +17,6 @@ import { AccountAdmin } from '../modules/Admin/AccountAdmin'
 import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
 import { RefereeManagement } from '../modules/Staff/RefereeManagement'
-import { MemberManagement } from '../modules/Admin/MemberManagement'
 import { CartPage } from '../modules/User/CartPage'
 import { RegisterPage } from '../modules/User/RegisterPage'
 import { MyKoiPage } from '../modules/User/ProfilePage/MyKoiPage'
@@ -28,6 +27,8 @@ import { NotFoundComponent } from '../components/NotFoundComponent'
 import { RefereeLayout } from '../layouts/RefereeLayout'
 import { AccountReferee } from '../modules/Referee/AccountReferee'
 import { ScoreKoi } from '../modules/Referee/ScoreKoi'
+import { DashBoardAdmin } from '../modules/Admin/DashBoardAdmin'
+import { VarietyManangement } from '../modules/Admin/VarietyManangement'
 
 // Authen
 const RejectedRouter = () => {
@@ -37,7 +38,7 @@ const RejectedRouter = () => {
         return <Outlet />;
     }
 
-    if (currentUser.role === 'Admin') {
+    if (currentUser.role === 'Manager') {
         return <Navigate to={PATH.ADMIN} />;
     }
 
@@ -60,7 +61,7 @@ const RejectedRouter = () => {
 //         return <Navigate to={PATH.LOGIN} />;
 //     }
 
-//     if (currentUser.role === 'Admin') {
+//     if (currentUser.role === 'Manager') {
 //         return <Navigate to={PATH.ADMIN} />;
 //     }
 
@@ -102,7 +103,7 @@ const ProtectedRouter = () => {
         return <Navigate to={PATH.LOGIN} />;
     }
 
-    return currentUser.role === "Admin" ? (
+    return currentUser.role === "Manager" ? (
         <Outlet />
     ) : (
         <Navigate to={PATH.HOME} />
@@ -266,7 +267,15 @@ const useRouteElement = () => {
             children: [
                 {
                     index: true,
-                    element: <Navigate to={PATH.ADMIN_STAFF} />,
+                    element: <Navigate to={PATH.ADMIN_DASHBOARD} />,
+                },
+                {
+                    path: PATH.ADMIN_DASHBOARD,
+                    element: (
+                        <AdminLayout>
+                            <DashBoardAdmin />
+                        </AdminLayout>
+                    )
                 },
                 {
                     path: PATH.ADMIN_STAFF,
@@ -277,10 +286,10 @@ const useRouteElement = () => {
                     )
                 },
                 {
-                    path: PATH.ADMIN_MEMBER,
+                    path: PATH.ADMIN_VARIETY,
                     element: (
                         <AdminLayout>
-                            <MemberManagement />
+                            <VarietyManangement />
                         </AdminLayout>
                     )
                 },

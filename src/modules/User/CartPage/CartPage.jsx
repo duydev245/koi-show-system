@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react'
 import dayjs from "dayjs";
 import { Alert, Button, message, Popconfirm, Table, Tag, Typography } from 'antd';
@@ -21,6 +21,29 @@ const CartPage = () => {
   const { data: dataSourceDraft, isLoading } = useQuery({
     queryKey: ["list-draft"],
     queryFn: () => registrationApi.getListRegByUser('draft'),
+  });
+
+  // check isPaid
+  const { mutate: handleCheckPayment } = useMutation({
+    mutationFn: () => registrationApi.getCheckIsPaid(),
+    onSuccess: (data) => {
+      if (data?.payload === true) {
+        messageApi.open({
+          content: data?.message || "Payment successfully completed!",
+          type: "success",
+          duration: 3,
+        });
+        handleOnCloseModal();
+        // navigate(PATH.HOME); 
+      }
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message || "Payment failed. Please try again.",
+        type: "error",
+        duration: 3,
+      });
+    },
   });
 
   const feeKoi = 5000;
@@ -64,7 +87,12 @@ const CartPage = () => {
       title: "Price",
       key: "fee",
       render: () => {
-        return <Typography>{feeKoi.toLocaleString()} VND</Typography>;
+        return (
+          <Typography className='flex justify-between items-center'>
+            <span>{feeKoi.toLocaleString()}</span>
+            <span>VND</span>
+          </Typography>
+        );
       },
     },
     // {
@@ -198,9 +226,11 @@ const CartPage = () => {
       </div>
 
       <SepayModal
+        isPending={false}
         sepayCode={sepayCode}
         isOpen={isOpenSepayModal}
         onCloseModal={handleOnCloseModal}
+        handleCheckPayment={handleCheckPayment}
       />
     </>
   )

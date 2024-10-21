@@ -7,9 +7,9 @@ import { DeleteOutlined, PlusOutlined, PlusSquareOutlined } from '@ant-design/ic
 import { PATH } from '../../../routes/path';
 import 'animate.css';
 import { Controller, useForm } from 'react-hook-form';
-import { showApi } from '../../../apis/show.api';
 import { convertToEmbedUrl } from '../../../utils';
 import { registrationApi } from '../../../apis/registration.api';
+import { varietyApi } from '../../../apis/variety.api';
 
 const RegisterPage = () => {
 
@@ -51,7 +51,7 @@ const RegisterPage = () => {
   // dataListVariety
   const { data: dataListVariety, isLoading: isLoadingVariety } = useQuery({
     queryKey: ["list-variety"],
-    queryFn: () => showApi.getKoiVariety(),
+    queryFn: () => varietyApi.getAllVariety(),
     enabled: !!idKoi,
   });
 

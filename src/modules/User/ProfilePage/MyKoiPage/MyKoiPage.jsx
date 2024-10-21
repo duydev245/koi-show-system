@@ -1,4 +1,4 @@
-import { Alert, Breadcrumb, Button, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
+import { Alert, Breadcrumb, Button, Image, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
 import React, { useState } from 'react'
 import { PATH } from '../../../../routes/path'
 import { koiApi } from '../../../../apis/koi.api';
@@ -7,7 +7,7 @@ import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/ic
 import { useOpenModal } from '../../../../hooks/useOpenModal';
 import AddKoiModal from './AddKoiModal';
 import EditKoiModal from './EditKoiModal';
-import { showApi } from '../../../../apis/show.api';
+import { varietyApi } from '../../../../apis/variety.api';
 
 const MyKoiPage = () => {
 
@@ -32,7 +32,7 @@ const MyKoiPage = () => {
   // dataListVariety
   const { data: dataListVariety, isLoading: isLoadingVariety } = useQuery({
     queryKey: ["list-variety"],
-    queryFn: () => showApi.getKoiVariety(),
+    queryFn: () => varietyApi.getAllVariety(),
   });
 
   // dataKoi
@@ -129,19 +129,19 @@ const MyKoiPage = () => {
     {
       title: "Image",
       key: "koi-image",
-      width: 250,
+      width: 150,
       render: (record) => {
         return isLoadingListKoi ? (
           <Skeleton.Image
             active
-            style={{ width: 200, height: 300 }}
+            className='w-full'
           />
         ) : (
           record.koiImg && (
-            <img
+            <Image
               src={record.koiImg}
               alt={record.koiName}
-              className="w-[200px] rounded-sm object-cover"
+              className="rounded-sm object-cover"
             />
           )
         );

@@ -92,18 +92,21 @@ const ScoreKoi = () => {
                         // reg id
                         {
                             title: "ID",
+                            width: 100,
                             key: "reg-id",
                             dataIndex: "registrationId",
                         },
                         // Koi Name
                         {
                             title: "Name",
+                            width: 250,
                             key: "koi-name",
                             dataIndex: "koiName",
                         },
                         // Status
                         {
                             title: "Status",
+                            width: 150,
                             key: "score-status",
                             dataIndex: "isScored",
                             render: (isScored) => {
@@ -119,6 +122,7 @@ const ScoreKoi = () => {
                         // Action
                         {
                             title: "Action",
+                            width: 250,
                             key: "action",
                             render: (record) => {
                                 return (

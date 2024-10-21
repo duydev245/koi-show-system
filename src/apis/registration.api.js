@@ -79,5 +79,17 @@ export const registrationApi = {
         }
     },
 
+    getCheckIsPaid: async () => {
+        try {
+            const response = await fetcher.get(
+                `/Payment/IsAllMemberRegistrationsPaid`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 
 }

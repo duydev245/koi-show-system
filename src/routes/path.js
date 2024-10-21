@@ -20,8 +20,9 @@ export const PATH = {
 
     // ADMIN LAYOUT 
     ADMIN: "/admin",
+    ADMIN_DASHBOARD: "/admin/dashboard",
     ADMIN_STAFF: "/admin/staff",
-    ADMIN_MEMBER: "/admin/member",
+    ADMIN_VARIETY: "/admin/variety",
     ADMIN_SHOW: "/admin/show",
     ADMIN_ACCOUNT_SETTINGS: "/admin/account-settings",
 
