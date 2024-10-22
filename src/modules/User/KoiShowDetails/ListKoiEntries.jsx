@@ -83,10 +83,15 @@ const ListKoiEntries = ({ showName, showID }) => {
                                     <span className="font-bold">Size:</span>
                                     <span>{reg.size} cm</span>
                                 </Typography>
-                                <Typography className='text-lg grid grid-cols-2'>
-                                    <span className="font-bold">Total Score:</span>
-                                    <span>{reg.totalScore}</span>
-                                </Typography>
+                                {
+                                    reg.totalScore && (
+                                        <Typography className='text-lg grid grid-cols-2'>
+                                            <span className="font-bold">Total Score:</span>
+                                            <span>{reg.totalScore}</span>
+                                        </Typography>
+                                    )
+                                }
+
                             </div>
                             <div>
                                 <button
