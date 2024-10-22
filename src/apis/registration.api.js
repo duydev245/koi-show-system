@@ -37,6 +37,19 @@ export const registrationApi = {
         }
     },
 
+    postVoteReg: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Registration/vote?registrationId=${payload.id}&vote=${payload.status}`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
     getListRegByUser: async (status) => {
         try {
             const response = await fetcher.get(
