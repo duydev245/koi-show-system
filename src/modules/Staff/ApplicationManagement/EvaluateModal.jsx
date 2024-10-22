@@ -19,6 +19,7 @@ const EvaluateModal = (
     }
 ) => {
     const [imgUrls, setImgUrls] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState(null);
 
     const schema = yup.object().shape({
         GroupId: yup.number().required("*Required!").nullable(),
@@ -45,6 +46,7 @@ const EvaluateModal = (
         setValue,
         formState: { errors },
         reset,
+        watch,
     } = useForm({
         defaultValues: {
             GroupId: data?.groupId || "",
@@ -83,13 +85,22 @@ const EvaluateModal = (
 
     }, [data, isOpen, setValue, reset]);
 
+    const watchGroupId = watch("GroupId");
+
+    useEffect(() => {
+        if (dataListGroup && watchGroupId) {
+            const group = dataListGroup.find(group => group.groupId === watchGroupId);
+            setSelectedGroup(group);
+        }
+    }, [dataListGroup, watchGroupId]);
+
     return (
         <>
             <Modal
                 open={isOpen}
                 title={
                     <Typography className="text-2xl font-bold">
-                        Evaluate Registration
+                        Evaluate Registration {data?.id}
                     </Typography>
                 }
                 centered
@@ -97,97 +108,87 @@ const EvaluateModal = (
                 footer={null}
                 width={1000}
             >
-                {/*  onFinish={handleSubmit(onSubmit)} */}
                 <Form className="my-4" onFinish={handleSubmit(onSubmit)} >
                     <Row gutter={[0, 10]}>
-                        {/* reg id */}
-                        <Col span={24} className='flex items-center justify-between'>
-                            <label className="text-lg text-black font-semibold">
-                                Registration ID:
-                            </label>
-                            <Input
-                                readOnly
-                                value={data?.id}
-                                type="text"
-                                size="large"
-                                className="mt-1 w-1/2"
-                            />
-                        </Col>
-                        {/* show name */}
-                        <Col span={24} className='flex items-center justify-between'>
-                            <label className="text-lg text-black font-semibold">
-                                Show Name:
-                            </label>
-                            <Input
-                                readOnly
-                                value={dataShow?.showTitle}
-                                type="text"
-                                size="large"
-                                className="mt-1 w-1/2"
-                            />
-                        </Col>
-                        {/* koi name */}
-                        <Col span={24} className='flex items-center justify-between'>
-                            <label className="text-lg text-black font-semibold">
-                                Koi Name:
-                            </label>
-                            <Input
-                                readOnly
-                                value={data?.name}
-                                type="text"
-                                size="large"
-                                className="mt-1 w-1/2"
-                            />
-                        </Col>
-                        {/* koi variety */}
-                        <Col span={24} className='flex items-center justify-between'>
-                            <label className="text-lg text-black font-semibold">
-                                Koi Variety:
-                            </label>
-                            <Input
-                                readOnly
-                                value={data?.variety}
-                                type="text"
-                                size="large"
-                                className="mt-1 w-1/2"
-                            />
+                        {/* reg infor */}
+                        <Col span={12} className='text-lg text-black'>
+                            {/* koi name */}
+                            <p><span className="font-semibold">Koi Name:</span> {data?.name}</p>
+                            {/* koi size */}
+                            <p><span className="font-semibold">Koi Size:</span> {data?.size} cm</p>
+                            {/* koi variety */}
+                            <p><span className="font-semibold">Koi Variety:</span> {data?.variety}</p>
+
+                            {/* show group */}
+                            <div className='flex flex-col items-start justify-start'>
+                                <label className="text-lg text-black font-semibold">
+                                    <span className="text-red-600">* </span>
+                                    Show Group:
+                                    {errors?.GroupId && (
+                                        <span className="mt-1 text-base text-red-500">
+                                            {" "}
+                                            {errors.GroupId.message}
+                                        </span>
+                                    )}
+                                </label>
+                                <Controller
+                                    name="GroupId"
+                                    control={control}
+                                    render={({ field }) => {
+                                        return (
+                                            <Select
+                                                {...field}
+                                                size="large"
+                                                className="mt-1 w-4/5"
+                                                placeholder="Please select the group..."
+                                                status={errors.GroupId ? "error" : ""}
+                                                loading={isLoading}
+                                                options={
+                                                    dataListGroup?.map(group => ({
+                                                        label: group.groupName,
+                                                        value: group.groupId,
+                                                    })) || []
+                                                }
+                                                onChange={(value) => {
+                                                    field.onChange(value);
+                                                    // const selected = dataListGroup.find(group => group.groupId === value);
+                                                    // setSelectedGroup(selected);
+                                                }}
+                                            />
+
+                                        );
+                                    }}
+                                />
+                            </div>
+
                         </Col>
 
-                        {/* show group */}
-                        <Col span={24} className='flex items-center justify-between'>
-                            <label className="text-lg text-black font-semibold">
-                                <span className="text-red-600">* </span>
-                                Show Group:
-                                {errors?.GroupId && (
-                                    <span className="mt-1 text-base text-red-500">
-                                        {" "}
-                                        {errors.GroupId.message}
-                                    </span>
-                                )}
-                            </label>
-                            <Controller
-                                name="GroupId"
-                                control={control}
-                                render={({ field }) => {
-                                    return (
-                                        <Select
-                                            {...field}
-                                            size="large"
-                                            className="mt-1 w-1/2"
-                                            placeholder="Please select the group..."
-                                            status={errors.GroupId ? "error" : ""}
-                                            loading={isLoading}
-                                            options={
-                                                dataListGroup?.map(group => ({
-                                                    label: group.groupName,
-                                                    value: group.groupId,
-                                                })) || []
-                                            }
-                                        />
-
-                                    );
-                                }}
-                            />
+                        {/* show infor */}
+                        <Col span={12} className='text-lg text-black'>
+                            {/* show name */}
+                            <p><span className="font-semibold">Show:</span> {dataShow?.showTitle}</p>
+                            {/* Show standard */}
+                            <div>
+                                <span className="font-semibold">Show standard:</span>
+                                <ul style={{ listStyleType: 'disc' }} className="ps-7">
+                                    <li>
+                                        <p><span className="font-semibold">Size min:</span> {selectedGroup?.sizeMin} cm</p>
+                                    </li>
+                                    <li>
+                                        <p><span className="font-semibold">Size max:</span> {selectedGroup?.sizeMax} cm</p>
+                                    </li>
+                                    <li>
+                                        <p className="font-semibold">Koi Varieties:</p>
+                                        <ul style={{ listStyleType: 'circle' }} className="ps-3">
+                                            {selectedGroup && selectedGroup?.varieties?.map((item) => (
+                                                <li key={item.varietyId}>
+                                                    <p>{item.varietyName}</p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </Col>
 
                         {/* koi images */}
