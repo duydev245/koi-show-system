@@ -140,4 +140,16 @@ export const registrationApi = {
         }
     },
 
+    deleteDrafeReg: async (id) => {
+        try {
+            const response = await fetcher.delete(
+                `/Registration/delete-draft-registration?registrationId=${id}`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

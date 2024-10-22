@@ -34,7 +34,7 @@ const RegDetails = () => {
         }
     }, [regDetails]);
 
-    // update info api
+    // handleVote
     const { mutate: handleVote } = useMutation({
         mutationFn: (payload) => registrationApi.postVoteReg(payload),
         onSuccess: (data) => {

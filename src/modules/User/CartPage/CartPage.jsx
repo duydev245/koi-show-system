@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react'
 import dayjs from "dayjs";
 import { Alert, Button, message, Popconfirm, Table, Tag, Typography } from 'antd';
@@ -13,14 +13,40 @@ import SepayModal from './SepayModal';
 const CartPage = () => {
 
   const [sepayCode, setSepayCode] = useState('');
+
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { isOpen: isOpenSepayModal, openModal: openSepayModal, closeModal: closeSepayModal } = useOpenModal();
 
   // dataSourceDraft
   const { data: dataSourceDraft, isLoading } = useQuery({
     queryKey: ["list-draft"],
     queryFn: () => registrationApi.getListRegByUser('draft'),
+  });
+
+  // handleDeleteApi
+  const { mutate: handleDeleteApi, isPending } = useMutation({
+    mutationFn: (id) => registrationApi.deleteDrafeReg(id),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Delete successfully",
+        type: "success",
+        duration: 3,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["list-draft"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
   });
 
   // check isPaid
@@ -34,7 +60,7 @@ const CartPage = () => {
           duration: 3,
         });
         handleOnCloseModal();
-        navigate(PATH.HOME); 
+        navigate(PATH.HOME);
       }
     },
     // onError: (error) => {
@@ -70,19 +96,7 @@ const CartPage = () => {
         return <Typography>{dayjs(date).format('DD/MM/YYYY')}</Typography>;
       },
     },
-    // // Show name
-    // {
-    //   title: "Show name",
-    //   key: "show-name",
-    //   dataIndex: "show",
-    //   render: (_, record) => {
-    //     return (
-    //       <a href={`/show-details/${record.showId}`}>
-    //         {record.show}
-    //       </a>
-    //     );
-    //   },
-    // },
+    // Price
     {
       title: "Price",
       key: "fee",
@@ -95,35 +109,36 @@ const CartPage = () => {
         );
       },
     },
-    // {
-    //   title: "Action",
-    //   key: "action",
-    //   render: (_, record) => {
-    //     return (
-    //       <Popconfirm
-    //         title="Delete Registration"
-    //         description="Are you sure to delete this registration?"
-    //         onConfirm={() => {
-    //           alert(record.id)
-    //         }}
-    //         onCancel={() => { }}
-    //         placement="top"
-    //         okText="Yes"
-    //         cancelText="No"
-    //       >
-    //         <Button
-    //           type="primary"
-    //           danger
-    //           className="mr-2"
-    //           loading={false}
-    //         >
-    //           <DeleteOutlined />
-    //         </Button>
-    //       </Popconfirm>
+    // Action
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => {
+        return (
+          <Popconfirm
+            title="Delete Registration"
+            description="Are you sure to delete this registration?"
+            onConfirm={() => {
+              handleDeleteApi(record.id)
+            }}
+            onCancel={() => { }}
+            placement="top"
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              type="primary"
+              danger
+              className="mr-2"
+              loading={isPending}
+            >
+              <DeleteOutlined />
+            </Button>
+          </Popconfirm>
 
-    //     );
-    //   },
-    // },
+        );
+      },
+    },
   ];
 
   const dataSource = dataSourceDraft || [];

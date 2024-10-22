@@ -15,9 +15,8 @@ const SepayModal = ({
         if (isOpen) {
             const checkPayment = () => {
                 const desParam = sepayCode ? sepayCode.split('&des=')[1] : null;
-                console.log("🚀 ~ checkPayment ~ desParam:", desParam)
                 handleCheckPayment(desParam); 
-                intervalId = setTimeout(checkPayment, 20000);
+                intervalId = setTimeout(checkPayment, 30000); // 30s
             };
 
             checkPayment(); // Start polling when modal opens
