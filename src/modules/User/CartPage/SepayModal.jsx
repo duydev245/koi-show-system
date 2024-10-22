@@ -14,15 +14,16 @@ const SepayModal = ({
 
         if (isOpen) {
             const checkPayment = () => {
-                handleCheckPayment(); // Call the API to check payment status
-                intervalId = setTimeout(checkPayment, 2000); // Poll every 2 seconds
+                const desParam = sepayCode ? sepayCode.split('&des=')[1] : null;
+                console.log("🚀 ~ checkPayment ~ desParam:", desParam)
+                handleCheckPayment(desParam); 
+                intervalId = setTimeout(checkPayment, 20000);
             };
 
             checkPayment(); // Start polling when modal opens
         }
 
         return () => {
-            // Clear timeout when modal closes to stop polling
             if (intervalId) clearTimeout(intervalId);
         };
     }, [isOpen, handleCheckPayment]);

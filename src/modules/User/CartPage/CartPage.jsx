@@ -25,7 +25,7 @@ const CartPage = () => {
 
   // check isPaid
   const { mutate: handleCheckPayment } = useMutation({
-    mutationFn: () => registrationApi.getCheckIsPaid(),
+    mutationFn: (payload) => registrationApi.getCheckIsPaid(payload),
     onSuccess: (data) => {
       if (data?.payload === true) {
         messageApi.open({
@@ -34,16 +34,16 @@ const CartPage = () => {
           duration: 3,
         });
         handleOnCloseModal();
-        // navigate(PATH.HOME); 
+        navigate(PATH.HOME); 
       }
     },
-    onError: (error) => {
-      messageApi.open({
-        content: error?.message || "Payment failed. Please try again.",
-        type: "error",
-        duration: 3,
-      });
-    },
+    // onError: (error) => {
+    //   messageApi.open({
+    //     content: "Payment failed. Please try again.",
+    //     type: "error",
+    //     duration: 3,
+    //   });
+    // },
   });
 
   const feeKoi = 5000;
@@ -136,10 +136,11 @@ const CartPage = () => {
     const template = "compact";
     const amountPerItem = 5000; // Amount for each item
     const totalAmount = amountPerItem * (dataSource?.length || 0);
-    const description = dataSource?.map(item => item.id).join('%20');
+    const description = `KoiShowReg ${dataSource?.map(item => item.id).join(' ')}`;
+    const encodedDescription = encodeURIComponent(description);
 
     // Construct the final QR code link
-    return `${baseUrl}?bank=${bank}&acc=${acc}&template=${template}&amount=${totalAmount}&des=KoiShowReg%20${description}`;
+    return `${baseUrl}?bank=${bank}&acc=${acc}&template=${template}&amount=${totalAmount}&des=${encodedDescription}`;
   };
 
   const handleOnClick = () => {
@@ -152,7 +153,7 @@ const CartPage = () => {
     } else {
       // https://qr.sepay.vn/img?bank=MBBank&acc=00001205984&template=compact&amount=5000&des=KoiShowReg id id
       const qrLink = generateSepayLink(dataSource);
-      console.log("🚀 ~ handleOnClick ~ qrLink:", qrLink)
+      // console.log("🚀 ~ handleOnClick ~ qrLink:", qrLink)
       setSepayCode(qrLink)
       openSepayModal();
     }
@@ -166,7 +167,7 @@ const CartPage = () => {
   return (
     <>
       {contextHolder}
-      <div className='container mx-auto my-5'>
+      <div className='container mx-auto my-5 min-h-[500px]'>
         <div className='grid grid-cols-1 space-y-4'>
           <div>
             <h1 className="font-bold text-4xl mb-3">Your cart:</h1>

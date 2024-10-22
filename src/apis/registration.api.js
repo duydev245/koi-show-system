@@ -79,10 +79,10 @@ export const registrationApi = {
         }
     },
 
-    getCheckIsPaid: async () => {
+    getCheckIsPaid: async (payload) => {
         try {
             const response = await fetcher.get(
-                `/Payment/IsAllMemberRegistrationsPaid`
+                `/Payment/IsAllMemberRegistrationsPaid?content=${payload}`
             );
 
             return response.data;

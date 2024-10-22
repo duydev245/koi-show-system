@@ -71,10 +71,22 @@ const ListKoiEntries = ({ showName, showID }) => {
                                     {(reg.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='3x' />)}
                                 </div>
 
-                                <Typography className='text-lg'><span className="font-bold">Registration ID:</span> {reg.id}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Show group:</span> {reg.group}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Variety:</span> {reg.variety}</Typography>
-                                <Typography className='text-lg'><span className="font-bold">Size:</span> {reg.size} cm</Typography>
+                                <Typography className='text-lg grid grid-cols-2'>
+                                    <span className="font-bold">Show group:</span>
+                                    <span>{reg.group}</span>
+                                </Typography>
+                                <Typography className='text-lg grid grid-cols-2'>
+                                    <span className="font-bold">Variety:</span>
+                                    <span>{reg.variety}</span>
+                                </Typography>
+                                <Typography className='text-lg grid grid-cols-2'>
+                                    <span className="font-bold">Size:</span>
+                                    <span>{reg.size} cm</span>
+                                </Typography>
+                                <Typography className='text-lg grid grid-cols-2'>
+                                    <span className="font-bold">Total Score:</span>
+                                    <span>{reg.totalScore}</span>
+                                </Typography>
                             </div>
                             <div>
                                 <button

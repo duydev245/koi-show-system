@@ -97,17 +97,17 @@ const MyAccSettings = () => {
                 hoverable
                 className='block h-fit'
             >
-                <div className="space-y-3">
+                <div className="flex flex-col items-center justify-center">
                     <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" />
-                </div>
-                
-                <div className="space-y-4">
-                    <h1 className="font-bold text-4xl text-black">General Information:</h1>
 
                     <div className="flex justify-start items-center gap-3">
                         <img className="w-6" alt="" src="https://cdn-icons-png.flaticon.com/512/5972/5972778.png" />
                         <p className="font-bold text-xl">Email Verified</p>
                     </div>
+                </div>
+
+                <div className="space-y-4">
+                    <h1 className="font-bold text-4xl text-black">General Information:</h1>
 
                     <div className='space-y-1'>
                         <button onClick={openInfoModal} className="w-auto underline font-bold text-base block">Edit profile</button>

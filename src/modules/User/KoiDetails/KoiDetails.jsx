@@ -87,7 +87,7 @@ const KoiDetails = () => {
                                     <p className='font-bold mb-2'>KOI Name: </p>
                                     <p>{koiDetails?.koiName}</p>
                                 </div>
-                                
+
                                 <div className='mb-4'>
                                     <p className='font-bold mb-2'>Show Group: </p>
                                     <p>{koiDetails?.groupName || 'N/A'}</p>
@@ -114,20 +114,12 @@ const KoiDetails = () => {
 
                                 <div>
                                     {/* <p className='font-bold mb-2'>Vote for us: </p> */}
-                                    <Popconfirm
-                                        title={`Are you sure to ${vote} this koi?`}
-                                        onConfirm={handleVote}
-                                        onCancel={() => { }}
-                                        placement=""
-                                        okText="Yes"
-                                        cancelText="No"
+                                    <button
+                                        onClick={handleVote}
+                                        className='btnAddKoi text-xl w-full font-bold py-3 rounded-xl bg-green-500 hover:bg-green-700 hover:text-white duration-300'
                                     >
-                                        <button
-                                            className='btnAddKoi text-xl w-full font-bold py-3 rounded-xl bg-green-500 hover:bg-green-700 hover:text-white duration-300'
-                                        >
-                                            {vote}
-                                        </button>
-                                    </Popconfirm>
+                                        {vote}
+                                    </button>
                                 </div>
 
                             </div>

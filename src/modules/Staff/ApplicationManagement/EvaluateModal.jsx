@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { groupApi } from '../../../apis/group.api';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { showApi } from '../../../apis/show.api';
 
 const EvaluateModal = (
     {
@@ -22,6 +23,13 @@ const EvaluateModal = (
     const schema = yup.object().shape({
         GroupId: yup.number().required("*Required!").nullable(),
         Note: yup.string().trim().required("*Note is required!"),
+    });
+
+    // dataShow
+    const { data: dataShow } = useQuery({
+        queryKey: ["data-show", data?.showId],
+        queryFn: () => showApi.getShowDetails(data?.showId),
+        enabled: !!data?.showId,
     });
 
     // dataListGroup
@@ -105,6 +113,19 @@ const EvaluateModal = (
                                 className="mt-1 w-1/2"
                             />
                         </Col>
+                        {/* show name */}
+                        <Col span={24} className='flex items-center justify-between'>
+                            <label className="text-lg text-black font-semibold">
+                                Show Name:
+                            </label>
+                            <Input
+                                readOnly
+                                value={dataShow?.showTitle}
+                                type="text"
+                                size="large"
+                                className="mt-1 w-1/2"
+                            />
+                        </Col>
                         {/* koi name */}
                         <Col span={24} className='flex items-center justify-between'>
                             <label className="text-lg text-black font-semibold">
@@ -132,7 +153,7 @@ const EvaluateModal = (
                             />
                         </Col>
 
-                        {/* koi group */}
+                        {/* show group */}
                         <Col span={24} className='flex items-center justify-between'>
                             <label className="text-lg text-black font-semibold">
                                 <span className="text-red-600">* </span>
@@ -267,26 +288,18 @@ const EvaluateModal = (
                                 </Button>
                             </Popconfirm>
 
-                            <Popconfirm
-                                title="Notification"
-                                description="Are you sure you want to approve this registration?"
-                                onConfirm={handleSubmit((values) => {
+
+                            <Button
+                                loading={isPending}
+                                onClick={handleSubmit((values) => {
                                     onSubmit(values, 'Accepted');
                                 })}
-                                onCancel={() => { }}
-                                placement="top"
-                                okText="Yes"
-                                cancelText="No"
+                                size="large"
+                                type="primary"
+                                className="ml-3"
                             >
-                                <Button
-                                    loading={isPending}
-                                    size="large"
-                                    type="primary"
-                                    className="ml-3"
-                                >
-                                    Approve
-                                </Button>
-                            </Popconfirm>
+                                Approve
+                            </Button>
 
                         </Col>
                     </Row>

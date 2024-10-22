@@ -6,12 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
 import { ScoringShow } from '../../../components/ScoringShow';
+import dayjs from "dayjs";
 
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
 
     let showStatus = currentShow?.showStatus.toLowerCase();
     let groupShow = currentShow?.showGroups;
+    let openForm = dayjs(currentShow?.registrationStartDate).format("DD/MM");
+    let closeForm = dayjs(currentShow?.registrationCloseDate).format("DD/MM");
 
     const navigate = useNavigate();
 
@@ -43,14 +46,25 @@ const CurrentShow = ({ currentShow }) => {
                         <Col span={12} className='pe-2'>
 
                             <div className='text-lg'>
-                                <h4 className='text-2xl font-bold mb-2'>About:</h4>
-                                {(currentShow?.showDesc) ?
-                                    (
-                                        currentShow?.showDesc
-                                    ) : (
-                                        <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
-                                    )
-                                }
+                                <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
+                                    <li className='mb-2'>
+                                        <h4 className='text-2xl font-bold mb-2'>About:</h4>
+                                        {(currentShow?.showDesc) ?
+                                            (
+                                                currentShow?.showDesc
+                                            ) : (
+                                                <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
+                                            )
+                                        }
+                                    </li>
+                                    <li className='mb-2'>
+                                        <p className='text-2xl font-bold'>{openForm}: Registration Opens</p>
+                                    </li>
+                                    <li className='mb-2'>
+                                        <p className='text-2xl font-bold'>{closeForm}: Registration Closes</p>
+                                    </li>
+                                </ul>
+
                             </div>
                         </Col>
                         <Col span={12} className='ps-2'>
@@ -67,10 +81,10 @@ const CurrentShow = ({ currentShow }) => {
                                                 <li key={group?.groupId} className='mb-2'>
                                                     <p>{group?.groupName}</p>
                                                     <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-                                                        {group?.kois.map((koi) => (
-                                                            <li key={koi?.koiId} className='mb-1'>
+                                                        {group?.registrations.map((koi) => (
+                                                            <li key={koi?.id} className='mb-1'>
                                                                 <div className='flex items-center justify-start'>
-                                                                    <p>Rank {koi?.rank}: {koi?.koiName}</p>
+                                                                    <p>Rank {koi?.rank}: {koi?.name}</p>
                                                                     {(koi?.isBestVote)
                                                                         && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
                                                                     }
