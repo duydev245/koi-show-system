@@ -3,11 +3,12 @@ import React, { useState } from 'react'
 import { PATH } from '../../../../routes/path'
 import { koiApi } from '../../../../apis/koi.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { AuditOutlined, DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { useOpenModal } from '../../../../hooks/useOpenModal';
 import AddKoiModal from './AddKoiModal';
 import EditKoiModal from './EditKoiModal';
 import { varietyApi } from '../../../../apis/variety.api';
+import KoiAchieveModal from './KoiAchieveModal';
 
 const MyKoiPage = () => {
 
@@ -17,9 +18,15 @@ const MyKoiPage = () => {
 
   const { isOpen: isOpenAddModal, openModal: openAddModal, closeModal: closeAddModal } = useOpenModal();
   const { isOpen: isOpenEditModal, openModal: openEditModal, closeModal: closeEditModal } = useOpenModal();
+  const { isOpen: isOpenAchieveModal, openModal: openAchieveModal, closeModal: closeAchieveModal } = useOpenModal();
 
   const handleCloseEditModal = () => {
     closeEditModal();
+    setIdEdit(undefined);
+  }
+
+  const handleCloseAchieveModal = () => {
+    closeAchieveModal();
     setIdEdit(undefined);
   }
 
@@ -192,6 +199,18 @@ const MyKoiPage = () => {
         return (
           <div className='flex items-center justify-center'>
             <Button
+              type="default"
+              className="mr-2"
+              onClick={() => {
+                setIdEdit(record.koiID);
+                openAchieveModal();
+              }}
+              loading={false}
+            >
+              <AuditOutlined />
+            </Button>
+
+            <Button
               type="primary"
               className="mr-2"
               onClick={() => {
@@ -293,6 +312,15 @@ const MyKoiPage = () => {
         dataListVariety={dataListVariety}
         isLoadingVariety={isLoadingVariety}
       />
+
+      <KoiAchieveModal
+        key={'view-achievement'}
+        data={dataKoi}
+        isOpen={isOpenAchieveModal}
+        onCloseModal={handleCloseAchieveModal}
+        isLoading={isLoadingKoi}
+      />
+
     </>
   )
 }
