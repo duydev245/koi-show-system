@@ -6,6 +6,7 @@ import { showApi } from '../../../apis/show.api';
 import { CheckCircleOutlined, ClockCircleOutlined, DeleteOutlined, EditOutlined, HourglassOutlined, MinusCircleOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import AddShowModal from './AddShowModal';
+import { useNavigate } from 'react-router-dom';
 
 const renderShowStatus = (status) => {
     const lowerStatus = status.toLowerCase();
@@ -48,6 +49,8 @@ const ShowManagement = () => {
 
     const queryClient = useQueryClient();
     const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate();
+
     const { isOpen: isOpenAddShowModal, openModal: openAddShowModal, closeModal: closeAddShowModal } = useOpenModal();
 
     // dataListShow
@@ -170,45 +173,92 @@ const ShowManagement = () => {
 
                 return (
                     <div className="flex">
-                        <Button
-                            type="default"
-                            className="mr-2"
-                            onClick={() => {
-                                alert(`View show: ${record.showId}`);
-                            }}
-                            loading={false}
-                        >
-                            View
-                        </Button>
-
-                        {status === "scoring" && (
-                            <Button
-                                type="primary"
-                                className="mr-2"
-                                onClick={() => {
-                                    alert(`Score show: ${record.showId}`);
-                                }}
-                            >
-                                Score
-                            </Button>
-                        )}
 
                         {status === "up comming" && (
-                            <Popconfirm
-                                title="Delete show"
-                                description="Are you sure to delete this?"
-                                onConfirm={() => {
-                                    alert(`Delete show: ${record.showId}`);
-                                }}
-                                onCancel={() => { }}
-                                placement="top"
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button type="primary" danger disabled={false}>
-                                    <DeleteOutlined />
+                            <>
+                                <Button
+                                    type="default"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        navigate(PATH.ADMIN_UPCOMING_SHOW, { state: { showId: record.showId } })
+                                    }}
+                                    loading={false}
+                                >
+                                    View
                                 </Button>
-                            </Popconfirm>
+
+                                <Popconfirm
+                                    title="Delete show"
+                                    description="Are you sure to delete this?"
+                                    onConfirm={() => {
+                                        alert(`Delete show: ${record.showId}`);
+                                    }}
+                                    onCancel={() => { }}
+                                    placement="top"
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <Button type="primary" danger disabled={false}>
+                                        <DeleteOutlined />
+                                    </Button>
+                                </Popconfirm>
+                            </>
+                        )}
+
+                        {status === "on going" && (
+                            <>
+                                <Button
+                                    type="default"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        // alert(`View show: ${record.showId}`);
+                                        navigate(PATH.ADMIN_ONGOING_SHOW, { state: { showId: record.showId } })
+                                    }}
+                                    loading={false}
+                                >
+                                    View
+                                </Button>
+                            </>
+                        )}
+
+                        {status === "scoring" && (
+                            <>
+                                <Button
+                                    type="default"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        alert(`View show: ${record.showId}`);
+                                    }}
+                                    loading={false}
+                                >
+                                    View
+                                </Button>
+
+                                <Button
+                                    type="primary"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        alert(`Score show: ${record.showId}`);
+                                    }}
+                                >
+                                    Score
+                                </Button>
+                            </>
+                        )}
+
+                        {status === "finished" && (
+                            <>
+                                <Button
+                                    type="default"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        alert(`View show: ${record.showId}`);
+                                    }}
+                                    loading={false}
+                                >
+                                    View
+                                </Button>
+                            </>
                         )}
 
                     </div>

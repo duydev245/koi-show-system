@@ -8,7 +8,12 @@ import {
     HomeOutlined,
     SettingOutlined,
     BarChartOutlined,
-    ProductOutlined
+    ProductOutlined,
+    ClockCircleOutlined,
+    CheckCircleOutlined,
+    HourglassOutlined,
+    MinusCircleOutlined,
+    UnorderedListOutlined
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { useDispatch } from 'react-redux';
@@ -59,7 +64,7 @@ const AdminLayout = ({ children }) => {
                             <Menu
                                 theme="dark"
                                 mode="inline"
-                                defaultSelectedKeys={[location.pathname]}
+                                selectedKeys={[location.pathname]}
                                 onSelect={(item) => {
                                     navigate(item.key);
                                 }}
@@ -70,14 +75,41 @@ const AdminLayout = ({ children }) => {
                                         label: "Dashboard & Statistics",
                                     },
                                     {
+                                        key: PATH.ADMIN_STAFF,
+                                        icon: <UserOutlined />,
+                                        label: "Staff Management",
+                                    },
+                                    {
                                         key: PATH.ADMIN_SHOW,
                                         icon: <CalendarOutlined />,
                                         label: "Show Management",
                                     },
                                     {
-                                        key: PATH.ADMIN_STAFF,
-                                        icon: <UserOutlined />,
-                                        label: "Staff Management",
+                                        key: 'List-Type-Show',
+                                        icon: <UnorderedListOutlined />,
+                                        label: "List Type Show",
+                                        children: [
+                                            {
+                                                key: PATH.ADMIN_UPCOMING_SHOW,
+                                                icon: <ClockCircleOutlined />,
+                                                label: "Upcoming Show",
+                                            },
+                                            {
+                                                key: PATH.ADMIN_ONGOING_SHOW,
+                                                icon: <CheckCircleOutlined />,
+                                                label: "Ongoing Show",
+                                            },
+                                            {
+                                                key: PATH.ADMIN_SCORING_SHOW,
+                                                icon: <HourglassOutlined />,
+                                                label: "Scoring Show",
+                                            },
+                                            {
+                                                key: PATH.ADMIN_FINISHED_SHOW,
+                                                icon: <MinusCircleOutlined />,
+                                                label: "Finished Show",
+                                            },
+                                        ],
                                     },
                                     {
                                         key: PATH.ADMIN_VARIETY,

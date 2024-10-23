@@ -30,6 +30,10 @@ import { ScoreKoi } from '../modules/Referee/ScoreKoi'
 import { DashBoardAdmin } from '../modules/Admin/DashBoardAdmin'
 import { VarietyManangement } from '../modules/Admin/VarietyManangement'
 import { AccountStaff } from '../modules/Staff/AccountStaff'
+import { UpcomingAdminShow } from '../modules/Admin/ShowManagement/UpcomingAdminShow'
+import { OngoingAdminShow } from '../modules/Admin/ShowManagement/OngoingAdminShow'
+import { ScoringAdminShow } from '../modules/Admin/ShowManagement/ScoringAdminShow'
+import { FinishedAdminShow } from '../modules/Admin/ShowManagement/FinishedAdminShow'
 
 // Authen
 const RejectedRouter = () => {
@@ -300,6 +304,38 @@ const useRouteElement = () => {
                     element: (
                         <AdminLayout>
                             <ShowManagement />
+                        </AdminLayout>
+                    )
+                },
+                {
+                    path: PATH.ADMIN_UPCOMING_SHOW,
+                    element: (
+                        <AdminLayout>
+                            <UpcomingAdminShow />
+                        </AdminLayout>
+                    )
+                },
+                {
+                    path: PATH.ADMIN_ONGOING_SHOW,
+                    element: (
+                        <AdminLayout>
+                            <OngoingAdminShow />
+                        </AdminLayout>
+                    )
+                },
+                {
+                    path: PATH.ADMIN_SCORING_SHOW,
+                    element: (
+                        <AdminLayout>
+                            <ScoringAdminShow />
+                        </AdminLayout>
+                    )
+                },
+                {
+                    path: PATH.ADMIN_FINISHED_SHOW,
+                    element: (
+                        <AdminLayout>
+                            <FinishedAdminShow />
                         </AdminLayout>
                     )
                 },

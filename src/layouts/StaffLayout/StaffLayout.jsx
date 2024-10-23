@@ -50,7 +50,7 @@ const StaffLayout = ({ children }) => {
                             <Menu
                                 theme="dark"
                                 mode="inline"
-                                defaultSelectedKeys={[location.pathname]}
+                                selectedKeys={[location.pathname]}
                                 onSelect={(item) => {
                                     navigate(item.key);
                                 }}

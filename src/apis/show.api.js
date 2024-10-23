@@ -76,7 +76,23 @@ export const showApi = {
     postAddShow: async (payload) => {
         try {
             const response = await fetcher.post(
-                `/Show/create-show`, payload, {
+                `/Show/update-show`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    postEditShow: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Show/update-show`, payload, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

@@ -18,12 +18,13 @@ const disabledDate = (current) => {
     return current && current < dayjs().endOf('day');
 };
 
-const AddShowModal = (
+const EditShowModal = (
     {
+        data,
         isOpen,
         onCloseModal,
         isPending,
-        handleAddShowApi,
+        handleEditShowApi,
     }
 ) => {
 
@@ -55,17 +56,6 @@ const AddShowModal = (
                 const wordCount = value.split(/\s+/).filter(Boolean).length;
                 return wordCount >= 10;
             }),
-        banner: yup
-            .mixed()
-            .required("*Image is required!")
-            .test("fileSize", "*File is too large! (max 1 MB)", (value) => {
-                return value && value.size <= 1 * 1024 * 1024;
-            })
-            .test("fileFormat", "*Unsupported file format", (value) => {
-                if (!value) return false; // Skip validation if no file is selected
-                const acceptedFormats = ['image/jpeg', 'image/png']; // Accept JPG, PNG
-                return acceptedFormats.includes(value.type); // Check MIME type
-            }),
     });
 
     const {
@@ -76,9 +66,9 @@ const AddShowModal = (
         reset,
     } = useForm({
         defaultValues: {
-            title: "",
-            entranceFee: "",
-            description: "",
+            title: data?.showTitle || "",
+            entranceFee: data?.entranceFee || "",
+            description: data?.showDesc || "",
 
             registerStartDate: null,
             registerEndDate: null,
@@ -182,34 +172,88 @@ const AddShowModal = (
         if (!isRegistrationTimeValid || !isScoreTimeValid || !noOverlap) return;
 
         const payload = new FormData();
+        let hasChanges = false;
 
-        payload.append("Title", values.title);
-        payload.append("EntranceFee", values.entranceFee);
-        payload.append("Description", values.description);
+        // Append only changed values
+        if (values.title !== data?.showTitle) {
+            payload.append("Title", values.title);
+            hasChanges = true;
+        }
+        if (values.entranceFee !== data?.entranceFee) {
+            payload.append("EntranceFee", values.entranceFee);
+            hasChanges = true;
+        }
+        if (values.description !== data?.showDesc) {
+            payload.append("Description", values.description);
+            hasChanges = true;
+        }
+        if (values.banner && values.banner !== undefined) {
+            payload.append("Banner", values.banner);
+            hasChanges = true;
+        }
 
-        payload.append("RegisterStartDate", dayjs(registrationTime[0]).format('YYYY-MM-DD'));
-        payload.append("RegisterEndDate", dayjs(registrationTime[1]).format('YYYY-MM-DD'));
+        if (
+            registrationTime[0]?.format("YYYY-MM-DD") !== dayjs(data?.registrationStartDate).format("YYYY-MM-DD") ||
+            registrationTime[1]?.format("YYYY-MM-DD") !== dayjs(data?.registrationCloseDate).format("YYYY-MM-DD")
+        ) {
+            payload.append("RegisterStartDate", dayjs(registrationTime[0]).format('YYYY-MM-DD'));
+            payload.append("RegisterEndDate", dayjs(registrationTime[1]).format('YYYY-MM-DD'));
+            hasChanges = true;
+        }
 
-        payload.append("ScoreStartDate", dayjs(scoreTime[0]).format('YYYY-MM-DD'));
-        payload.append("ScoreEndDate", dayjs(scoreTime[1]).format('YYYY-MM-DD'));
+        if (
+            scoreTime[0]?.format("YYYY-MM-DD") !== dayjs(data?.startDate).format("YYYY-MM-DD") ||
+            scoreTime[1]?.format("YYYY-MM-DD") !== dayjs(data?.endDate).format("YYYY-MM-DD")
+        ) {
+            payload.append("ScoreStartDate", dayjs(scoreTime[0]).format('YYYY-MM-DD'));
+            payload.append("ScoreEndDate", dayjs(scoreTime[1]).format('YYYY-MM-DD'));
+            hasChanges = true;
+        }
 
-        payload.append("Banner", values.banner);
-
-        // for (let [key, value] of payload.entries()) {
-        //     console.log(`${key}:`, value);
-        // }
-
-        handleAddShowApi(payload);
+        if (hasChanges) {
+            payload.append("Id", data?.showId);
+            // for (let [key, value] of payload.entries()) {
+            //     console.log(`${key}:`, value);
+            // }
+            handleEditShowApi(payload)
+        } else {
+            messageApi.open({
+                content: "No changes detected, update not required.",
+                type: "warning",
+                duration: 3,
+            });
+        }
     };
 
     useEffect(() => {
-        if (!isOpen) {
+        if (data && isOpen) {
+            setValue("title", data?.showTitle);
+            setValue("description", data?.showDesc);
+            setValue("entranceFee", data?.entranceFee);
+
+            const registrationTemp = [];
+            registrationTemp.push(
+                dayjs(data?.registrationStartDate, "YYYY-MM-DD"),
+                dayjs(data?.registrationCloseDate, "YYYY-MM-DD")
+            );
+            setRegistrationTime(registrationTemp);
+
+            const scoringTemp = [];
+            scoringTemp.push(
+                dayjs(data?.startDate, "YYYY-MM-DD"),
+                dayjs(data?.endDate, "YYYY-MM-DD")
+            );
+            setScoreTime(scoringTemp);
+
+
+            setImageUrl(data?.showBanner);
+        } else if (!isOpen) {
+            reset();
             handleDelete();
             setScoreTime([]);
             setRegistrationTime([])
-            reset();
         }
-    }, [isOpen]);
+    }, [data, isOpen, setValue, reset]);
 
     return (
         <>
@@ -218,7 +262,7 @@ const AddShowModal = (
                 open={isOpen}
                 title={
                     <Typography className="text-xl font-medium">
-                        Add show modal
+                        Edit show modal
                     </Typography>
                 }
                 centered
@@ -450,7 +494,7 @@ const AddShowModal = (
                                 type="primary"
                                 className="ml-3"
                             >
-                                Add Show
+                                Edit Show
                             </Button>
                         </Col>
                     </Row>
@@ -460,4 +504,4 @@ const AddShowModal = (
     )
 }
 
-export default AddShowModal
+export default EditShowModal
