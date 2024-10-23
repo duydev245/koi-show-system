@@ -195,11 +195,11 @@ const AddShowModal = (
 
         payload.append("Banner", values.banner);
 
-        for (let [key, value] of payload.entries()) {
-            console.log(`${key}:`, value);
-        }
+        // for (let [key, value] of payload.entries()) {
+        //     console.log(`${key}:`, value);
+        // }
 
-        // handleAddShowApi(payload);
+        handleAddShowApi(payload);
     };
 
     useEffect(() => {
