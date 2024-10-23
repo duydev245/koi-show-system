@@ -72,7 +72,7 @@ const CartPage = () => {
     // },
   });
 
-  const feeKoi = 5000;
+  const feeKoi = 50000;
 
   const columns = [
     // Registration ID
@@ -149,8 +149,9 @@ const CartPage = () => {
     const bank = "MBBank"; // Bank name
     const acc = "00001205984"; // Account number
     const template = "compact";
-    const amountPerItem = 5000; // Amount for each item
-    const totalAmount = amountPerItem * (dataSource?.length || 0);
+    // const amountPerItem = 50000; // Amount for each item
+    // const totalAmount = amountPerItem * (dataSource?.length || 0);
+    const totalAmount = totalFee;
     const description = `KoiShowReg ${dataSource?.map(item => item.id).join(' ')}`;
     const encodedDescription = encodeURIComponent(description);
 

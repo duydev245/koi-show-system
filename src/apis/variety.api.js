@@ -3,6 +3,19 @@ import fetcher from "./fetcher";
 
 
 export const varietyApi = {
+    getAllVarietyByShow: async (id) => {
+        try {
+            const response = await fetcherNoAuth.get(
+                `/Variety/get-all-show-varieties?showId=${id}`
+            );
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
     getAllVariety: async () => {
         try {
             const response = await fetcherNoAuth.get(

@@ -25,8 +25,9 @@ const KoiShowDetails = () => {
 
   // dataListVariety
   const { data: dataListVariety } = useQuery({
-    queryKey: ["list-variety"],
-    queryFn: () => varietyApi.getAllVariety(),
+    queryKey: ["list-variety", showDetails?.showId],
+    queryFn: () => varietyApi.getAllVarietyByShow(showDetails?.showId),
+    enabled: !!showDetails?.showId
   });
 
   let showID = showDetails?.showId;
@@ -40,6 +41,7 @@ const KoiShowDetails = () => {
   let closeForm = dayjs(showDetails?.registrationCloseDate).format("DD/MM");
   let startDate = dayjs(showDetails?.startDate).format("DD/MM");
   let endDate = dayjs(showDetails?.endDate).format("DD/MM");
+  let entranceFee = showDetails?.entranceFee.toLocaleString();
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -69,12 +71,14 @@ const KoiShowDetails = () => {
           endDate={endDate}
           showReferee={showReferee}
           showGroups={showGroups}
+          showFee={entranceFee}
         />
 
         <ShowRules
           dataListVariety={dataListVariety}
           closeForm={closeForm}
           endDate={endDate}
+          showFee={entranceFee}
         />
 
         <ShowGuide

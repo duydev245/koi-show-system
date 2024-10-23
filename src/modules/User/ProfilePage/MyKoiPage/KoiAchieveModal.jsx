@@ -1,6 +1,6 @@
 import { Alert, Modal, Table, Typography } from 'antd'
 import React from 'react'
-import { render } from 'rsuite/esm/internals/utils';
+import dayjs from "dayjs";
 
 const KoiAchieveModal = (
     {
@@ -28,6 +28,15 @@ const KoiAchieveModal = (
             title: "Show",
             key: "koi-show",
             dataIndex: "show",
+        },
+        // Create date
+        {
+            title: "Month/Year",
+            key: "create_date",
+            dataIndex: "createDate",
+            render: (date) => {
+                return <Typography>{dayjs(date).format('MM/YYYY')}</Typography>;
+            },
         },
         // group
         {
@@ -79,7 +88,7 @@ const KoiAchieveModal = (
                 loading={isLoading}
                 title={
                     <Typography className="text-xl font-medium">
-                        View {data.koiName} achievement
+                        View {data?.koiName} achievement
                     </Typography>
                 }
                 centered

@@ -118,6 +118,9 @@ const EvaluateModal = (
                             <p><span className="font-semibold">Koi Size:</span> {data?.size} cm</p>
                             {/* koi variety */}
                             <p><span className="font-semibold">Koi Variety:</span> {data?.variety}</p>
+                            {/* koi description */}
+                            <p className="font-semibold">Koi Description:</p>
+                            <p>{data?.description}</p>
 
                             {/* show group */}
                             <div className='flex flex-col items-start justify-start'>

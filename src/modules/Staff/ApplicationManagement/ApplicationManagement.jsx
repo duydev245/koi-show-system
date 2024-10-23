@@ -157,7 +157,7 @@ const ApplicationManagement = () => {
   return (
     <>
       {contextHolder}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-2">
         <Breadcrumb
           separator=">"
           items={[
@@ -171,6 +171,8 @@ const ApplicationManagement = () => {
           ]}
         />
       </div>
+
+      <h3 className="font-medium text-3xl mb-3">Evaluate Registration</h3>
 
       <Table
         rowKey="id"

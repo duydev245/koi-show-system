@@ -76,7 +76,7 @@ const ScoringModal = ({
     useEffect(() => {
         if (isOpen) {
             criterions.forEach((criterion, index) => {
-                setValue(`criterions[${index}].score`, criterion.score1); 
+                setValue(`criterions[${index}].score`, criterion.score1);
             });
         } else {
             reset();
@@ -89,7 +89,7 @@ const ScoringModal = ({
                 open={isOpen}
                 title={
                     <Typography className="text-2xl font-bold text-red-600">
-                        Scoring Koi Modal
+                        Scoring Registration {data?.registrationId}
                     </Typography>
                 }
                 centered
@@ -98,19 +98,6 @@ const ScoringModal = ({
                 width={800}
             >
                 <Row gutter={[0, 10]}>
-                    {/* reg id */}
-                    <Col span={24} className='flex items-center justify-between'>
-                        <label className="text-lg text-black font-semibold">
-                            Registration ID:
-                        </label>
-                        <Input
-                            readOnly
-                            value={data?.registrationId}
-                            type="text"
-                            size="large"
-                            className="mt-1 w-1/2"
-                        />
-                    </Col>
                     {/* koi name */}
                     <Col span={24} className='flex items-center justify-between'>
                         <label className="text-lg text-black font-semibold">
@@ -124,6 +111,20 @@ const ScoringModal = ({
                             className="mt-1 w-1/2"
                         />
                     </Col>
+                    {/* reg id */}
+                    <Col span={24} className='flex items-center justify-between'>
+                        <label className="text-lg text-black font-semibold">
+                            Koi Size (cm):
+                        </label>
+                        <Input
+                            readOnly
+                            value={data?.koiSize}
+                            type="text"
+                            size="large"
+                            className="mt-1 w-1/2"
+                        />
+                    </Col>
+
                     {/* koi images */}
                     <Col span={24} className='grid grid-cols-2'>
                         <label className="text-lg text-black font-semibold">
@@ -176,34 +177,40 @@ const ScoringModal = ({
                                 </Col>
 
                                 {criterions && criterions.map((criterion, index) => (
-                                    <Col key={index} span={24} className='flex items-center justify-between'>
-
-                                        <div className='flex flex-col'>
-                                            <label className="text-lg text-black font-semibold">
-                                                {criterion.criterionName} Criteria ({criterion.percentage}%):
-                                            </label>
-                                            {errors?.criterions?.[index]?.score && (
-                                                <span className="text-base text-red-500">
-                                                    {errors.criterions[index].score.message}
-                                                </span>
-                                            )}
-                                        </div>
-
-                                        <Controller
-                                            name={`criterions[${index}].score`}
-                                            control={control}
-                                            render={({ field }) => (
-                                                <>
-                                                    <Input
-                                                        {...field}
-                                                        type="number"
-                                                        size="large"
-                                                        className="mt-1 w-1/2"
-                                                        status={errors?.criterions?.[index]?.score ? 'error' : ''}
+                                    <Col key={index} span={24}>
+                                        <Row>
+                                            <Col span={18}>
+                                                <label className="text-lg text-black font-semibold">
+                                                    Criteria {criterion.criterionName}:
+                                                </label>
+                                                <p className='text-lg'>- Percentage: {criterion.percentage}%</p>
+                                                <p className='text-lg'>- Description: {criterion.description}</p>
+                                            </Col>
+                                            <Col span={6}>
+                                                <div className='flex flex-col'>
+                                                    <Controller
+                                                        name={`criterions[${index}].score`}
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <>
+                                                                <Input
+                                                                    {...field}
+                                                                    type="number"
+                                                                    size="large"
+                                                                    className="mt-1"
+                                                                    status={errors?.criterions?.[index]?.score ? 'error' : ''}
+                                                                />
+                                                            </>
+                                                        )}
                                                     />
-                                                </>
-                                            )}
-                                        />
+                                                    {errors?.criterions?.[index]?.score && (
+                                                        <span className="text-base text-red-500">
+                                                            {errors.criterions[index].score.message}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </Col>
+                                        </Row>
                                     </Col>
                                 ))}
                                 <Col span={24} className="flex justify-end">

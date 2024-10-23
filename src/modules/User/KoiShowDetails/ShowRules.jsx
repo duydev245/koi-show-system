@@ -2,7 +2,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 
-const ShowRules = ({ dataListVariety, closeForm, endDate }) => {
+const ShowRules = ({ dataListVariety, closeForm, endDate, showFee }) => {
     const [dropdownRule, setDropdownRule] = useState(false);
 
     const toggleRule = () => {
@@ -28,10 +28,10 @@ const ShowRules = ({ dataListVariety, closeForm, endDate }) => {
                 <div className='mb-8'>
                     <h4 className='text-4xl font-bold mb-5'>Rules & Regulations:</h4>
                     <ul className='ms-5 text-lg' style={{ listStyleType: 'disc' }}>
-                        <li>Entry fee is $5/Koi. We welcome donations.</li>
-                        <li>Our team will upload your entry for a $10/Koi fee.</li>
+                        <li>Entry fee is {showFee} VND/Koi. We welcome donations.</li>
+                        <li>Our team will upload your entry for a {showFee} VND/Koi fee.</li>
                         <li>This Koi show is open to all Koi lovers including hobbyists and dealers.</li>
-                        <li>The entrants must be from America (North, Central, and South America) to win awards.</li>
+                        <li>The entrants must be from Vietnam (North, Central, and South Vietnam) to win awards.</li>
                         <li>All Koi must be entered by a personal name, not a business name.</li>
                         <li>All entered Koi must be owned by the entrant at the time of registration and the award ceremony.</li>
                         <li>All submitted images and information must be owned by the entrant.</li>

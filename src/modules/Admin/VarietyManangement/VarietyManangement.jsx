@@ -169,7 +169,7 @@ const VarietyManangement = () => {
                 setDataEdit(record);
                 openEditModal();
               }}
-              loading={false}
+              loading={isPendingUpdate}
             >
               <EditOutlined />
             </Button>
@@ -183,7 +183,7 @@ const VarietyManangement = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary" danger disabled={false}>
+              <Button type="primary" danger disabled={isPendingDelete}>
                 <DeleteOutlined />
               </Button>
             </Popconfirm>
@@ -234,7 +234,7 @@ const VarietyManangement = () => {
         </Button>
       </div>
 
-      <h3 className="font-medium text-3xl mb-3">List Variety</h3>
+      <h3 className="font-medium text-3xl mb-3">Manage Variety</h3>
       <Table
         rowKey="varietyId"
         columns={columns}

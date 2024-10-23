@@ -60,4 +60,32 @@ export const showApi = {
             throw Error(error.response.data.message);
         }
     },
+
+    getAllListShow: async () => {
+        try {
+            const response = await fetcherNoAuth.get(
+                `/Show/get-all-show`);
+
+            return response.data?.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    postAddShow: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Show/create-show`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

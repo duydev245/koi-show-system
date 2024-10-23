@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
-const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups }) => {
+const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups, showFee }) => {
     const navigate = useNavigate();
 
     return (
@@ -41,7 +41,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
 
                         <div className='mb-4'>
                             <p className='font-bold mb-2'>Entry Details: </p>
-                            <p>$5 entry fee per koi that you enter into the virtual koi show. Everyone can register for the koi show and upvote their favorite koi.</p>
+                            <p>{showFee} VND entry fee per koi that you enter into the virtual koi show. Everyone can register for the koi show and upvote their favorite koi.</p>
                         </div>
 
                         <div className='mb-4'>
@@ -49,47 +49,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                             <p>Cedar Plaque, Trophy, and Certificate are the top awards There will be many other awards, prizes by our sponsors and even a People’s Choice Award, as voted on by your peers.</p>
                         </div>
 
-                        <div className="mb-4 grid grid-cols-2">
-                            <div>
-                                <p className='font-bold mb-2'>
-                                    {(showStatus === 'finished') ? 'Show Award:' : 'Show Groups:'}
-                                </p>
-                                <ul style={{ listStyleType: 'disc' }} className="ps-7">
-                                    {showGroups?.map((gr) => (
-                                        <li key={gr.groupId}>
-                                            <p>{gr.groupName}</p>
-                                            <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-                                                {(showStatus === 'finished') ?
-                                                    (
-                                                        gr.registrations?.map((koi, index) => (
-                                                            <li key={index} className='mb-1'>
-                                                                <div className='flex items-center justify-start'>
-                                                                    <p>Rank {koi?.rank}: {koi?.name}</p>
-                                                                    {(koi?.isBestVote)
-                                                                        && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
-                                                                    }
-
-                                                                </div>
-                                                            </li>
-                                                        ))
-                                                    ) : (
-                                                        gr.criterion?.map((item, index) => (
-                                                            <li key={index} className='mb-1'>
-                                                                <div className='flex items-center justify-start'>
-                                                                    <p>{item?.criterionName}: {item.percentage}%</p>
-                                                                    
-                                                                </div>
-                                                            </li>
-                                                        ))
-                                                    )
-                                                }
-                                            </ul>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-
+                        <div className="mb-4">
                             <div>
                                 <p className='font-bold mb-2'>Official Judges: </p>
                                 <ul style={{ listStyleType: 'disc' }} className="ps-7">
@@ -102,6 +62,48 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                             </div>
                         </div>
 
+                    </div>
+                </Card>
+
+                <Card hoverable className='p-5'>
+                    <div className='text-xl'>
+                        <p className='font-bold mb-2'>
+                            {(showStatus === 'finished') ? 'Show Award:' : 'Show Groups:'}
+                        </p>
+                        <ul style={{ listStyleType: 'disc' }} className="ps-7">
+                            {showGroups?.map((gr) => (
+                                <li key={gr.groupId}>
+                                    <p>{gr.groupName}</p>
+                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
+                                        {(showStatus === 'finished') ?
+                                            (
+                                                gr.registrations?.map((koi, index) => (
+                                                    <li key={index} className='mb-1'>
+                                                        <div className='flex items-center justify-start'>
+                                                            <p>Rank {koi?.rank}: {koi?.name}</p>
+                                                            {(koi?.isBestVote)
+                                                                && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
+                                                            }
+
+                                                        </div>
+                                                    </li>
+                                                ))
+                                            ) : (
+                                                gr.criterion?.map((item, index) => (
+                                                    <li key={index} className='mb-1'>
+                                                        <div>
+                                                            <p>Criteria {item?.criterionName}:</p>
+                                                            <p>- Percentage: {item.percentage}%</p>
+                                                            <p>- Description: {item?.description}</p>
+                                                        </div>
+                                                    </li>
+                                                ))
+                                            )
+                                        }
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </Card>
             </div>
