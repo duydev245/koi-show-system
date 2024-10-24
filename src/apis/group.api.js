@@ -1,3 +1,4 @@
+import fetcher from "./fetcher";
 import fetcherNoAuth from "./fetcherNoAuth";
 
 export const groupApi = {
@@ -15,5 +16,30 @@ export const groupApi = {
         }
     },
 
+    postAddGroupByShowId: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Group/add-group`, payload
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    deleteGroupByShowId: async (id) => {
+        try {
+            const response = await fetcher.delete(
+                `/Group/delete-group?groupId=${id}`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 
 }

@@ -1,0 +1,183 @@
+const groupVarieties = group?.varieties;
+const columnVarieties = [
+  {
+    title: 'Variety ID',
+    width: 100,
+    key: 'varietyId',
+    dataIndex: 'varietyId',
+  },
+  {
+    title: 'Variety Name',
+    key: 'varietyName',
+    dataIndex: 'varietyName',
+  },
+  {
+    title: 'Actions',
+    width: 150,
+    key: 'actions',
+    render: (text, record) => (
+      <div>
+        {/* Edit button */}
+        <Button
+          size="small"
+          onClick={() => {
+            alert(`Edit variety: ${record.varietyId}`);
+          }}
+        >
+          <EditOutlined />
+        </Button>
+
+        {/* Delete button */}
+        <Popconfirm
+          title="Delete variety"
+          description="Are you sure to delete this variety?"
+          onConfirm={() => {
+            alert(`Delete variety: ${record.varietyId}`);
+          }}
+          onCancel={() => { }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            size="small"
+            danger
+            style={{ marginLeft: 8 }}
+          >
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
+      </div>
+    ),
+  },
+];
+
+const groupCriterions = group?.criterion;
+const columnCriterions = [
+  {
+    title: 'Criterion ID',
+    width: 110,
+    key: 'criterionId',
+    dataIndex: 'criterionId',
+  },
+  {
+    title: 'Criterion Name',
+    width: 200,
+    key: 'criterionName',
+    dataIndex: 'criterionName',
+  },
+  {
+    title: 'Percentage (%)',
+    width: 150,
+    key: 'percentage',
+    dataIndex: 'percentage',
+    render: (percentage) => {
+      return (
+        <Typography>
+          {percentage}%
+        </Typography>
+      )
+    }
+  },
+  {
+    title: 'Description',
+    key: 'description',
+    dataIndex: 'description',
+  },
+  {
+    title: 'Actions',
+    width: 150,
+    key: 'actions',
+    render: (text, record) => (
+      <div>
+        {/* Edit button */}
+        <Button
+          size="small"
+          onClick={() => {
+            alert(`Edit criterion: ${record.criterionId}`);
+            // Logic để sửa criterion
+          }}
+        >
+          <EditOutlined />
+        </Button>
+
+        {/* Delete button */}
+        <Popconfirm
+          title="Delete criterion"
+          description="Are you sure to delete this criterion?"
+          onConfirm={() => {
+            alert(`Delete criterion: ${record.criterionId}`);
+            // Logic để xóa criterion
+          }}
+          onCancel={() => { }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            size="small"
+            danger
+            style={{ marginLeft: 8 }}
+          >
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
+      </div>
+    ),
+  },
+]
+
+
+
+
+<div className='text-lg space-y-3'>
+    <h3 className="font-bold text-xl">{group.groupName}</h3>
+    <p><strong>Group ID:</strong> {group.groupId}</p>
+    <p><strong>Size range:</strong> {group.sizeMin} cm - {group.sizeMax} cm</p>
+    <p><strong>Quantity registration:</strong> {group.quantity_registration}</p>
+
+    {/* Group Varieties */}
+    <div className='flex items-center justify-between'>
+      <p><strong>Varieties:</strong></p>
+
+      <Button
+        type="dashed"
+        onClick={() => {
+          alert('Add new variety');
+          // Logic để thêm variety mới
+        }}
+        style={{ marginTop: '10px' }}
+      >
+        Add Variety
+      </Button>
+    </div>
+
+    <Table
+      rowKey="varietyId"
+      columns={columnVarieties}
+      dataSource={groupVarieties}
+      pagination={false}
+    />
+
+    {/* Group criterions */}
+    <div className='flex items-center justify-between'>
+      <p><strong>Criterions:</strong></p>
+
+      <Button
+        type="dashed"
+        onClick={() => {
+          alert('Add new criterion');
+          // Logic để thêm criterion mới
+        }}
+        style={{ marginTop: '10px' }}
+      >
+        Add Criterion
+      </Button>
+    </div>
+
+    <Table
+      rowKey="criterionId"
+      columns={columnCriterions}
+      dataSource={groupCriterions}
+      pagination={false}
+    />
+
+  </div>

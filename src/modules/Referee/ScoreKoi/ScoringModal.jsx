@@ -172,7 +172,7 @@ const ScoringModal = ({
                             <Row gutter={[0, 10]}>
                                 <Col span={24}>
                                     <Typography className="text-2xl font-bold text-red-600">
-                                        Scoring (0-100/Criteria)
+                                        Scoring (0-100/Criterion)
                                     </Typography>
                                 </Col>
 
@@ -181,7 +181,7 @@ const ScoringModal = ({
                                         <Row>
                                             <Col span={18}>
                                                 <label className="text-lg text-black font-semibold">
-                                                    Criteria {criterion.criterionName}:
+                                                    Criterion {criterion.criterionName}:
                                                 </label>
                                                 <p className='text-lg'>- Percentage: {criterion.percentage}%</p>
                                                 <p className='text-lg'>- Description: {criterion.description}</p>
