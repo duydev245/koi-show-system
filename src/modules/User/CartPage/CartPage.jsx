@@ -55,12 +55,14 @@ const CartPage = () => {
     onSuccess: (data) => {
       if (data?.payload === true) {
         messageApi.open({
-          content: data?.message || "Payment successfully completed!",
+          content: "Payment successfully completed!",
           type: "success",
           duration: 3,
         });
-        handleOnCloseModal();
-        navigate(PATH.HOME);
+        setTimeout(() => {
+          handleOnCloseModal();
+          navigate(PATH.HOME);
+        }, 1500)
       }
     },
     // onError: (error) => {
@@ -71,8 +73,6 @@ const CartPage = () => {
     //   });
     // },
   });
-
-  const feeKoi = 50000;
 
   const columns = [
     // Registration ID
@@ -100,10 +100,11 @@ const CartPage = () => {
     {
       title: "Price",
       key: "fee",
-      render: () => {
+      dataIndex: "entranceFee",
+      render: (entranceFee) => {
         return (
           <Typography className='flex justify-between items-center'>
-            <span>{feeKoi.toLocaleString()}</span>
+            <span>{entranceFee.toLocaleString()}</span>
             <span>VND</span>
           </Typography>
         );
@@ -142,15 +143,13 @@ const CartPage = () => {
   ];
 
   const dataSource = dataSourceDraft || [];
-  const totalFee = dataSource.reduce((acc, item) => acc + feeKoi, 0);
+  const totalFee = dataSource.reduce((acc, item) => acc + item.entranceFee, 0);
 
   const generateSepayLink = (dataSource) => {
     const baseUrl = "https://qr.sepay.vn/img";
     const bank = "MBBank"; // Bank name
     const acc = "00001205984"; // Account number
     const template = "compact";
-    // const amountPerItem = 50000; // Amount for each item
-    // const totalAmount = amountPerItem * (dataSource?.length || 0);
     const totalAmount = totalFee;
     const description = `KoiShowReg ${dataSource?.map(item => item.id).join(' ')}`;
     const encodedDescription = encodeURIComponent(description);

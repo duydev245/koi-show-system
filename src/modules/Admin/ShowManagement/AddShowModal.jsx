@@ -43,7 +43,7 @@ const AddShowModal = (
         entranceFee: yup
             .number()
             .typeError('*Entrance Fee must be number!')
-            .min(50000, '*Entrance Fee must be 50k VND at least!')
+            .min(50000, '*Entrance Fee must be 50.000 VND at least!')
             .required("*Entrance Fee is required!")
             .nullable(),
         description: yup
@@ -271,11 +271,16 @@ const AddShowModal = (
                                     return (
                                         <Input
                                             {...field}
-                                            type="number"
+                                            type="text"
                                             size="large"
                                             className="mt-1"
                                             placeholder="Please enter show entrance fee..."
                                             status={errors.entranceFee ? "error" : ""}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+                                                field.onChange(value); // Update the form value
+                                            }}
+                                            value={Number(field.value)?.toLocaleString()}
                                         />
                                     );
                                 }}

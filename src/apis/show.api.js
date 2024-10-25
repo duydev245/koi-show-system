@@ -76,7 +76,7 @@ export const showApi = {
     postAddShow: async (payload) => {
         try {
             const response = await fetcher.post(
-                `/Show/update-show`, payload, {
+                `/Show/create-show`, payload, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -97,6 +97,19 @@ export const showApi = {
                     "Content-Type": "multipart/form-data",
                 },
             });
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    postChangeStatusShow: async (payload) => {
+        try {
+            const response = await fetcher.post(
+                `/Show/change-status-show?status=${payload.status}&showId=${payload.showId}`
+            );
 
             return response.data;
 

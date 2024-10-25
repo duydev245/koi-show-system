@@ -18,6 +18,7 @@ const AddCriterionModal = (
             .number()
             .typeError('*Percentage must be number!')
             .min(0, '*Percentage must be over 0!')
+            .max(100, '*Percentage must be under 100!')
             .required("*Percentage is required!")
             .nullable(),
         description: yup

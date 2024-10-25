@@ -95,6 +95,26 @@ const UpcomingAdminShow = () => {
     },
   });
 
+  // handleChangeStatus
+  const { mutate: handleChangeStatus, isPending: isChanging } = useMutation({
+    mutationFn: (payload) => showApi.postChangeStatusShow(payload),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Publish Show successfully",
+        type: "success",
+        duration: 3,
+      });
+      setTimeout(() => navigate(PATH.ADMIN_SHOW), 1500);
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
   // dataShowVariety
   const { data: dataShowVariety, isLoading: isLoadingListVariety } = useQuery({
     queryKey: ["data-show-variety"],
@@ -422,8 +442,7 @@ const UpcomingAdminShow = () => {
             title="Publish Show"
             description="Are you sure to publish this show?"
             onConfirm={() => {
-              alert(dataShow?.showId)
-              // openAddShowModal()
+              handleChangeStatus({ showId: showId, status: "on going" })
             }}
             onCancel={() => { }}
             okText="Yes"
@@ -432,6 +451,7 @@ const UpcomingAdminShow = () => {
             <Button
               size="large"
               type="primary"
+              loading={isChanging}
             >
               Publish Show
             </Button>

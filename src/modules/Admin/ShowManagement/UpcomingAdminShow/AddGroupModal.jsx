@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { useOpenModal } from '../../../../hooks/useOpenModal';
 import AddCriterionModal from './AddCriterionModal';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const AddGroupModal = (
     {
@@ -103,6 +105,26 @@ const AddGroupModal = (
         },
     ];
 
+    const schema = yup.object({
+        name: yup.string().trim().required("*Name is required!"),
+        minSize: yup
+            .number()
+            .typeError('*Min Size must be a number!')
+            .moreThan(14, '*Min Size must be over 14 cm!')
+            .required("*Min Size is required!")
+            .nullable(),
+        maxSize: yup
+            .number()
+            .typeError('*Max Size must be a number!')
+            .when('minSize', (minSize, schema) =>
+                minSize
+                    ? schema.moreThan(minSize, `*Max Size must be strictly greater than ${minSize} cm!`)
+                    : schema
+            ) // Ensure maxSize > minSize using `.moreThan()`
+            .required("*Max Size is required!")
+            .nullable(),
+    });
+
     const {
         control,
         handleSubmit,
@@ -115,8 +137,8 @@ const AddGroupModal = (
             minSize: "",
             maxSize: "",
         },
-        // resolver: yupResolver(schema),
-        // criteriaMode: "all",
+        resolver: yupResolver(schema),
+        criteriaMode: "all",
     });
 
 
@@ -149,8 +171,17 @@ const AddGroupModal = (
     // };
 
     const onSubmit = (values) => {
-        const sanitizedCriteria = groupCriteria.map(({ id, ...rest }) => rest);
 
+        if (groupCriteria.length == 0 || groupVarieties.length == 0) {
+            messageApi.open({
+                content: "Criteria or Varieties can't be empty!",
+                type: "warning",
+                duration: 3,
+            });
+            return;
+        }
+
+        const sanitizedCriteria = groupCriteria.map(({ id, ...rest }) => rest);
         const payload = {
             name: values.name,
             minSize: values.minSize,
