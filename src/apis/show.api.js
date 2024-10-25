@@ -117,4 +117,17 @@ export const showApi = {
             throw Error(error.response.data.message);
         }
     },
+
+    postPublishScoreShow: async (showID) => {
+        try {
+            const response = await fetcher.post(
+                `/Registration/publish-score?showId=${showID}`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

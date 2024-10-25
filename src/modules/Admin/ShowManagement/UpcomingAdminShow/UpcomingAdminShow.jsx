@@ -11,12 +11,14 @@ import { useOpenModal } from '../../../../hooks/useOpenModal';
 import EditShowModal from './EditShowModal';
 import AddGroupModal from './AddGroupModal';
 import { varietyApi } from '../../../../apis/variety.api';
+import EditGroupModal from './EditGroupModal';
 
-const getStatusTag = (status) => {
+export const getStatusTag = (status) => {
   switch (status.toLowerCase()) {
     case 'up comming':
-    case 'on going':
       return <Tag color="green">Upcoming</Tag>;
+    case 'on going':
+      return <Tag color="green">Ongoing</Tag>;
     case 'scoring':
       return <Tag color="yellow">Scoring</Tag>;
     case 'finished':
@@ -29,6 +31,7 @@ const getStatusTag = (status) => {
 const UpcomingAdminShow = () => {
 
   const [dataEdit, setDataEdit] = useState({});
+  const [dataGroupEdit, setDataGroupEdit] = useState({});
 
   const queryClient = useQueryClient();
   const { state } = useLocation();
@@ -36,11 +39,18 @@ const UpcomingAdminShow = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const { isOpen: isOpenEditShowModal, openModal: openEditShowModal, closeModal: closeEditShowModal } = useOpenModal();
-  const { isOpen: isOpenAddGroupModal, openModal: openAddGroupModal, closeModal: closeAddGroupModal } = useOpenModal();
 
-  const handleCloseEditModal = () => {
+  const { isOpen: isOpenAddGroupModal, openModal: openAddGroupModal, closeModal: closeAddGroupModal } = useOpenModal();
+  const { isOpen: isOpenEditGroupModal, openModal: openEditGroupModal, closeModal: closeEditGroupModal } = useOpenModal();
+
+  const handleCloseEditShowModal = () => {
     closeEditShowModal();
     setDataEdit({});
+  }
+
+  const handleCloseEditGroupModal = () => {
+    closeEditGroupModal();
+    setDataGroupEdit({});
   }
 
   const showId = state?.showId;
@@ -83,7 +93,7 @@ const UpcomingAdminShow = () => {
         type: "success",
         duration: 3,
       });
-      handleCloseEditModal();
+      handleCloseEditShowModal();
       setTimeout(() => navigate(PATH.ADMIN_SHOW), 1500);
     },
     onError: (error) => {
@@ -154,6 +164,30 @@ const UpcomingAdminShow = () => {
         duration: 3,
       });
       closeAddGroupModal();
+      queryClient.refetchQueries({
+        queryKey: ["data-group-show"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
+  // handleEditGroupApi
+  const { mutate: handleEditGroupApi, isPending: isPendingEditGroup } = useMutation({
+    mutationFn: (payload) => groupApi.putEditGroupByShowId(payload),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Add Group Show successfully",
+        type: "success",
+        duration: 3,
+      });
+      handleCloseEditGroupModal();
       queryClient.refetchQueries({
         queryKey: ["data-group-show"],
         type: "active",
@@ -312,13 +346,13 @@ const UpcomingAdminShow = () => {
                     title: 'Criterion ID',
                     width: 110,
                     key: 'criterionId',
-                    dataIndex: 'criterionId',
+                    dataIndex: 'id',
                   },
                   {
                     title: 'Criterion Name',
                     width: 200,
-                    key: 'criterionName',
-                    dataIndex: 'criterionName',
+                    key: 'name',
+                    dataIndex: 'name',
                   },
                   {
                     title: 'Percentage (%)',
@@ -357,7 +391,8 @@ const UpcomingAdminShow = () => {
                           size="large"
                           type="primary"
                           onClick={() => {
-                            alert(`Edit group: ${group.groupId}`);
+                            setDataGroupEdit(group);
+                            openEditGroupModal();
                           }}
                         >
                           <EditOutlined />
@@ -389,7 +424,8 @@ const UpcomingAdminShow = () => {
                         <h3 className="font-bold text-xl">{group.groupName}</h3>
                         <p><strong>Group ID:</strong> {group.groupId}</p>
                         <p><strong>Size range:</strong> {group.sizeMin} cm - {group.sizeMax} cm</p>
-                        <p><strong>Quantity registration:</strong> {group.quantity_registration}</p>
+                        {/* <p><strong>Quantity registration:</strong> {group.quantity_registration}</p>
+                        <p><strong>Quantity scored registration:</strong> {group.quantity_scored_registration}</p> */}
 
                         {/* Group Varieties */}
                         <p><strong>Varieties:</strong></p>
@@ -469,11 +505,22 @@ const UpcomingAdminShow = () => {
         isPending={isPendingAddGroup}
       />
 
+      <EditGroupModal
+        key={'edit-group'}
+        showId={showId}
+        data={dataGroupEdit}
+        isOpen={isOpenEditGroupModal}
+        onCloseModal={handleCloseEditGroupModal}
+        dataVarieties={dataAllVariety}
+        handleEditGroupApi={handleEditGroupApi}
+        isPending={isPendingEditGroup}
+      />
+
       <EditShowModal
         key={'edit-show'}
         data={dataEdit}
         isOpen={isOpenEditShowModal}
-        onCloseModal={handleCloseEditModal}
+        onCloseModal={handleCloseEditShowModal}
         handleEditShowApi={handleEditShowApi}
         isPending={isPendingEdit}
       />

@@ -1,19 +1,20 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import { Alert, Button, Checkbox, Col, Form, Input, message, Modal, Popconfirm, Row, Table, Typography } from 'antd'
+import { Alert, Button, Checkbox, Col, Form, Input, message, Modal, Popconfirm, Row, Table, Typography } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form';
 import { useOpenModal } from '../../../../hooks/useOpenModal';
+import { Controller, useForm } from 'react-hook-form';
 import AddCriterionModal from './AddCriterionModal';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { DeleteOutlined } from '@ant-design/icons';
 
-const AddGroupModal = (
+const EditGroupModal = (
     {
         showId,
+        data,
         isOpen,
         onCloseModal,
         isPending,
-        handleAddGroupApi,
+        handleEditGroupApi,
         dataVarieties
     }
 ) => {
@@ -141,35 +142,6 @@ const AddGroupModal = (
         criteriaMode: "all",
     });
 
-
-    // const onSubmit = (values) => {
-    //     const payload = new FormData();
-
-    //     payload.append("ShowId", showId);
-    //     payload.append("Name", values.name);
-    //     payload.append("MinSize", values.minSize);
-    //     payload.append("MaxSize", values.maxSize);
-
-    //     // groupVarieties.forEach((item) => {
-    //     //     payload.append("Varieties", item);
-    //     // });
-
-    //     payload.append("Varieties", JSON.stringify(groupVarieties));
-
-    //     const sanitizedCriteria = groupCriteria.map(({ id, ...rest }) => rest);
-    //     // sanitizedCriteria.forEach((item) => {
-    //     //     payload.append("Criterias", JSON.stringify(item));
-    //     // })
-
-    //     payload.append("Criterias", JSON.stringify(sanitizedCriteria));
-
-    //     for (let [key, value] of payload.entries()) {
-    //         console.log(key, value);
-    //     }
-
-    //     handleAddGroupApi(payload)
-    // };
-
     const onSubmit = (values) => {
 
         if (groupCriteria.length == 0 || groupVarieties.length == 0) {
@@ -182,7 +154,9 @@ const AddGroupModal = (
         }
 
         const sanitizedCriteria = groupCriteria.map(({ id, ...rest }) => rest);
+        
         const payload = {
+            id: data?.groupId,
             name: values.name,
             minSize: values.minSize * 1,
             maxSize: values.maxSize * 1,
@@ -191,19 +165,30 @@ const AddGroupModal = (
             criterias: sanitizedCriteria,
             showId: showId,
         };
-
-        // console.log("🚀 ~ onSubmit ~ payload:", payload)
-
-        handleAddGroupApi(payload);
+        handleEditGroupApi(payload);
     };
 
+
     useEffect(() => {
-        if (!isOpen) {
+        if (data && isOpen) {
+            setValue("name", data?.groupName);
+            setValue("minSize", data?.sizeMin * 1);
+            setValue("maxSize", data?.sizeMax * 1);
+
+            if (data?.varieties) {
+                const varietyIds = data?.varieties.map(variety => variety.varietyId);
+                setGroupVarieties(varietyIds);
+            }
+
+            if (data?.criterion) {
+                setGroupCriteria(data?.criterion);
+            }
+        } else if (!isOpen) {
             reset();
             setGroupCriteria([]);
             setGroupVarieties([]);
         }
-    }, [isOpen]);
+    }, [data, isOpen, setValue, reset]);
 
     return (
         <>
@@ -212,7 +197,7 @@ const AddGroupModal = (
                 open={isOpen}
                 title={
                     <Typography className="text-xl font-medium">
-                        Add group show modal
+                        Edit group show {data?.groupId}
                     </Typography>
                 }
                 centered
@@ -374,12 +359,13 @@ const AddGroupModal = (
                                 type="primary"
                                 className="ml-3"
                             >
-                                Add Group
+                                Edit Group
                             </Button>
                         </Col>
                     </Row>
                 </Form>
             </Modal>
+
 
             <AddCriterionModal
                 key={'adding-criterion'}
@@ -391,4 +377,4 @@ const AddGroupModal = (
     )
 }
 
-export default AddGroupModal
+export default EditGroupModal

@@ -29,6 +29,19 @@ export const groupApi = {
         }
     },
 
+    putEditGroupByShowId: async (payload) => {
+        try {
+            const response = await fetcher.put(
+                `/Group/update-group`, payload
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
     deleteGroupByShowId: async (id) => {
         try {
             const response = await fetcher.delete(
@@ -42,4 +55,16 @@ export const groupApi = {
         }
     },
 
+    getReviewGroupScoreByShowId: async (showID) => {
+        try {
+            const response = await fetcher.get(
+                `/Group/review-group-score?showId=${showID}`,
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

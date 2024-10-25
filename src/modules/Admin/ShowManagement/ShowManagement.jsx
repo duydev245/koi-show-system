@@ -7,6 +7,7 @@ import { CheckCircleOutlined, ClockCircleOutlined, DeleteOutlined, EditOutlined,
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import AddShowModal from './AddShowModal';
 import { useNavigate } from 'react-router-dom';
+import { groupApi } from '../../../apis/group.api';
 
 const renderShowStatus = (status) => {
     const lowerStatus = status.toLowerCase();
@@ -69,6 +70,29 @@ const ShowManagement = () => {
                 duration: 3,
             });
             closeAddShowModal();
+            queryClient.refetchQueries({
+                queryKey: ["list-show"],
+                type: "active",
+            });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
+
+    // handleReviewGroupScoreShowApi
+    const { mutate: handleReviewGroupScoreShowApi, isPending: isPendingReview } = useMutation({
+        mutationFn: (id) => groupApi.getReviewGroupScoreByShowId(id),
+        onSuccess: (data) => {
+            messageApi.open({
+                content: data?.message || "Review Group Score successfully",
+                type: "success",
+                duration: 3,
+            });
             queryClient.refetchQueries({
                 queryKey: ["list-show"],
                 type: "active",
@@ -211,7 +235,6 @@ const ShowManagement = () => {
                                     type="default"
                                     className="mr-2"
                                     onClick={() => {
-                                        // alert(`View show: ${record.showId}`);
                                         navigate(PATH.ADMIN_ONGOING_SHOW, { state: { showId: record.showId } })
                                     }}
                                     loading={false}
@@ -227,7 +250,7 @@ const ShowManagement = () => {
                                     type="default"
                                     className="mr-2"
                                     onClick={() => {
-                                        alert(`View show: ${record.showId}`);
+                                        navigate(PATH.ADMIN_SCORING_SHOW, { state: { showId: record.showId } })
                                     }}
                                     loading={false}
                                 >
@@ -237,8 +260,9 @@ const ShowManagement = () => {
                                 <Button
                                     type="primary"
                                     className="mr-2"
+                                    loading={isPendingReview}
                                     onClick={() => {
-                                        alert(`Score show: ${record.showId}`);
+                                        handleReviewGroupScoreShowApi(record.showId);
                                     }}
                                 >
                                     Score

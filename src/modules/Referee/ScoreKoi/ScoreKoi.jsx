@@ -143,13 +143,16 @@ const ScoreKoi = () => {
 
                     const dataSource = group.kois || [];
 
+                    let totalScored = dataSource.filter(koi => koi.isScored).length;
+                    let totalNotScored = dataSource.length - totalScored;
+
                     return (
                         <div key={index} className='bg-gray-100 rounded-lg p-3 mb-3'>
                             <div className='grid grid-cols-2 mb-4 px-3'>
                                 <p className="font-semibold text-xl">{group.groupName}</p>
                                 <div className="font-semibold text-base">
-                                    <p className="text-green-600"><span>Scored:</span> {group.scored}</p>
-                                    <p className="text-red-600"><span>Not Scored:</span> {group.amountNotScored}</p>
+                                    <p className="text-green-600"><span>Scored:</span> {totalScored}</p>
+                                    <p className="text-red-600"><span>Not Scored:</span> {totalNotScored}</p>
                                 </div>
                             </div>
                             <Table

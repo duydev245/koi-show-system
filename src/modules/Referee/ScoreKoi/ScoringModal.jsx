@@ -63,7 +63,7 @@ const ScoringModal = ({
                 {
                     registraionId: data?.registrationId,
                     scores: criterions.map((criterion, index) => ({
-                        criterionId: criterion.criterionId,
+                        criterionId: criterion.id,
                         score: values.criterions[index].score * 1,
                     })),
                 }
@@ -76,7 +76,7 @@ const ScoringModal = ({
     useEffect(() => {
         if (isOpen) {
             criterions.forEach((criterion, index) => {
-                setValue(`criterions[${index}].score`, criterion.score1);
+                setValue(`criterions[${index}].score`, criterion?.score1 || "");
             });
         } else {
             reset();
@@ -119,6 +119,20 @@ const ScoringModal = ({
                         <Input
                             readOnly
                             value={data?.koiSize}
+                            type="text"
+                            size="large"
+                            className="mt-1 w-1/2"
+                        />
+                    </Col>
+
+                    {/* variety name */}
+                    <Col span={24} className='flex items-center justify-between'>
+                        <label className="text-lg text-black font-semibold">
+                            Koi Variety:
+                        </label>
+                        <Input
+                            readOnly
+                            value={data?.varietyName}
                             type="text"
                             size="large"
                             className="mt-1 w-1/2"
@@ -181,7 +195,7 @@ const ScoringModal = ({
                                         <Row>
                                             <Col span={18}>
                                                 <label className="text-lg text-black font-semibold">
-                                                    Criterion {criterion.criterionName}:
+                                                    Criterion {criterion.name}:
                                                 </label>
                                                 <p className='text-lg'>- Percentage: {criterion.percentage}%</p>
                                                 <p className='text-lg'>- Description: {criterion.description}</p>

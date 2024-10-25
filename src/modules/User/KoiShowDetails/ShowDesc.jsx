@@ -92,7 +92,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                                                 gr.criterion?.map((item, index) => (
                                                     <li key={index} className='mb-1'>
                                                         <div>
-                                                            <p>Criterion {item?.criterionName}:</p>
+                                                            <p>Criterion {item?.name}:</p>
                                                             <p>- Percentage: {item.percentage}%</p>
                                                             <p>- Description: {item?.description}</p>
                                                         </div>
