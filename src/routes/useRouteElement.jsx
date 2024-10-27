@@ -9,10 +9,8 @@ import { LoginPage } from '../modules/Auth/Login'
 import { RegisterForm } from '../modules/Auth/Register'
 import { ProfilePage } from '../modules/User/ProfilePage'
 import { KoiShowDetails } from '../modules/User/KoiShowDetails'
-import { KoiDetails } from '../modules/User/KoiDetails'
 import { AdminLayout } from '../layouts/AdminLayout'
 import { ShowManagement } from '../modules/Admin/ShowManagement'
-import { StaffManagement } from '../modules/Admin/StaffManagement'
 import { AccountAdmin } from '../modules/Admin/AccountAdmin'
 import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
@@ -34,6 +32,7 @@ import { UpcomingAdminShow } from '../modules/Admin/ShowManagement/UpcomingAdmin
 import { OngoingAdminShow } from '../modules/Admin/ShowManagement/OngoingAdminShow'
 import { ScoringAdminShow } from '../modules/Admin/ShowManagement/ScoringAdminShow'
 import { FinishedAdminShow } from '../modules/Admin/ShowManagement/FinishedAdminShow'
+import { UserManagement } from '../modules/Admin/UserManagement'
 
 // Authen
 const RejectedRouter = () => {
@@ -284,10 +283,10 @@ const useRouteElement = () => {
                     )
                 },
                 {
-                    path: PATH.ADMIN_STAFF,
+                    path: PATH.ADMIN_USER,
                     element: (
                         <AdminLayout>
-                            <StaffManagement />
+                            <UserManagement />
                         </AdminLayout>
                     )
                 },

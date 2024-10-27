@@ -72,52 +72,65 @@ export const userApi = {
     }
   },
 
-  // getListUser: async () => {
-  //   try {
-  //     const response = await fetcher.get(
-  //       `/users`
-  //     );
-  //     return response.data;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
+  getListUser: async (payload) => {
 
-  // addUser: async (payload) => {
-  //   try {
-  //     const response = await fetcher.post(
-  //       "/users",
-  //       payload
-  //     );
+    const params = {
+      pageIndex: payload.pageIndex,
+      pageSize: payload.pageSize || 10,
+      // role: payload.role
+    };
 
-  //     return response.data.content;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
+    try {
+      const response = await fetcher.get(
+        `/User/get-all-user`,
+        { params }
+      );
 
-  // deleteUser: async (idUser) => {
-  //   try {
-  //     const response = await fetcher.delete(
-  //       `/users?id=${idUser}`
-  //     );
-  //     return response.data.content;
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
+      return response.data?.payload;
 
-  // uploadAvatar: async (payload) => {
-  //   try {
-  //     const response = await fetcher.post(`users/upload-avatar`, payload, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     });
-  //     return response.data.content
-  //   } catch (error) {
-  //     throw Error(error.response.data.content);
-  //   }
-  // },
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
+
+  getListRole: async () => {
+
+    try {
+      const response = await fetcher.get(
+        `/Role/get-all-roles`
+      );
+
+      return response.data?.payload;
+
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
+
+  postCreateUser: async (payload) => {
+    try {
+      const response = await fetcher.post(
+        "/User/create-user", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
+
+  putChangeStatusUser: async (payload) => {
+    try {
+      const response = await fetcher.put(
+        `/User/update-user-status?userId=${payload.id}&status=${payload.status}`
+      );
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.content);
+    }
+  },
 
 };

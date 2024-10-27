@@ -1,7 +1,7 @@
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, Col, Row } from 'antd';
-import React from 'react'
+import { Card, Col, Row, Skeleton } from 'antd';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 
 const CurrentShow = ({ currentShow }) => {
     // console.log("🚀 ~ CurrentShow ~ currentShow:", currentShow)
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     let showStatus = currentShow?.showStatus.toLowerCase();
     let groupShow = currentShow?.showGroups;
@@ -31,12 +32,19 @@ const CurrentShow = ({ currentShow }) => {
                     <Row gutter={[0, 10]}>
                         <Col span={24}>
                             {/* currentShow?.showBanner */}
-                            {/* <img className='w-full rounded-lg md:h-[350px] lg:h-[480px]' src="/show-1.jpg" alt="" /> */}
-                            <img className='w-full rounded-lg md:h-[350px] lg:h-[480px]' src={currentShow?.showBanner} alt="" />
+                            <>
+                                {!imageLoaded && <Skeleton.Image className='w-full rounded-lg md:h-[350px] lg:h-[480px]' active />}
+                                <img
+                                    className='w-full rounded-lg md:h-[350px] lg:h-[480px]'
+                                    src={currentShow?.showBanner} alt={currentShow?.showTitle}
+                                    onLoad={() => setImageLoaded(true)}
+                                    style={{ display: imageLoaded ? 'block' : 'none' }}
+                                />
+                            </>
                         </Col>
-                        <Col span={24}>
-                            <h4 className='text-4xl font-bold mb-2'>{currentShow?.showTitle}</h4>
-                            <div className='text-2xl'>
+                        <Col span={24} className='flex items-center justify-start ml-4'>
+                            <h4 className='text-4xl font-bold'>{currentShow?.showTitle}</h4>
+                            <div className='text-4xl ms-2'>
                                 {/* show status */}
                                 {(showStatus === 'on going') && (<OngoingShow />)}
                                 {(showStatus === 'scoring') && (<ScoringShow />)}
@@ -46,22 +54,19 @@ const CurrentShow = ({ currentShow }) => {
                         <Col span={12} className='pe-2'>
 
                             <div className='text-lg'>
-                                <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
+                                <ul className="space-y-2 ml-4">
                                     <li className='mb-2'>
-                                        <h4 className='text-2xl font-bold mb-2'>About:</h4>
-                                        {(currentShow?.showDesc) ?
-                                            (
-                                                currentShow?.showDesc
-                                            ) : (
-                                                <p>The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.</p>
-                                            )
-                                        }
-                                    </li>
-                                    <li className='mb-2'>
-                                        <p className='text-2xl font-bold'>{openForm}: Registration Opens</p>
-                                    </li>
-                                    <li className='mb-2'>
-                                        <p className='text-2xl font-bold'>{closeForm}: Registration Closes</p>
+                                        <h4 className='text-3xl font-bold mb-2'>About:</h4>
+                                        <p className='text-lg ml-4'>
+                                            {(currentShow?.showDesc) ?
+                                                (
+                                                    `- ${currentShow?.showDesc}`
+                                                ) : (
+                                                    '- The goal of this koi show is to educate & promote the joys of koi keeping as a hobby. We hope to encourage your interest in learning great husbandry for keeping Japanese koi and to support efforts to create more koi masters.'
+                                                )
+                                            }
+                                        </p>
+                                        <p className='text-lg ml-4'>- Registration Time: <span className='font-bold text-red-500'>{openForm} - {closeForm}</span></p>
                                     </li>
                                 </ul>
 
@@ -70,26 +75,30 @@ const CurrentShow = ({ currentShow }) => {
                         <Col span={12} className='ps-2'>
                             {(showStatus === 'finished') ?
                                 (
-                                    <div className='font-semibold'>
+                                    <div className='mb-4'>
                                         <div className='flex items-center justify-start mb-2'>
                                             <FontAwesomeIcon className='text-red-600' icon={faTrophy} size='2x' />
-                                            <h4 className='text-2xl font-bold ms-1'>Koi Award:</h4>
+                                            <h4 className='font-bold text-3xl ms-1'>Award:</h4>
                                         </div>
-                                        <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
 
+                                        <ul className="pl-6 space-y-4">
                                             {groupShow?.map((group) => (
-                                                <li key={group?.groupId} className='mb-2'>
-                                                    <p>{group?.groupName}</p>
-                                                    <ul style={{ listStyleType: 'circle' }} className="text-xl ps-3 font-normal">
-                                                        {group?.registrations.map((koi) => (
-                                                            <li key={koi?.id} className='mb-1'>
-                                                                <div className='flex items-center justify-start'>
-                                                                    <p>Rank {koi?.rank}: {koi?.name}</p>
-                                                                    {(koi?.isBestVote)
-                                                                        && (<FontAwesomeIcon className='text-red-600 ms-3' icon={faHeart} size='lg' />)
-                                                                    }
+                                                <li key={group?.groupId} className="mb-4">
+                                                    <p className='text-lg font-semibold mb-2'>{group?.groupName}</p>
 
-                                                                </div>
+                                                    <ul className="space-y-2 ml-4">
+                                                        {group?.registrations.map((koi) => (
+                                                            <li key={koi?.id} className='flex items-center space-x-2'>
+                                                                <p className="text-lg">Rank {koi?.rank}: {koi?.name}</p>
+                                                                {(koi?.isBestVote) &&
+                                                                    (
+                                                                        <FontAwesomeIcon
+                                                                            className='text-red-600'
+                                                                            icon={faHeart}
+                                                                            size='lg'
+                                                                        />
+                                                                    )
+                                                                }
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -99,12 +108,12 @@ const CurrentShow = ({ currentShow }) => {
                                         </ul>
                                     </div>
                                 ) : (
-                                    <div className='font-semibold'>
-                                        <h4 className='text-2xl font-bold mb-2'>Official Judges:</h4>
-                                        <ul style={{ listStyleType: 'disc' }} className="text-xl ps-7">
+                                    <div className="mb-4">
+                                        <p className='font-bold mb-2 text-3xl'>Official Judges: </p>
+                                        <ul className="space-y-2 ml-4 text-lg">
                                             {currentShow?.showReferee.map((ref) => (
                                                 <li key={ref.refereeId}>
-                                                    {ref.refereeName}
+                                                    - {ref.refereeName}
                                                 </li>
                                             ))}
                                         </ul>

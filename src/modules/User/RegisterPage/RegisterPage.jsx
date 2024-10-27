@@ -27,6 +27,7 @@ const RegisterPage = () => {
 
   const showId = state?.showId;
   const showName = state?.showName;
+  const showFee = state?.showFee;
   // console.log("🚀 ~ RegisterPage ~ showId, showName:", showId, showName);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const RegisterPage = () => {
           window.location.reload();
         }
         setActionType(null);
-      }, 1500);
+      }, 1200);
     },
     onError: (error) => {
       messageApi.open({
@@ -288,7 +289,7 @@ const RegisterPage = () => {
         <h1 className='text-black text-3xl font-bold text-center'>Register for {showName}</h1>
 
         <h2 className='text-center text-xl text-red-600 font-semibold'>
-          Register here and pay $5 for each registration. You can add to cart and checkout all at once or checkout individually. Contact us for assistance!
+          Register here and pay {showFee} VND for each registration. You can add to cart and checkout all at once or checkout individually. Contact us for assistance!
         </h2>
 
         <div className='mt-4 bg-gray-100 rounded-md p-8'>
@@ -433,7 +434,7 @@ const RegisterPage = () => {
                   </p>
                   <p className="text-red-600">
                     (Vertical photo preferred and larger photos are recommended,
-                    jpg or png files accepted. Up to 3 images allowed.)
+                    jpg or png files accepted. Must be 3 images allowed. Each picture must be under 1MB.)
                   </p>
                 </label>
 
@@ -523,6 +524,16 @@ const RegisterPage = () => {
               </Col>
 
               <Col span={24} className="flex justify-end">
+                <Button
+                  onClick={() => {
+                    navigate(`/show-details/${showId}`)
+                  }}
+                  size="large"
+                  type="dashed"
+                  className="ml-3"
+                >
+                  Cancel
+                </Button>
                 <Popconfirm
                   title="Notification"
                   description="Are you sure to register more?"

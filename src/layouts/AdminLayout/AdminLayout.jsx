@@ -75,9 +75,9 @@ const AdminLayout = ({ children }) => {
                                         label: "Dashboard & Statistics",
                                     },
                                     {
-                                        key: PATH.ADMIN_STAFF,
+                                        key: PATH.ADMIN_USER,
                                         icon: <UserOutlined />,
-                                        label: "Staff Management",
+                                        label: "User Management",
                                     },
                                     {
                                         key: PATH.ADMIN_SHOW,

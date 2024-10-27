@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import 'animate.css'
-import { Card, Col, message, Pagination, Row, Typography } from 'antd';
+import { Card, Col, message, Pagination, Row, Skeleton, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LoadingComponent } from '../../../components/LoadingComponent';
 
@@ -9,6 +9,7 @@ const ListShow = ({ dataList, isPending }) => {
     const navigate = useNavigate();
 
     const [listShow, setListShow] = useState([])
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
         setListShow(dataList);
@@ -32,7 +33,19 @@ const ListShow = ({ dataList, isPending }) => {
                             onClick={() => { handleOnClick(show.showId) }}
                             hoverable
                             // cover={<img className='h-[385px]' alt="SekiguchiContest" src="https://kodamakoishow.com/wp-content/uploads/2021/06/Sekiguchi-Grow-Out-Contest-1.jpg" />}
-                            cover={<img className='h-[385px]' alt={show.showTitle} src={show.showBanner} />}
+                            // cover={<img className='h-[385px]' alt={show.showTitle} src={show.showBanner} />}
+                            cover={
+                                <>
+                                    {!imageLoaded && <Skeleton.Image className='h-[385px]' active />}
+                                    <img 
+                                        className='h-[385px]'
+                                        alt={show.showTitle}
+                                        src={show.showBanner}
+                                        onLoad={() => setImageLoaded(true)}
+                                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                                    />
+                                </>
+                            }
                         >
                             <div className='font-semibold'>
                                 <Typography className='text-2xl'>{show.showTitle}</Typography>

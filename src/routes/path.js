@@ -21,13 +21,17 @@ export const PATH = {
     // ADMIN LAYOUT 
     ADMIN: "/admin",
     ADMIN_DASHBOARD: "/admin/dashboard",
-    ADMIN_STAFF: "/admin/staff",
+
+    ADMIN_USER: "/admin/user",
+
     ADMIN_VARIETY: "/admin/variety",
+
     ADMIN_SHOW: "/admin/show",
     ADMIN_UPCOMING_SHOW: "/admin/upcoming-show",
     ADMIN_ONGOING_SHOW: "/admin/ongoing-show",
     ADMIN_SCORING_SHOW: "/admin/scoring-show",
     ADMIN_FINISHED_SHOW: "/admin/finished-show",
+
     ADMIN_ACCOUNT_SETTINGS: "/admin/account-settings",
 
     // STAFF LAYOUT 

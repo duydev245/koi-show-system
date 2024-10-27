@@ -8,15 +8,24 @@ const InprocessTable = ({ dataSource, isLoading }) => {
     const columns = [
         // Registration ID
         {
-            title: "Registration ID",
+            title: "ID",
+            width: 70,
             key: "regist-id",
             dataIndex: "id",
+            sorter: {
+                compare: (a, b) => a.id - b.id,
+                multiple: 1,
+            },
         },
-        // Show name
+        // koi name
         {
             title: "Koi name",
             key: "koi-name",
             dataIndex: "name",
+            sorter: {
+                compare: (a, b) => a.name.localeCompare(b.name),
+                multiple: 2,
+            },
         },
         // Create date
         {
@@ -38,7 +47,13 @@ const InprocessTable = ({ dataSource, isLoading }) => {
             title: "Status",
             key: "regist-status",
             dataIndex: "status",
-            render: (_, { status }) => {
+            filters: [
+                { text: 'Rejected', value: 'Rejected' },
+                { text: 'Accepted', value: 'Accepted' },
+                { text: 'Pending', value: 'Pending' },
+            ],
+            onFilter: (value, record) => record.status === value,
+            render: (status) => {
                 return (
                     <>
                         {(status === "Pending") && (<Tag icon={<SyncOutlined spin />} color="processing">Pending</Tag>)}
@@ -52,23 +67,57 @@ const InprocessTable = ({ dataSource, isLoading }) => {
             title: "Action",
             key: "action",
             render: (record) => {
+
+                const status = record.status.toLowerCase();
                 return (
-                    <Button
-                        type="primary"
-                        className="mr-2"
-                        onClick={() => {
-                            alert(record.id)
-                        }}
-                        loading={false}
-                    >
-                        <EditOutlined />
-                    </Button>
+                    <div className="flex">
+
+                        {status === "rejected" && (
+                            <>
+                                <Button
+                                    danger
+                                    type="primary"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        alert(record.id)
+                                    }}
+                                    loading={false}
+                                >
+                                    Submit again
+                                </Button>
+                            </>
+                        )}
+                        {status === "accepted" && (
+                            <>
+                                <Button
+                                    type="primary"
+                                    className="mr-2"
+                                    onClick={() => {
+                                        alert(record.id)
+                                    }}
+                                    loading={false}
+                                >
+                                    View
+                                </Button>
+                            </>
+                        )}
+                    </div>
                 );
             },
         },
     ];
 
-    const dataSourceProcessing = dataSource || [];
+    const statusOrder = {
+        'rejected': 1,
+        'accepted': 2,
+        'pending': 3,
+    };
+
+    const dataSourceProcessing = (dataSource || []).sort((a, b) => {
+        const statusA = statusOrder[a.status.toLowerCase()] || 4;
+        const statusB = statusOrder[b.status.toLowerCase()] || 4;
+        return statusA - statusB;
+    });
 
     return (
         <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>

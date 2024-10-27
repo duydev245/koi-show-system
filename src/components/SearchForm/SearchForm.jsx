@@ -51,7 +51,7 @@ const SearchForm = ({ handleSearch }) => {
                                 type="search"
                                 size='large'
                                 className="block w-full p-4 ps-10 text-base text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-100"
-                                placeholder="Please search show here..."
+                                placeholder="Please enter to search here..."
                                 status={errors.searchValue ? "error" : ""}
                             />
                         );
