@@ -276,7 +276,7 @@ const ShowManagement = () => {
                                     type="default"
                                     className="mr-2"
                                     onClick={() => {
-                                        alert(`View show: ${record.showId}`);
+                                        navigate(PATH.ADMIN_FINISHED_SHOW, { state: { showId: record.showId } })
                                     }}
                                     loading={false}
                                 >

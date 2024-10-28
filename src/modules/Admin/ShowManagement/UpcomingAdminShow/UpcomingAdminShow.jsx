@@ -12,6 +12,8 @@ import EditShowModal from './EditShowModal';
 import AddGroupModal from './AddGroupModal';
 import { varietyApi } from '../../../../apis/variety.api';
 import EditGroupModal from './EditGroupModal';
+import { refereeApi } from '../../../../apis/referee.api';
+import AddRefereeModal from './AddRefereeModal';
 
 export const getStatusTag = (status) => {
   switch (status.toLowerCase()) {
@@ -42,6 +44,8 @@ const UpcomingAdminShow = () => {
 
   const { isOpen: isOpenAddGroupModal, openModal: openAddGroupModal, closeModal: closeAddGroupModal } = useOpenModal();
   const { isOpen: isOpenEditGroupModal, openModal: openEditGroupModal, closeModal: closeEditGroupModal } = useOpenModal();
+
+  const { isOpen: isOpenAddRefereeModal, openModal: openAddRefereeModal, closeModal: closeAddRefereeModal } = useOpenModal();
 
   const handleCloseEditShowModal = () => {
     closeEditShowModal();
@@ -233,6 +237,116 @@ const UpcomingAdminShow = () => {
     }
   }, [dataGroupShow]);
 
+  // dataShowReferee
+  const { data: dataShowReferee, isLoading: isLoadingListReferee } = useQuery({
+    queryKey: ["data-show-referee"],
+    queryFn: () => refereeApi.getAllRefereeByShow(showId),
+    enabled: !!showId,
+  });
+
+  // dataAllReferee
+  const { data: dataAllReferee, isLoading: isLoadingListAllReferee } = useQuery({
+    queryKey: ["data-all-referee"],
+    queryFn: () => refereeApi.getAllReferee(),
+    enabled: !!showId,
+  });
+
+  let dataReferee = [];
+  if (!isLoadingListReferee && !isLoadingListAllReferee && dataShowReferee && dataAllReferee) {
+    dataReferee = dataAllReferee.filter(ref =>
+      !dataShowReferee.some(showRef => showRef.id === ref.id)
+    );
+  }
+
+  // handleAddRefereeApi
+  const { mutate: handleAddRefereeApi, isPending: isPendingAddReferee } = useMutation({
+    mutationFn: (payload) => refereeApi.postAddRefereeToShowId(payload),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Add Referee successfully",
+        type: "success",
+        duration: 3,
+      });
+      closeAddRefereeModal();
+      queryClient.refetchQueries({
+        queryKey: ["data-show-referee"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
+  // handleDeleteRefereeApi
+  const { mutate: handleDeleteRefereeApi, isPending: isPendingDeleteReferee } = useMutation({
+    mutationFn: (id) => refereeApi.deleteRefereeFromShowId(id),
+    onSuccess: (data) => {
+      messageApi.open({
+        content: data?.message || "Remove referee from show successfully",
+        type: "success",
+        duration: 3,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-show-referee"],
+        type: "active",
+      });
+    },
+    onError: (error) => {
+      messageApi.open({
+        content: error?.message,
+        type: "error",
+        duration: 3,
+      });
+    },
+  });
+
+  const [refereeData, setRefereeData] = useState([]);
+
+  useEffect(() => {
+    if (dataShowReferee) {
+      setRefereeData(dataShowReferee);
+    }
+  }, [dataShowReferee]);
+
+  const refereeColumns = [
+    {
+      title: 'ID',
+      key: 'refereeId',
+      dataIndex: 'refereeId',
+    },
+    {
+      title: 'Name',
+      key: 'refereeName',
+      dataIndex: 'refereeName',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (record) => (
+        <Popconfirm
+          title="Remove referee"
+          description="Are you sure to remove this referee from the show?"
+          onConfirm={() => handleDeleteRefereeApi(record.refereeId)}
+          onCancel={() => { }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button type="primary" danger size='middle' disabled={isPendingDeleteReferee}>
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
+
+      ),
+    },
+  ];
+
+  const refereeDatasource = refereeData || [];
+
   if (isLoadingShow) {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -306,6 +420,48 @@ const UpcomingAdminShow = () => {
 
         </div>
       </div>
+
+      <hr />
+      {/* show referee */}
+      <div className='space-y-3 my-5'>
+        <div className='flex items-center justify-between'>
+          <h3 className="font-medium text-3xl">Show referee:</h3>
+          <Button
+            size="large"
+            type="primary"
+            onClick={openAddRefereeModal}
+          >
+            Add Referee
+          </Button>
+        </div>
+
+        {refereeData.length != 0 ? (
+          <Table
+            rowKey={"refereeId"}
+            columns={refereeColumns}
+            dataSource={refereeDatasource}
+            pagination={false}
+            loading={isLoadingListReferee}
+          />
+        ) : (
+          <Alert
+            message="Notification"
+            description="Please add Referee!"
+            type="warning"
+            showIcon
+          />
+        )}
+      </div>
+
+      <AddRefereeModal
+        key={'adding-referee'}
+        showId={showId}
+        isOpen={isOpenAddRefereeModal}
+        onCloseModal={closeAddRefereeModal}
+        dataReferee={dataReferee}
+        handleAddGroupApi={handleAddRefereeApi}
+        isPending={isPendingAddReferee}
+      />
 
       <hr />
 
@@ -454,7 +610,7 @@ const UpcomingAdminShow = () => {
           ) : (
             <Alert
               message="Warning"
-              description="This show has not had any group yet!"
+              description="Please add group for this show!"
               type="warning"
               showIcon
             />
@@ -473,7 +629,7 @@ const UpcomingAdminShow = () => {
           Back to Show management page
         </Button>
 
-        {groupData.length != 0 && (
+        {(groupData.length != 0 && refereeData.length != 0) && (
           <Popconfirm
             title="Publish Show"
             description="Are you sure to publish this show?"

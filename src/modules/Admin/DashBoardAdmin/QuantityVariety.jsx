@@ -26,7 +26,7 @@ const QuantityVariety = () => {
         // Sắp xếp và lấy 4 loài có số lượng cao nhất
         const sortedVarieties = [...data].sort((a, b) => b.quantity - a.quantity);
         const topVarieties = sortedVarieties.slice(0, 4); // Lấy 4 loài cao nhất
-        const remainingVarieties = sortedVarieties.slice(4);
+        const remainingVarieties = sortedVarieties.slice(4); // Lấy các loài còn lại trong mảng
 
         const labels = [
             ...topVarieties.map((variety) => variety.varietyName),
