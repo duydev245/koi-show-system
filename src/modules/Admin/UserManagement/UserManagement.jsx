@@ -20,7 +20,6 @@ const UserManagement = () => {
 
     const { isOpen: isOpenAddModal, openModal: openAddModal, closeModal: closeAddModal } = useOpenModal();
 
-
     // dataListUser
     const { data: dataListUser, isLoading, error } = useQuery({
         queryKey: ["list-user", { currentPage }],

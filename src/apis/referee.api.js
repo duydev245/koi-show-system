@@ -18,10 +18,10 @@ export const refereeApi = {
     getAllReferee: async () => {
         try {
             const response = await fetcher.get(
-                `/User/get-all-user?pageIndex=1&pageSize=100&role=referee`
+                `/Referee/get-all-referee`
             );
 
-            return response.data?.payload?.users;
+            return response.data?.payload;
 
         } catch (error) {
             throw Error(error.response.data.message);

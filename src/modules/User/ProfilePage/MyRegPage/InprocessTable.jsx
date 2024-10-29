@@ -1,9 +1,55 @@
 import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Table, Tag, Typography } from 'antd'
-import React from 'react'
+import { Button, message, Table, Tag, Typography } from 'antd'
+import React, { useState } from 'react'
 import dayjs from "dayjs";
+import { useOpenModal } from '../../../../hooks/useOpenModal';
+import SubmitAgainModal from './SubmitAgainModal';
+import { registrationApi } from '../../../../apis/registration.api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-const InprocessTable = ({ dataSource, isLoading }) => {
+const InprocessTable = () => {
+
+    const queryClient = useQueryClient();
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const [dataEdit, setDataEdit] = useState({});
+
+    const { isOpen: isOpenEditModal, openModal: openEditModal, closeModal: closeEditModal } = useOpenModal();
+
+    const handleCloseEditModal = () => {
+        closeEditModal();
+        setDataEdit({});
+    }
+
+    // dataSourceProcessing
+    const { data: dataSource, isLoading } = useQuery({
+        queryKey: ["list-processing"],
+        queryFn: () => registrationApi.getListRegByUser('inprocess'),
+    });
+
+    // handleEvaluateApi
+    const { mutate: handleEvaluateApi, isPending: isPendingEvaluate } = useMutation({
+        mutationFn: (payload) => registrationApi.putEvaluateReg(payload),
+        onSuccess: (data) => {
+            messageApi.open({
+                content: data?.message || "Update registration successfully",
+                type: "success",
+                duration: 3,
+            });
+            handleCloseEditModal();
+            queryClient.refetchQueries({
+                queryKey: ["list-processing"],
+                type: "active",
+            });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
 
     const columns = [
         // Registration ID
@@ -79,7 +125,8 @@ const InprocessTable = ({ dataSource, isLoading }) => {
                                     type="primary"
                                     className="mr-2"
                                     onClick={() => {
-                                        alert(record.id)
+                                        openEditModal();
+                                        setDataEdit(record)
                                     }}
                                     loading={false}
                                 >
@@ -120,17 +167,29 @@ const InprocessTable = ({ dataSource, isLoading }) => {
     });
 
     return (
-        <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
-            <h1 className="font-bold text-2xl">Processing Registration:</h1>
-            <Table
-                rowKey="id"
-                columns={columns}
-                dataSource={dataSourceProcessing}
-                pagination={false}
-                loading={isLoading}
-                scroll={{ y: 350 }}
+        <>
+            {contextHolder}
+            <div className='space-y-3 border border-gray-200 p-6 rounded-lg'>
+                <h1 className="font-bold text-2xl">Processing Registration:</h1>
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={dataSourceProcessing}
+                    pagination={false}
+                    loading={isLoading}
+                    scroll={{ y: 350 }}
+                />
+            </div>
+
+            <SubmitAgainModal
+                key={'submit-again'}
+                data={dataEdit}
+                isOpen={isOpenEditModal}
+                onCloseModal={handleCloseEditModal}
+                handleEvaluateApi={handleEvaluateApi}
+                isPending={isPendingEvaluate}
             />
-        </div>
+        </>
     )
 }
 

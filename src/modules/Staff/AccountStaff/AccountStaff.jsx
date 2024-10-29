@@ -94,7 +94,7 @@ const AccountStaff = () => {
 
             <div>
                 <div className="flex flex-col items-center justify-center">
-                    <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" />
+                    <img className="mx-auto w-36 h-36 object-cover rounded-full" alt="default-ava" src="/default-ava.png" />
 
                     <div className="flex justify-start items-center gap-3">
                         <img className="w-6" alt="" src="https://cdn-icons-png.flaticon.com/512/5972/5972778.png" />

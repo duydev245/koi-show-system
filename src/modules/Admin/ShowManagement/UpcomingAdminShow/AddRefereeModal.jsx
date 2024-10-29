@@ -70,7 +70,7 @@ const AddRefereeModal = (
                                         checked={groupReferee.includes(ref.id)}
                                         onChange={() => handleRefereeChange(ref.id)}
                                     >
-                                        {ref.name} ({ref.email} - {ref.phone})
+                                        {ref.name}
                                     </Checkbox>
                                 </div>
                             ))}

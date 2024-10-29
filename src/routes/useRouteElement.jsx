@@ -14,7 +14,6 @@ import { ShowManagement } from '../modules/Admin/ShowManagement'
 import { AccountAdmin } from '../modules/Admin/AccountAdmin'
 import { StaffLayout } from '../layouts/StaffLayout'
 import { ApplicationManagement } from '../modules/Staff/ApplicationManagement'
-import { RefereeManagement } from '../modules/Staff/RefereeManagement'
 import { CartPage } from '../modules/User/CartPage'
 import { RegisterPage } from '../modules/User/RegisterPage'
 import { MyKoiPage } from '../modules/User/ProfilePage/MyKoiPage'
@@ -362,14 +361,6 @@ const useRouteElement = () => {
                     element: (
                         <StaffLayout>
                             <ApplicationManagement />
-                        </StaffLayout>
-                    )
-                },
-                {
-                    path: PATH.STAFF_REFEREE,
-                    element: (
-                        <StaffLayout>
-                            <RefereeManagement />
                         </StaffLayout>
                     )
                 },

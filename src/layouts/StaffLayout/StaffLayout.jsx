@@ -61,11 +61,6 @@ const StaffLayout = ({ children }) => {
                                         label: "Evaluate Registration",
                                     },
                                     {
-                                        key: PATH.STAFF_REFEREE,
-                                        icon: <UserOutlined />,
-                                        label: "Referee Management",
-                                    },
-                                    {
                                         key: PATH.STAFF_ACCOUNT_SETTINGS,
                                         icon: <SettingOutlined />,
                                         label: "Account Settings",

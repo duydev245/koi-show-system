@@ -79,6 +79,7 @@ const EvaluateModal = (
             const newUrls = [data.image1, data.image2, data.image3].filter(Boolean);
             setImgUrls(newUrls);
             setValue("GroupId", data?.groupId)
+            setValue("Note", data?.note)
         } else if (!isOpen) {
             reset();
         }

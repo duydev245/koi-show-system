@@ -7,6 +7,7 @@ import { groupApi } from '../../../../apis/group.api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import dayjs from "dayjs";
 import { getStatusTag } from '../UpcomingAdminShow/UpcomingAdminShow';
+import { refereeApi } from '../../../../apis/referee.api';
 
 const ScoringAdminShow = () => {
 
@@ -99,6 +100,37 @@ const ScoringAdminShow = () => {
     }
   }, [dataGroupShow]);
 
+  // dataShowReferee
+  const { data: dataShowReferee, isLoading: isLoadingListReferee } = useQuery({
+    queryKey: ["data-show-referee"],
+    queryFn: () => refereeApi.getAllRefereeByShow(showId),
+    enabled: !!showId,
+  });
+
+  const [refereeData, setRefereeData] = useState([]);
+
+  useEffect(() => {
+    if (dataShowReferee) {
+      setRefereeData(dataShowReferee);
+    }
+  }, [dataShowReferee]);
+
+  const refereeColumns = [
+    {
+      title: 'ID',
+      key: 'refereeId',
+      dataIndex: 'refereeId',
+    },
+    {
+      title: 'Name',
+      key: 'refereeName',
+      dataIndex: 'refereeName',
+    },
+  ];
+
+  const refereeDatasource = refereeData || [];
+
+
   if (isLoadingShow) {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -164,13 +196,32 @@ const ScoringAdminShow = () => {
 
       <hr />
 
+      {/* show referee */}
+      <div className='space-y-3 my-5'>
+        <div className='flex items-center justify-between'>
+          <h3 className="font-medium text-3xl">Show referee:</h3>
+        </div>
+
+        {refereeData.length != 0 && (
+          <Table
+            rowKey={"refereeId"}
+            columns={refereeColumns}
+            dataSource={refereeDatasource}
+            pagination={false}
+            loading={isLoadingListReferee}
+          />
+        )}
+      </div>
+
+      <hr />
+
       {/* Show group */}
       <div className='space-y-3 my-5'>
         <div className='flex items-center justify-between'>
           <h3 className="font-medium text-3xl">Show group:</h3>
         </div>
         {
-          groupData.length != 0 ? (
+          groupData.length != 0 && (
             <Row gutter={[12, 12]}>
               {groupData?.map((group, index) => {
 
@@ -258,18 +309,9 @@ const ScoringAdminShow = () => {
                 )
               })}
             </Row>
-          ) : (
-            <Alert
-              message="Warning"
-              description="This show has not had any group yet!"
-              type="warning"
-              showIcon
-            />
           )
         }
-
       </div>
-
 
       {/* button action */}
       <div className='flex items-center justify-end mt-5 space-x-3'>
@@ -281,7 +323,7 @@ const ScoringAdminShow = () => {
           Back to Show management page
         </Button>
 
-        {groupData.length != 0 && (
+        {(groupData.length != 0 && refereeData.length != 0) && (
           <Popconfirm
             title="Change status show"
             description="Are you sure to publish score of this show?"

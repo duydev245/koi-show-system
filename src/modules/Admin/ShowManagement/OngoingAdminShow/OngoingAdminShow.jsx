@@ -7,6 +7,7 @@ import { groupApi } from '../../../../apis/group.api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import dayjs from "dayjs";
 import { getStatusTag } from '../UpcomingAdminShow/UpcomingAdminShow';
+import { refereeApi } from '../../../../apis/referee.api';
 
 
 const OngoingAdminShow = () => {
@@ -81,6 +82,36 @@ const OngoingAdminShow = () => {
     }
   }, [dataGroupShow]);
 
+  // dataShowReferee
+  const { data: dataShowReferee, isLoading: isLoadingListReferee } = useQuery({
+    queryKey: ["data-show-referee"],
+    queryFn: () => refereeApi.getAllRefereeByShow(showId),
+    enabled: !!showId,
+  });
+
+  const [refereeData, setRefereeData] = useState([]);
+
+  useEffect(() => {
+    if (dataShowReferee) {
+      setRefereeData(dataShowReferee);
+    }
+  }, [dataShowReferee]);
+
+  const refereeColumns = [
+    {
+      title: 'ID',
+      key: 'refereeId',
+      dataIndex: 'refereeId',
+    },
+    {
+      title: 'Name',
+      key: 'refereeName',
+      dataIndex: 'refereeName',
+    },
+  ];
+
+  const refereeDatasource = refereeData || [];
+
   if (isLoadingShow) {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -143,7 +174,26 @@ const OngoingAdminShow = () => {
 
         </div>
       </div>
-      
+
+      <hr />
+
+      {/* show referee */}
+      <div className='space-y-3 my-5'>
+        <div className='flex items-center justify-between'>
+          <h3 className="font-medium text-3xl">Show referee:</h3>
+        </div>
+
+        {refereeData.length != 0 && (
+          <Table
+            rowKey={"refereeId"}
+            columns={refereeColumns}
+            dataSource={refereeDatasource}
+            pagination={false}
+            loading={isLoadingListReferee}
+          />
+        )}
+      </div>
+
       <hr />
 
       {/* Show group */}
@@ -152,7 +202,7 @@ const OngoingAdminShow = () => {
           <h3 className="font-medium text-3xl">Show group:</h3>
         </div>
         {
-          groupData.length != 0 ? (
+          groupData.length != 0 && (
             <Row gutter={[12, 12]}>
               {groupData?.map((group, index) => {
 
@@ -207,14 +257,14 @@ const OngoingAdminShow = () => {
                 return (
                   <Col key={index} span={24}>
                     <Card hoverable className='relative'>
-                      
+
                       {/* information */}
                       <div className='text-lg space-y-3'>
                         <h3 className="font-bold text-xl">{group.groupName}</h3>
                         <p><strong>Group ID:</strong> {group.groupId}</p>
                         <p><strong>Size range:</strong> {group.sizeMin} cm - {group.sizeMax} cm</p>
                         <p><strong>Quantity registration:</strong> {group.quantity_registration}</p>
-                        <p><strong>Quantity scored registration:</strong> {group.quantity_scored_registration}</p>
+                        <p><strong>Quantity pending registration:</strong> {group.quantity_scored_registration}</p>
 
                         {/* Group Varieties */}
                         <p><strong>Varieties:</strong></p>
@@ -223,16 +273,17 @@ const OngoingAdminShow = () => {
                           columns={columnVarieties}
                           dataSource={groupVarieties}
                           pagination={false}
+                          loading={isLoadingGroup}
                         />
 
                         {/* Group criterions */}
                         <p><strong>Criterions:</strong></p>
-
                         <Table
                           rowKey="id"
                           columns={columnCriterions}
                           dataSource={groupCriterions}
                           pagination={false}
+                          loading={isLoadingGroup}
                         />
                       </div>
                     </Card>
@@ -240,13 +291,6 @@ const OngoingAdminShow = () => {
                 )
               })}
             </Row>
-          ) : (
-            <Alert
-              message="Warning"
-              description="This show has not had any group yet!"
-              type="warning"
-              showIcon
-            />
           )
         }
 
@@ -263,7 +307,7 @@ const OngoingAdminShow = () => {
           Back to Show management page
         </Button>
 
-        {groupData.length != 0 && (
+        {(groupData.length != 0 && refereeData.length != 0) && (
           <Popconfirm
             title="Change status show"
             description="Are you sure to change this show status?"

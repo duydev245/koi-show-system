@@ -1,5 +1,5 @@
-import { Alert, Breadcrumb, Button, message, Popconfirm, Spin, Table, Tag } from 'antd'
-import React, { useState } from 'react'
+import { Alert, Breadcrumb, Button, Input, message, Popconfirm, Spin, Table, Tag } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { PATH } from '../../../routes/path'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { varietyApi } from '../../../apis/variety.api';
@@ -15,6 +15,7 @@ const VarietyManangement = () => {
   const queryClient = useQueryClient();
   const [messageApi, contextHolder] = message.useMessage();
   const [dataEdit, setDataEdit] = useState({});
+  const [filteredData, setFilteredData] = useState([]);
 
   const { isOpen: isOpenAddModal, openModal: openAddModal, closeModal: closeAddModal } = useOpenModal();
   const { isOpen: isOpenEditModal, openModal: openEditModal, closeModal: closeEditModal } = useOpenModal();
@@ -193,7 +194,20 @@ const VarietyManangement = () => {
     },
   ];
 
-  const dataSource = dataListVariety || [];
+  useEffect(() => {
+    if (dataListVariety) {
+      setFilteredData(dataListVariety);
+    }
+  }, [dataListVariety, setFilteredData]);
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+
+    const filtered = dataListVariety?.filter((variety) =>
+      variety.varietyName.trim().toLowerCase().includes(value.trim().toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   if (error) {
     return (
@@ -235,10 +249,18 @@ const VarietyManangement = () => {
       </div>
 
       <h3 className="font-medium text-3xl mb-3">Manage Variety</h3>
+
+      <Input
+        placeholder="Search by name"
+        allowClear
+        onChange={handleSearch}
+        className='mb-4 w-1/3'
+      />
+
       <Table
         rowKey="varietyId"
         columns={columns}
-        dataSource={dataSource}
+        dataSource={filteredData}
         pagination={true}
         loading={isLoading}
       />

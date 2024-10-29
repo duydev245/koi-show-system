@@ -2,8 +2,17 @@ import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, SyncOutlined } 
 import { Button, Table, Tag, Typography } from 'antd'
 import React from 'react'
 import dayjs from "dayjs";
+import { useQuery } from '@tanstack/react-query';
+import { registrationApi } from '../../../../apis/registration.api';
 
-const ScoredTable = ({ dataSource, isLoading }) => {
+const ScoredTable = () => {
+
+    // dataSourceScored
+    const { data: dataSource, isLoading } = useQuery({
+        queryKey: ["list-scored"],
+        queryFn: () => registrationApi.getListRegByUser('scored'),
+    });
+
     const columns = [
         // ID
         {

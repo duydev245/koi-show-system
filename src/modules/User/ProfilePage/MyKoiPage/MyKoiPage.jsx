@@ -1,5 +1,5 @@
-import { Alert, Breadcrumb, Button, Image, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
-import React, { useState } from 'react'
+import { Alert, Breadcrumb, Button, Image, Input, message, Popconfirm, Skeleton, Table, Typography } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { PATH } from '../../../../routes/path'
 import { koiApi } from '../../../../apis/koi.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -15,6 +15,7 @@ const MyKoiPage = () => {
   const queryClient = useQueryClient();
   const [messageApi, contextHolder] = message.useMessage();
   const [idEdit, setIdEdit] = useState(undefined);
+  const [filteredData, setFilteredData] = useState([]);
 
   const { isOpen: isOpenAddModal, openModal: openAddModal, closeModal: closeAddModal } = useOpenModal();
   const { isOpen: isOpenEditModal, openModal: openEditModal, closeModal: closeEditModal } = useOpenModal();
@@ -243,7 +244,20 @@ const MyKoiPage = () => {
     },
   ]
 
-  const dataSource = dataListKoi || [];
+  useEffect(() => {
+    if (dataListKoi) {
+      setFilteredData(dataListKoi);
+    }
+  }, [dataListKoi, setFilteredData]);
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+
+    const filtered = dataListKoi?.filter((koi) =>
+      koi.koiName.trim().toLowerCase().includes(value.trim().toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   return (
     <>
@@ -273,11 +287,18 @@ const MyKoiPage = () => {
 
       </div>
 
-      {dataSource && dataSource.length > 0 ? (
+      <Input
+        placeholder="Search by name"
+        allowClear
+        onChange={handleSearch}
+        className='mb-4 w-1/3'
+      />
+
+      {dataListKoi && dataListKoi.length > 0 ? (
         <Table
           rowKey="koiID"
           columns={columns}
-          dataSource={dataSource}
+          dataSource={filteredData}
           pagination={false}
           loading={isLoadingListKoi}
           scroll={{ y: 700 }}

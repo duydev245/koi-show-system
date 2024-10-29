@@ -575,6 +575,7 @@ const UpcomingAdminShow = () => {
                           </Button>
                         </Popconfirm>
                       </div>
+
                       {/* information */}
                       <div className='text-lg space-y-3'>
                         <h3 className="font-bold text-xl">{group.groupName}</h3>
@@ -590,6 +591,7 @@ const UpcomingAdminShow = () => {
                           columns={columnVarieties}
                           dataSource={groupVarieties}
                           pagination={false}
+                          loading={isLoadingGroup}
                         />
 
                         {/* Group criterions */}
@@ -600,6 +602,7 @@ const UpcomingAdminShow = () => {
                           columns={columnCriterions}
                           dataSource={groupCriterions}
                           pagination={false}
+                          loading={isLoadingGroup}
                         />
                       </div>
                     </Card>

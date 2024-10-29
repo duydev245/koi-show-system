@@ -1,5 +1,5 @@
-import { Alert, Breadcrumb, Button, Image, message, Popconfirm, Skeleton, Table, Tag, Typography } from 'antd'
-import React from 'react'
+import { Alert, Breadcrumb, Button, Image, Input, message, Popconfirm, Skeleton, Table, Tag, Typography } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { PATH } from '../../../routes/path'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { showApi } from '../../../apis/show.api';
@@ -51,6 +51,8 @@ const ShowManagement = () => {
     const queryClient = useQueryClient();
     const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate();
+
+    const [filteredData, setFilteredData] = useState([]);
 
     const { isOpen: isOpenAddShowModal, openModal: openAddShowModal, closeModal: closeAddShowModal } = useOpenModal();
 
@@ -304,6 +306,21 @@ const ShowManagement = () => {
         return statusA - statusB;
     });
 
+    useEffect(() => {
+        if (dataSource) {
+          setFilteredData(dataSource);
+        }
+      }, [dataSource, setFilteredData]);
+    
+      const handleSearch = (event) => {
+        const value = event.target.value;
+    
+        const filtered = dataSource?.filter((data) =>
+            data.showTitle.trim().toLowerCase().includes(value.trim().toLowerCase())
+        );
+        setFilteredData(filtered);
+      };
+
     if (error) {
         return (
             <Alert
@@ -345,10 +362,18 @@ const ShowManagement = () => {
 
 
             <h3 className="font-medium text-3xl mb-3">Manage Show</h3>
+
+            <Input
+                placeholder="Search by name"
+                allowClear
+                onChange={handleSearch}
+                className='mb-4 w-1/3'
+            />
+
             <Table
                 rowKey="showId"
                 columns={columns}
-                dataSource={dataSource}
+                dataSource={filteredData}
                 pagination={true}
                 loading={isLoadingShow}
             />
