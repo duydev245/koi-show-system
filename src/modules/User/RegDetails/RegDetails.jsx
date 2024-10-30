@@ -176,19 +176,11 @@ const RegDetails = () => {
                             <Carousel infiniteLoop useKeyboardArrows autoPlay>
                                 {imgUrls && (
                                     imgUrls.map((url, index) => (
-                                        <div key={index} className='relative'>
-                                            <div className='z-10 inset-0 absolute top-0'>
-                                                <Image
-                                                    className='object-fit w-full'
-                                                    preview={true}
-                                                    src={url}
-                                                />
-                                            </div>
-                                            <img
-                                                src={url}
-                                                className='object-fit w-full'
-                                            />
-                                        </div>
+                                        <img
+                                            key={index}
+                                            src={url}
+                                            className='object-fit w-full'
+                                        />
                                     ))
                                 )}
                             </Carousel>

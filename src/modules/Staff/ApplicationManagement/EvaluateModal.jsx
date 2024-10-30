@@ -19,10 +19,19 @@ const EvaluateModal = (
     }
 ) => {
     const [imgUrls, setImgUrls] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [allShowGroup, setAllShowGroup] = useState(null);
 
     const schema = yup.object().shape({
-        GroupId: yup.number().required("*Required!").nullable(),
+        isChecked: yup.boolean().required(), // Chỉ cần kiểm tra true/false
+        GroupId: yup
+            .number()
+            .nullable()
+            .typeError('')
+            .when('isChecked', {
+                is: true, // Nếu isChecked là true (Accepted)
+                then: (schema) => schema.required("*Group is required!"),
+                otherwise: (schema) => schema.notRequired(),
+            }),
         Note: yup.string().trim().required("*Note is required!"),
     });
 
@@ -47,6 +56,7 @@ const EvaluateModal = (
         formState: { errors },
         reset,
         watch,
+        trigger,
     } = useForm({
         defaultValues: {
             GroupId: data?.groupId || "",
@@ -61,15 +71,16 @@ const EvaluateModal = (
         const payload = new FormData();
 
         payload.append("Id", data?.id);
-        payload.append("GroupId", values.GroupId);
         payload.append("Note", values.Note);
-
-
         payload.append("Status", status)
 
-        // for (let [key, value] of payload.entries()) {
-        //     console.log(`${key}:`, value);
-        // }
+        if (status === 'Accepted') {
+            payload.append("GroupId", values.GroupId);
+        }
+
+        for (let [key, value] of payload.entries()) {
+            console.log(`${key}:`, value);
+        }
 
         handleEvaluateApi(payload);
     };
@@ -82,18 +93,16 @@ const EvaluateModal = (
             setValue("Note", data?.note)
         } else if (!isOpen) {
             reset();
+            setValue('isChecked', false);
         }
 
     }, [data, isOpen, setValue, reset]);
 
-    const watchGroupId = watch("GroupId");
-
     useEffect(() => {
-        if (dataListGroup && watchGroupId) {
-            const group = dataListGroup.find(group => group.groupId === watchGroupId);
-            setSelectedGroup(group);
+        if (dataListGroup) {
+            setAllShowGroup(dataListGroup);
         }
-    }, [dataListGroup, watchGroupId]);
+    }, [dataListGroup]);
 
     return (
         <>
@@ -110,9 +119,9 @@ const EvaluateModal = (
                 width={1000}
             >
                 <Form className="my-4" onFinish={handleSubmit(onSubmit)} >
-                    <Row gutter={[0, 10]}>
+                    <Row gutter={[24, 10]}>
                         {/* reg infor */}
-                        <Col span={12} className='text-lg text-black'>
+                        <Col span={12} className='text-lg text-black space-y-2'>
                             {/* koi name */}
                             <p><span className="font-semibold">Koi Name:</span> {data?.name}</p>
                             {/* koi size */}
@@ -120,9 +129,33 @@ const EvaluateModal = (
                             {/* koi variety */}
                             <p><span className="font-semibold">Koi Variety:</span> {data?.variety}</p>
                             {/* koi description */}
-                            <p className="font-semibold">Koi Description:</p>
-                            <p>{data?.description}</p>
+                            <div>
+                                <p className="font-semibold">Koi Description:</p>
+                                <p>{data?.description}</p>
+                            </div>
+                            {/* Koi Images */}
+                            <div className='space-y-1'>
+                                <p className="text-lg text-black font-semibold">
+                                    Koi Images:
+                                </p>
+                                <Carousel infiniteLoop useKeyboardArrows>
+                                    {imgUrls && (
+                                        imgUrls.map((url, index) => (
+                                            <img
+                                                key={index}
+                                                src={url}
+                                                className='object-fit w-full'
+                                            />
+                                        ))
+                                    )}
+                                </Carousel>
+                            </div>
+                        </Col>
 
+                        {/* show infor */}
+                        <Col span={12} className='text-lg text-black space-y-2'>
+                            {/* show name */}
+                            <p><span className="font-semibold">Show:</span> {dataShow?.showTitle}</p>
                             {/* show group */}
                             <div className='flex flex-col items-start justify-start'>
                                 <label className="text-lg text-black font-semibold">
@@ -164,62 +197,24 @@ const EvaluateModal = (
                                     }}
                                 />
                             </div>
-
-                        </Col>
-
-                        {/* show infor */}
-                        <Col span={12} className='text-lg text-black'>
-                            {/* show name */}
-                            <p><span className="font-semibold">Show:</span> {dataShow?.showTitle}</p>
                             {/* Show standard */}
                             <div>
-                                <span className="font-semibold">Show standard:</span>
-                                <ul style={{ listStyleType: 'disc' }} className="ps-7">
-                                    <li>
-                                        <p><span className="font-semibold">Size min:</span> {selectedGroup?.sizeMin} cm</p>
-                                    </li>
-                                    <li>
-                                        <p><span className="font-semibold">Size max:</span> {selectedGroup?.sizeMax} cm</p>
-                                    </li>
-                                    <li>
-                                        <p className="font-semibold">Koi Varieties:</p>
-                                        <ul style={{ listStyleType: 'circle' }} className="ps-3">
-                                            {selectedGroup && selectedGroup?.varieties?.map((item) => (
-                                                <li key={item.varietyId}>
-                                                    <p>{item.varietyName}</p>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </Col>
-
-                        {/* koi images */}
-                        <Col span={24} className='grid grid-cols-2'>
-                            <label className="text-lg text-black font-semibold">
-                                Koi Images:
-                            </label>
-
-                            <Carousel infiniteLoop useKeyboardArrows autoPlay>
-                                {imgUrls && (
-                                    imgUrls.map((url, index) => (
-                                        <div key={index} className='relative'>
-                                            <div className='z-10 inset-0 absolute top-0'>
-                                                <Image
-                                                    className='object-fit w-full'
-                                                    preview={true}
-                                                    src={url}
-                                                />
+                                <span className="font-semibold">All show groups standard:</span>
+                                <div className="space-y-3">
+                                    {allShowGroup?.map((gr) => (
+                                        <div key={gr.groupId} className='bg-gray-100 p-4 rounded-md space-y-1'>
+                                            <p className='font-semibold'>{gr?.groupName}:</p>
+                                            <p><span className="font-semibold">- Size range:</span> {gr?.sizeMin} cm - {gr?.sizeMax} cm</p>
+                                            <p className="font-semibold">- Koi Varieties:</p>
+                                            <div className='pl-2'>
+                                                {gr?.varieties?.map((item) => (
+                                                    <p key={item.varietyId}>+ {item.varietyName}</p>
+                                                ))}
                                             </div>
-                                            <img
-                                                src={url}
-                                                className='object-fit w-full'
-                                            />
                                         </div>
-                                    ))
-                                )}
-                            </Carousel>
+                                    ))}                                  
+                                </div>
+                            </div>
                         </Col>
 
                         {/* koi video */}
@@ -276,6 +271,7 @@ const EvaluateModal = (
                                 description="Are you sure you want to reject this registration?"
                                 onConfirm={handleSubmit((values) => {
                                     onSubmit(values, 'Rejected');
+                                    setValue('isChecked', false);
                                 })}
                                 onCancel={() => { }}
                                 placement="top"
@@ -296,7 +292,9 @@ const EvaluateModal = (
 
                             <Button
                                 loading={isPending}
-                                onClick={handleSubmit((values) => {
+                                onClick={handleSubmit(async (values) => {
+                                    setValue('isChecked', true);
+                                    await trigger('GroupId');
                                     onSubmit(values, 'Accepted');
                                 })}
                                 size="large"

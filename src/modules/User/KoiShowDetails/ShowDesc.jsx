@@ -68,13 +68,13 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
 
                 <Card hoverable className="p-6 bg-white">
                     <div className='text-xl'>
-                        <p className='font-bold mb-3'>
-                            {(showStatus === 'finished') ? 'Show Award:' : 'Show Groups:'}
+                        <p className='font-bold mb-3 text-3xl'>
+                            {(showStatus === 'finished') ? 'Award:' : 'Show Groups:'}
                         </p>
 
-                        <ul className="pl-6 space-y-4">
+                        <ul className="space-y-4">
                             {showGroups?.map((gr) => (
-                                <li key={gr.groupId} className="mb-4">
+                                <li key={gr.groupId} className="mb-4 bg-gray-100 p-6 rounded-md">
                                     <p className='text-lg font-semibold mb-2'>{gr.groupName}</p>
 
                                     <ul className="space-y-2 ml-4">

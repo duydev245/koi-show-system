@@ -134,20 +134,6 @@ const InprocessTable = () => {
                                 </Button>
                             </>
                         )}
-                        {status === "accepted" && (
-                            <>
-                                <Button
-                                    type="primary"
-                                    className="mr-2"
-                                    onClick={() => {
-                                        alert(record.id)
-                                    }}
-                                    loading={false}
-                                >
-                                    View
-                                </Button>
-                            </>
-                        )}
                     </div>
                 );
             },

@@ -46,14 +46,14 @@ const CurrentShow = ({ currentShow }) => {
                                 />
                             </>
                         </Col>
-                        <Col span={24} className='flex items-center justify-start ml-4'>
-                            <h4 className='text-4xl font-bold'>{currentShow?.showTitle}</h4>
-                            <div className='text-4xl ms-2'>
+                        <Col span={24} className='flex flex-col items-start justify-center ml-4'>
+                            <div className='text-4xl'>
                                 {/* show status */}
                                 {(showStatus === 'on going') && (<OngoingShow />)}
                                 {(showStatus === 'scoring') && (<ScoringShow />)}
                                 {(showStatus === 'finished') && (<EndedShow />)}
                             </div>
+                            <h4 className='text-4xl font-bold'>{currentShow?.showTitle}</h4>
                         </Col>
                         <Col span={12} className='pe-2'>
 
@@ -94,9 +94,9 @@ const CurrentShow = ({ currentShow }) => {
                                                 <h4 className='font-bold text-3xl ms-1'>Award:</h4>
                                             </div>
 
-                                            <ul className="pl-6 space-y-4">
+                                            <ul className="space-y-4">
                                                 {groupShow?.map((group) => (
-                                                    <li key={group?.groupId} className="mb-4">
+                                                    <li key={group?.groupId} className="mb-4 bg-gray-100 p-4 rounded-md">
                                                         <p className='text-lg font-semibold mb-2'>{group?.groupName}</p>
 
                                                         <ul className="space-y-2 ml-4">

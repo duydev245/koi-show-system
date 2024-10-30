@@ -86,6 +86,29 @@ const ShowManagement = () => {
         },
     });
 
+    // handleDeleteShowApi
+    const { mutate: handleDeleteShowApi, isPending: isPendingDelete } = useMutation({
+        mutationFn: (id) => showApi.deleteShow(id),
+        onSuccess: (data) => {
+            messageApi.open({
+                content: data?.message || "Delete Show successfully",
+                type: "success",
+                duration: 3,
+            });
+            queryClient.refetchQueries({
+                queryKey: ["list-show"],
+                type: "active",
+            });
+        },
+        onError: (error) => {
+            messageApi.open({
+                content: error?.message,
+                type: "error",
+                duration: 3,
+            });
+        },
+    });
+
     // handleReviewGroupScoreShowApi
     const { mutate: handleReviewGroupScoreShowApi, isPending: isPendingReview } = useMutation({
         mutationFn: (id) => groupApi.getReviewGroupScoreByShowId(id),
@@ -215,16 +238,16 @@ const ShowManagement = () => {
 
                                 <Popconfirm
                                     title="Delete show"
-                                    description="Are you sure to delete this?"
+                                    description="Are you sure to delete this show?"
                                     onConfirm={() => {
-                                        alert(`Delete show: ${record.showId}`);
+                                        handleDeleteShowApi(record.showId);
                                     }}
                                     onCancel={() => { }}
                                     placement="top"
                                     okText="Yes"
                                     cancelText="No"
                                 >
-                                    <Button type="primary" danger disabled={false}>
+                                    <Button type="primary" danger disabled={isPendingDelete}>
                                         <DeleteOutlined />
                                     </Button>
                                 </Popconfirm>
@@ -308,18 +331,18 @@ const ShowManagement = () => {
 
     useEffect(() => {
         if (dataSource) {
-          setFilteredData(dataSource);
+            setFilteredData(dataSource);
         }
-      }, [dataSource, setFilteredData]);
-    
-      const handleSearch = (event) => {
+    }, [dataSource, setFilteredData]);
+
+    const handleSearch = (event) => {
         const value = event.target.value;
-    
+
         const filtered = dataSource?.filter((data) =>
             data.showTitle.trim().toLowerCase().includes(value.trim().toLowerCase())
         );
         setFilteredData(filtered);
-      };
+    };
 
     if (error) {
         return (

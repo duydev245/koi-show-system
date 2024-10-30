@@ -36,8 +36,12 @@ const ListShow = ({ dataList, isPending }) => {
                             // cover={<img className='h-[385px]' alt={show.showTitle} src={show.showBanner} />}
                             cover={
                                 <>
-                                    {!imageLoaded && <Skeleton.Image className='h-[385px]' active />}
-                                    <img 
+                                    {!imageLoaded && (
+                                        <div style={{ height: 385 }}>
+                                            <Skeleton.Image className='skeleton-image' active />
+                                        </div>
+                                    )}
+                                    <img
                                         className='h-[385px]'
                                         alt={show.showTitle}
                                         src={show.showBanner}

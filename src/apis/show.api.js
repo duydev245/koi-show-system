@@ -105,6 +105,20 @@ export const showApi = {
         }
     },
 
+    deleteShow: async (id) => {
+        try {
+            const response = await fetcher.delete(
+                `/Show/delete-show?showId=${id}`
+            );
+
+            return response.data;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+
     postChangeStatusShow: async (payload) => {
         try {
             const response = await fetcher.post(
