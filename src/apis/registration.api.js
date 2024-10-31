@@ -152,4 +152,25 @@ export const registrationApi = {
             throw Error(error.response.data.message);
         }
     },
+
+
+    getListRegByGroupId: async (payload) => {
+        const params = {
+            pageIndex: payload.pageIndex,
+            pageSize: payload.pageSize || PAGE_SIZE,
+            groupId: payload.groupId * 1
+        };
+
+        try {
+            const response = await fetcherNoAuth.get(
+                `/Registration/registrations-by-group`,
+                { params }
+            );
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 }

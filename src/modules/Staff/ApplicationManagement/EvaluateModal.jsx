@@ -180,6 +180,7 @@ const EvaluateModal = (
                                                 placeholder="Please select the group..."
                                                 status={errors.GroupId ? "error" : ""}
                                                 loading={isLoading}
+                                                defaultValue={data?.groupId}
                                                 options={
                                                     dataListGroup?.map(group => ({
                                                         label: group.groupName,
@@ -203,7 +204,7 @@ const EvaluateModal = (
                                 <div className="space-y-3">
                                     {allShowGroup?.map((gr) => (
                                         <div key={gr.groupId} className='bg-gray-100 p-4 rounded-md space-y-1'>
-                                            <p className='font-semibold'>{gr?.groupName}:</p>
+                                            <p className='font-semibold'>{gr.groupId}. {gr?.groupName}:</p>
                                             <p><span className="font-semibold">- Size range:</span> {gr?.sizeMin} cm - {gr?.sizeMax} cm</p>
                                             <p className="font-semibold">- Koi Varieties:</p>
                                             <div className='pl-2'>
@@ -212,7 +213,7 @@ const EvaluateModal = (
                                                 ))}
                                             </div>
                                         </div>
-                                    ))}                                  
+                                    ))}
                                 </div>
                             </div>
                         </Col>

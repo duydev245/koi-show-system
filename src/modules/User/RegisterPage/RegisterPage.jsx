@@ -129,22 +129,17 @@ const RegisterPage = () => {
       key: "action",
       render: (record) => {
         return (
-          <Popconfirm
-            title="Choosing Koi"
-            description="Are you sure to choose this koi?"
-            onConfirm={() => {
+          <Button
+            onClick={() => {
               setIdKoi(record.koiID);
               toggleReg();
             }}
-            onCancel={() => { }}
-            placement="right"
-            okText="Yes"
-            cancelText="No"
+            type="primary"
+            size='large'
+            loading={isLoadingKoi}
           >
-            <Button type="primary" size='large' loading={isLoadingKoi}>
-              <PlusSquareOutlined />
-            </Button>
-          </Popconfirm>
+            <PlusSquareOutlined />
+          </Button>
         );
       },
     },

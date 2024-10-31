@@ -64,7 +64,7 @@ const UpcomingAdminShow = () => {
       <div>
         <Alert
           message="Notification"
-          description="Please choose show first!"
+          description="Please back to management page and choose show to view!"
           type="warning"
           showIcon
         />

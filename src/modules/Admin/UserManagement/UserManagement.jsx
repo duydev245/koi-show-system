@@ -222,23 +222,17 @@ const UserManagement = () => {
             title: "Actions",
             key: "action",
             render: (record) => {
+
+                const roleName = record.role.trim().toLowerCase();
+
+                if (roleName === 'manager') {
+                    return null;
+                }
+                
                 return (
                     <div className="flex">
-
-
                         {record.status ? (
                             <>
-                                {/* <Button
-                                    type="primary"
-                                    className="mr-2"
-                                    onClick={() => {
-                                        setDataEdit(record);
-                                        openEditModal();
-                                    }}
-                                    loading={false}
-                                >
-                                    <EditOutlined />
-                                </Button> */}
                                 <Popconfirm
                                     title="Block user"
                                     description="Are you sure to block this user?"

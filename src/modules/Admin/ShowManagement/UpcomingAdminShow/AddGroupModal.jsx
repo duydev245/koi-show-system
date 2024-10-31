@@ -321,14 +321,16 @@ const AddGroupModal = (
                             {/* dataVarieties */}
                             <div className='mt-1'>
                                 {dataVarieties?.map(variety => (
-                                    <Checkbox
-                                        className='text-base'
-                                        key={variety.varietyId}
-                                        checked={groupVarieties.includes(variety.varietyId)}
-                                        onChange={() => handleVarietyChange(variety.varietyId)}
-                                    >
-                                        {variety.varietyName} ({variety.varietyOrigin})
-                                    </Checkbox>
+                                    <div key={variety.varietyId} style={{ marginBottom: '8px' }}>
+                                        <Checkbox
+                                            className='text-base'
+                                            checked={groupVarieties.includes(variety.varietyId)}
+                                            onChange={() => handleVarietyChange(variety.varietyId)}
+                                        >
+                                            {variety.varietyName} ({variety.varietyOrigin}) - {variety
+                                            .varietyDescription}
+                                        </Checkbox>
+                                    </div>
                                 ))}
                             </div>
                         </Col>

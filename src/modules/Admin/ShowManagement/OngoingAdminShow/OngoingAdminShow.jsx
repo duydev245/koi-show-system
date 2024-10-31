@@ -8,12 +8,23 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import dayjs from "dayjs";
 import { getStatusTag } from '../UpcomingAdminShow/UpcomingAdminShow';
 import { refereeApi } from '../../../../apis/referee.api';
+import { useOpenModal } from '../../../../hooks/useOpenModal';
+import ViewOngoingRegTableModal from './ViewOngoingRegTableModal';
 
 
 const OngoingAdminShow = () => {
 
+  const [groupId, setGroupId] = useState('');
+
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+
+  const { isOpen: isOpenRegTableModal, openModal: openRegTableModal, closeModal: closeRegTableModal } = useOpenModal();
+
+  const handleOnCloseModal = () => {
+    setGroupId('');
+    closeRegTableModal();
+  }
 
   const { state } = useLocation();
   const showId = state?.showId;
@@ -23,7 +34,7 @@ const OngoingAdminShow = () => {
       <div>
         <Alert
           message="Notification"
-          description="Please choose show first!"
+          description="Please back to management page and choose show to view!"
           type="warning"
           showIcon
         />
@@ -260,11 +271,23 @@ const OngoingAdminShow = () => {
 
                       {/* information */}
                       <div className='text-lg space-y-3'>
-                        <h3 className="font-bold text-xl">{group.groupName}</h3>
+                        <div className='flex items-center justify-between'>
+                          <h3 className="font-bold text-xl">{group.groupName}</h3>
+                          <Button
+                            size="large"
+                            type="primary"
+                            onClick={() => {
+                              setGroupId(group.groupId);
+                              openRegTableModal();
+                            }}
+                          >
+                            View registrations
+                          </Button>
+                        </div>
                         <p><strong>Group ID:</strong> {group.groupId}</p>
                         <p><strong>Size range:</strong> {group.sizeMin} cm - {group.sizeMax} cm</p>
                         <p><strong>Quantity registration:</strong> {group.quantity_registration}</p>
-                        <p><strong>Quantity pending registration:</strong> {group.quantity_scored_registration}</p>
+                        {/* <p><strong>Quantity pending registration:</strong> {group.quantity_scored_registration}</p> */}
 
                         {/* Group Varieties */}
                         <p><strong>Varieties:</strong></p>
@@ -293,9 +316,14 @@ const OngoingAdminShow = () => {
             </Row>
           )
         }
-
       </div>
 
+      <ViewOngoingRegTableModal
+        key={'view-reg'}
+        groupId={groupId}
+        isOpen={isOpenRegTableModal}
+        onCloseModal={handleOnCloseModal}
+      />
 
       {/* button action */}
       <div className='flex items-center justify-end mt-5 space-x-3'>

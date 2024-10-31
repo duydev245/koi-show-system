@@ -1,6 +1,4 @@
 import { Button, Col, Form, Image, Input, Modal, Row, Typography } from 'antd'
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -95,7 +93,7 @@ const ScoringModal = ({
                 centered
                 onCancel={onCloseModal}
                 footer={null}
-                width={800}
+                width={1000}
             >
                 <Row gutter={[0, 10]}>
                     {/* koi name */}
@@ -140,22 +138,22 @@ const ScoringModal = ({
                     </Col>
 
                     {/* koi images */}
-                    <Col span={24} className='grid grid-cols-2'>
-                        <label className="text-lg text-black font-semibold">
+                    <Col span={24} className='grid grid-cols-1'>
+                        <label className="text-lg text-black font-semibold mb-1">
                             Koi Images:
                         </label>
 
-                        <Carousel infiniteLoop useKeyboardArrows>
+                        <div className='grid grid-cols-3 gap-2'>
                             {imgUrls && (
                                 imgUrls.map((url, index) => (
-                                    <img
+                                    <Image
                                         key={index}
                                         src={url}
                                         className='object-fit w-full'
                                     />
                                 ))
                             )}
-                        </Carousel>
+                        </div>
                     </Col>
 
                     {/* koi video */}

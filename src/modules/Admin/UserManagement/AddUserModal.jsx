@@ -6,6 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import dayjs from "dayjs";
 
+export const disabledDate = (current) => {
+    return current && current > dayjs().endOf('day');
+};
+
 const AddUserModal = (
     {
         isOpen,
@@ -37,13 +41,18 @@ const AddUserModal = (
             .string()
             .trim()
             .required("*Phone number is required!")
-            .matches(/^[0-9]+$/, "*Phone number must contain only digits!")
-            .min(9, "*Phone number must be at least 9 digits!")
-            .max(11, "*Phone number must not exceed 11 digits!"),
+            .matches(/^(0[3|5|7|8|9])+([0-9]{8})$/, "*Phone number must be a valid Vietnamese phone number!"),
         dateOfBirth: yup
-            .string()
+            .date()
             .nullable()
-            .required("*Date of birth is required!"),
+            .required("*Date of birth is required!")
+            .test(
+                "is-16-or-older",
+                "*You must be at least 16 years old!",
+                (value) => {
+                    return value ? dayjs().diff(dayjs(value), "year") >= 16 : false;
+                }
+            ),
         role: yup.string().trim().required("*Role is required!"),
     });
 
@@ -280,6 +289,7 @@ const AddUserModal = (
                                         placeholder="DD/MM/YYYY"
                                         status={errors.dateOfBirth ? "error" : ""}
                                         format={"DD/MM/YYYY"}
+                                        disabledDate={disabledDate}
                                         value={field.value ? dayjs(field.value) : null}
                                         onChange={(date) =>
                                             field.onChange(date ? date : null)
