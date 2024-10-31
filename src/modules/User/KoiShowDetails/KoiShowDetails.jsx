@@ -28,7 +28,7 @@ const KoiShowDetails = () => {
   const { data: dataListVariety } = useQuery({
     queryKey: ["list-variety", showDetails?.showId],
     queryFn: () => varietyApi.getAllVarietyByShow(showDetails?.showId),
-    enabled: !!showDetails?.showId
+    enabled: !!id,
   });
 
   let showID = showDetails?.showId;
