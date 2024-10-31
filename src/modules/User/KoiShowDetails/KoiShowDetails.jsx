@@ -20,6 +20,7 @@ const KoiShowDetails = () => {
   const { data: showDetails, isLoading, error } = useQuery({
     queryKey: ['show-details'],
     queryFn: () => showApi.getShowDetails(id),
+    enabled: !!id,
   });
   // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
 
