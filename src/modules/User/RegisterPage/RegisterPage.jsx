@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { koiApi } from '../../../apis/koi.api';
-import { Alert, Button, Col, Form, Image, Input, message, Popconfirm, Row, Select, Table, Typography, Upload } from 'antd';
+import { Alert, Button, Col, Form, Image, Input, message, Popconfirm, Row, Select, Spin, Table, Typography, Upload } from 'antd';
 import { DeleteOutlined, PlusOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { PATH } from '../../../routes/path';
 import 'animate.css';
@@ -37,7 +37,7 @@ const RegisterPage = () => {
   }, [showId, navigate]);
 
   // dataListKoi
-  const { data: dataListKoi, isLoading: isLoadingListKoi } = useQuery({
+  const { data: dataListKoi, isLoading: isLoadingListKoi, isFetching } = useQuery({
     queryKey: ["list-koi"],
     queryFn: () => koiApi.getListKoiByUser(),
   });
@@ -243,6 +243,14 @@ const RegisterPage = () => {
 
     handleCreateReg(payload);
   };
+
+  if (isFetching) {
+    return (
+        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Spin tip="Loading..." />
+        </div>
+    );
+}
 
   return (
     <>
