@@ -169,11 +169,15 @@ const UpcomingAdminShow = () => {
       });
       closeAddGroupModal();
       queryClient.refetchQueries({
-        queryKey: [
-          "data-group-show",
-          "data-show-variety",
-          "data-all-variety"
-        ],
+        queryKey: ["data-group-show",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-show-variety",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-all-variety"],
         type: "active",
       });
     },
@@ -197,11 +201,15 @@ const UpcomingAdminShow = () => {
       });
       handleCloseEditGroupModal();
       queryClient.refetchQueries({
-        queryKey: [
-          "data-group-show",
-          "data-show-variety",
-          "data-all-variety"
-        ],
+        queryKey: ["data-group-show",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-show-variety",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-all-variety"],
         type: "active",
       });
     },
@@ -224,11 +232,15 @@ const UpcomingAdminShow = () => {
         duration: 3,
       });
       queryClient.refetchQueries({
-        queryKey: [
-          "data-group-show",
-          "data-show-variety",
-          "data-all-variety"
-        ],
+        queryKey: ["data-group-show",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-show-variety",],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-all-variety"],
         type: "active",
       });
     },
@@ -281,7 +293,11 @@ const UpcomingAdminShow = () => {
       });
       closeAddRefereeModal();
       queryClient.refetchQueries({
-        queryKey: ["data-show-referee", "data-all-referee"],
+        queryKey: ["data-show-referee"],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-all-referee"],
         type: "active",
       });
     },
@@ -304,7 +320,11 @@ const UpcomingAdminShow = () => {
         duration: 3,
       });
       queryClient.refetchQueries({
-        queryKey: ["data-show-referee", "data-all-referee"],
+        queryKey: ["data-show-referee"],
+        type: "active",
+      });
+      queryClient.refetchQueries({
+        queryKey: ["data-all-referee"],
         type: "active",
       });
     },
