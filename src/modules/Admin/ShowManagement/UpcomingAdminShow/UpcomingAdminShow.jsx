@@ -169,7 +169,11 @@ const UpcomingAdminShow = () => {
       });
       closeAddGroupModal();
       queryClient.refetchQueries({
-        queryKey: ["data-group-show"],
+        queryKey: [
+          "data-group-show",
+          "data-show-variety",
+          "data-all-variety"
+        ],
         type: "active",
       });
     },
@@ -193,7 +197,11 @@ const UpcomingAdminShow = () => {
       });
       handleCloseEditGroupModal();
       queryClient.refetchQueries({
-        queryKey: ["data-group-show"],
+        queryKey: [
+          "data-group-show",
+          "data-show-variety",
+          "data-all-variety"
+        ],
         type: "active",
       });
     },
@@ -216,7 +224,11 @@ const UpcomingAdminShow = () => {
         duration: 3,
       });
       queryClient.refetchQueries({
-        queryKey: ["data-group-show"],
+        queryKey: [
+          "data-group-show",
+          "data-show-variety",
+          "data-all-variety"
+        ],
         type: "active",
       });
     },
@@ -269,7 +281,7 @@ const UpcomingAdminShow = () => {
       });
       closeAddRefereeModal();
       queryClient.refetchQueries({
-        queryKey: ["data-show-referee"],
+        queryKey: ["data-show-referee", "data-all-referee"],
         type: "active",
       });
     },
@@ -292,7 +304,7 @@ const UpcomingAdminShow = () => {
         duration: 3,
       });
       queryClient.refetchQueries({
-        queryKey: ["data-show-referee"],
+        queryKey: ["data-show-referee", "data-all-referee"],
         type: "active",
       });
     },
