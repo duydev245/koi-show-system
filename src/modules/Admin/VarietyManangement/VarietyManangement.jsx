@@ -1,4 +1,4 @@
-import { Alert, Breadcrumb, Button, Input, message, Popconfirm, Spin, Table, Tag } from 'antd'
+import { Alert, Breadcrumb, Button, Input, message, Popconfirm, Spin, Table, Tag, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { PATH } from '../../../routes/path'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -118,16 +118,18 @@ const VarietyManangement = () => {
     // name
     {
       title: "Name",
+      width: 200,
       key: "variety-name",
       dataIndex: "varietyName",
       sorter: {
         compare: (a, b) => a.varietyName.length - b.varietyName.length,
         multiple: 4,
       },
-    },
+    },   
     // Origin
     {
       title: "Origin",
+      width: 120,
       key: "variety-origin",
       dataIndex: "varietyOrigin",
       filters: [
@@ -136,29 +138,21 @@ const VarietyManangement = () => {
       ],
       onFilter: (value, record) => record.varietyOrigin === value,
     },
-    // Status
-    // {
-    //   title: "Status",
-    //   width: 200,
-    //   key: "variety-status",
-    //   dataIndex: "varietyStatus",
-    //   filters: [
-    //     { text: "Active", value: true },
-    //     { text: "Inactive", value: false },
-    //   ],
-    //   onFilter: (value, record) => record.varietyStatus === value,
-    //   render: (status) => {
-    //     return status ? (
-    //       <Tag icon={<CheckCircleOutlined />} color="success">Active</Tag>
-    //     ) : (
-    //       <Tag icon={<CloseCircleOutlined />} color="error">Inactive</Tag>
-    //     );
-    //   },
-    // },
+    // description
+    {
+      title: "Description",
+      key: "variety-description",
+      dataIndex: "varietyDescription",
+      render: (desc) => (
+        <Typography className='text-justify'>
+          {desc}
+        </Typography>
+      )
+    },
     // Action
     {
       title: "Action",
-      width: 300,
+      width: 150,
       key: "action",
       render: (record) => {
         return (
@@ -177,7 +171,7 @@ const VarietyManangement = () => {
 
             <Popconfirm
               title="Delete variety"
-              description="Are you sure to delete this?"
+              description="Are you sure to delete this variety?"
               onConfirm={() => { handleDeleteVarietyApi(record.varietyId) }}
               onCancel={() => { }}
               placement="top"

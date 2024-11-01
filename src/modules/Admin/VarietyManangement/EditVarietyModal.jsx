@@ -22,6 +22,7 @@ const EditVarietyModal = (
       .trim()
       .required("*Variety origin is required!")
       .oneOf(validCountries, "*Invalid country name"),
+    VarietyDescription: yup.string().trim().required("*Variety description is required!"),
   });
 
   const {
@@ -34,6 +35,7 @@ const EditVarietyModal = (
     defaultValues: {
       VarietyName: data?.varietyName || "",
       VarietyOrigin: data?.varietyOrigin || "",
+      VarietyDescription: data?.varietyDescription || "",
       VarietyStatus: data?.varietyStatus || true,
     },
     resolver: yupResolver(schema),
@@ -46,8 +48,9 @@ const EditVarietyModal = (
     payload.append("VarietyId", data.varietyId);
     payload.append("VarietyName", values.VarietyName);
     payload.append("VarietyOrigin", values.VarietyOrigin);
+    payload.append("VarietyDescription", values.VarietyDescription);
     payload.append("VarietyStatus", values.VarietyStatus);
-    
+
     // for (let [key, value] of payload.entries()) {
     //     console.log(`${key}:`, value);
     // }
@@ -59,6 +62,7 @@ const EditVarietyModal = (
     if (data && isOpen) {
       setValue("VarietyName", data?.varietyName);
       setValue("VarietyOrigin", data?.varietyOrigin);
+      setValue("VarietyDescription", data?.varietyDescription);
       setValue("VarietyStatus", data?.varietyStatus);
     } else if (!isOpen) {
       reset();
@@ -142,6 +146,36 @@ const EditVarietyModal = (
                 <span className="mt-1 text-base text-red-500">
                   {" "}
                   {errors.VarietyOrigin.message}
+                </span>
+              )}
+            </Col>
+
+            {/* VarietyDescription */}
+            <Col span={24}>
+              <label className="text-base text-black">
+                <span className="text-red-600">* </span>
+                Variety Description:
+              </label>
+              <Controller
+                name="VarietyDescription"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <Input.TextArea
+                      {...field}
+                      rows={5}
+                      size="large"
+                      className="mt-1"
+                      placeholder="Please write something about this variety..."
+                      status={errors.VarietyDescription ? "error" : ""}
+                    />
+                  );
+                }}
+              />
+              {errors?.VarietyDescription && (
+                <span className="mt-1 text-base text-red-500">
+                  {" "}
+                  {errors.VarietyDescription.message}
                 </span>
               )}
             </Col>
