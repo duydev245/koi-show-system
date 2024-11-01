@@ -46,7 +46,7 @@ const AccountStaff = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: "Waiting...",
+                content: "Not connect to network....",
                 type: "error",
                 duration: 3,
             });
@@ -66,7 +66,7 @@ const AccountStaff = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: "Waiting...",
+                content: "Not connect to network....",
                 type: "error",
                 duration: 3,
             });

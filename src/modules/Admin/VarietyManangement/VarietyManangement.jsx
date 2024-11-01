@@ -48,7 +48,7 @@ const VarietyManangement = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: "Waiting...",
+        content: "Not connect to network....",
         type: "error",
         duration: 3,
       });
@@ -72,7 +72,7 @@ const VarietyManangement = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: "Waiting...",
+        content: "Not connect to network....",
         type: "error",
         duration: 3,
       });
@@ -96,7 +96,7 @@ const VarietyManangement = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: "Waiting...",
+        content: "Not connect to network....",
         type: "error",
         duration: 3,
       });

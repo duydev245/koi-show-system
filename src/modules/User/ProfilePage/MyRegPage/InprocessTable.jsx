@@ -44,7 +44,7 @@ const InprocessTable = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: "Waiting...",
+                content: "Not connect to network....",
                 type: "error",
                 duration: 3,
             });
