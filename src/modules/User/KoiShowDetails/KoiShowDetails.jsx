@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Banner } from '../../../components/Banner';
 import { ShowTitle } from '../../../components/ShowTitle';
@@ -15,12 +15,17 @@ import { NotFoundComponent } from '../../../components/NotFoundComponent';
 import { varietyApi } from '../../../apis/variety.api';
 
 const KoiShowDetails = () => {
+
   const { id } = useParams();
 
-  const { data: showDetails, isLoading, error } = useQuery({
-    queryKey: ['show-details'],
+  const [showData, setDataShow] = useState({});
+  const [variety, setVariety] = useState([]);
+
+  const { data: showDetails, isFetching, error } = useQuery({
+    queryKey: ['show-details', id],
     queryFn: () => showApi.getShowDetails(id),
     enabled: !!id,
+    staleTime: 0
   });
   // console.log("🚀 ~ KoiShowDetails ~ showDetails:", showDetails)
 
@@ -28,23 +33,40 @@ const KoiShowDetails = () => {
   const { data: dataListVariety } = useQuery({
     queryKey: ["list-variety", showDetails?.showId],
     queryFn: () => varietyApi.getAllVarietyByShow(showDetails?.showId),
-    enabled: !!id,
+    enabled: !!showDetails?.showId, // Chỉ gọi khi showDetails?.showId đã có giá trị
+    staleTime: 0
   });
 
-  let showID = showDetails?.showId;
-  let showName = showDetails?.showTitle;
-  let showDesc = showDetails?.showDesc;
-  let showStatus = showDetails?.showStatus.toLowerCase();
-  let showReferee = showDetails?.showReferee;
-  let showGroups = showDetails?.showGroups;
+  useEffect(() => {
+    if (showDetails) {
+      setDataShow(showDetails);
+    } else {
+      setDataShow({});
+    }
+  }, [showDetails]);
 
-  let openForm = dayjs(showDetails?.registrationStartDate).format("DD/MM");
-  let closeForm = dayjs(showDetails?.registrationCloseDate).format("DD/MM");
-  let startDate = dayjs(showDetails?.startDate).format("DD/MM");
-  let endDate = dayjs(showDetails?.endDate).format("DD/MM");
-  let entranceFee = showDetails?.entranceFee.toLocaleString();
+  useEffect(() => {
+    if (dataListVariety) {
+      setVariety(dataListVariety);
+    } else {
+      setVariety([]);
+    }
+  }, [dataListVariety]);
 
-  if (isLoading) {
+  let showID = showData?.showId;
+  let showName = showData?.showTitle;
+  let showDesc = showData?.showDesc;
+  let showStatus = showData?.showStatus?.toLowerCase();
+  let showReferee = showData?.showReferee;
+  let showGroups = showData?.showGroups;
+
+  let openForm = dayjs(showData?.registrationStartDate).format("DD/MM");
+  let closeForm = dayjs(showData?.registrationCloseDate).format("DD/MM");
+  let startDate = dayjs(showData?.startDate).format("DD/MM");
+  let endDate = dayjs(showData?.endDate).format("DD/MM");
+  let entranceFee = showData?.entranceFee?.toLocaleString();
+
+  if (isFetching) {
     return <LoadingComponent />;
   }
 
@@ -53,48 +75,51 @@ const KoiShowDetails = () => {
   }
 
   return (
-    <>
-      {/* showDetails?.showBanner */}
-      {/* <Banner bannerShow={'/show-1.jpg'} /> */}
-      <Banner bannerShow={showDetails?.showBanner} />
 
-      <div className='container mx-auto'>
-        <ShowTitle showName={showName} />
+    (!isFetching) && (
+      <>
+        {/* showData?.showBanner */}
+        {/* <Banner bannerShow={'/show-1.jpg'} /> */}
+        <Banner bannerShow={showData?.showBanner} />
 
-        <ShowDesc
-          showID={showID}
-          showName={showName}
-          showDesc={showDesc}
-          showStatus={showStatus}
-          openForm={openForm}
-          closeForm={closeForm}
-          startDate={startDate}
-          endDate={endDate}
-          showReferee={showReferee}
-          showGroups={showGroups}
-          showFee={entranceFee}
-        />
+        <div className='container mx-auto'>
+          <ShowTitle showName={showName} />
 
-        <ShowRules
-          dataListVariety={dataListVariety}
-          closeForm={closeForm}
-          endDate={endDate}
-          showFee={entranceFee}
-        />
+          <ShowDesc
+            showID={showID}
+            showName={showName}
+            showDesc={showDesc}
+            showStatus={showStatus}
+            openForm={openForm}
+            closeForm={closeForm}
+            startDate={startDate}
+            endDate={endDate}
+            showReferee={showReferee}
+            showGroups={showGroups}
+            showFee={entranceFee}
+          />
 
-        <ShowGuide
-          closeForm={closeForm}
-          endDate={endDate}
-        />
+          <ShowRules
+            dataListVariety={variety}
+            closeForm={closeForm}
+            endDate={endDate}
+            showFee={entranceFee}
+          />
 
-        {/* koi entries */}
-        <ListKoiEntries
-          showName={showName}
-          showID={id}
-        />
-      </div>
+          <ShowGuide
+            closeForm={closeForm}
+            endDate={endDate}
+          />
 
-    </>
+          {/* koi entries */}
+          <ListKoiEntries
+            showName={showName}
+            showID={id}
+          />
+        </div>
+
+      </>
+    ) 
   )
 }
 

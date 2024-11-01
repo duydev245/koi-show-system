@@ -22,6 +22,7 @@ const ListKoiEntries = ({ showName, showID }) => {
     const { data: listRegistration } = useQuery({
         queryKey: ['list-registration', { currentPage }],
         queryFn: () => registrationApi.getListRegByShowId({ pageIndex: currentPage, showID }),
+        enabled: !!showID,
     });
     // console.log("🚀 ~ KoiShowDetails ~ listRegistration:", listRegistration)
 
@@ -34,7 +35,7 @@ const ListKoiEntries = ({ showName, showID }) => {
 
     // dataShowVariety
     const { data: dataShowVariety, isLoading: isLoadingListVariety } = useQuery({
-        queryKey: ["data-show-variety"],
+        queryKey: ["data-show-variety", showID],
         queryFn: () => varietyApi.getAllVarietyByShow(showID),
         enabled: !!showID,
     });
@@ -89,7 +90,7 @@ const ListKoiEntries = ({ showName, showID }) => {
                     {dataShowVariety?.map(variety => (
                         <Checkbox
                             className='text-base'
-                            key={variety.varietyName} 
+                            key={variety.varietyName}
                             checked={groupVarieties.includes(variety.varietyName)}
                             onChange={() => handleVarietyChange(variety.varietyName)}
                         >

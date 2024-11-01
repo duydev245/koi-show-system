@@ -5,7 +5,9 @@ import { Controller, useForm } from 'react-hook-form';
 import AddCriterionModal from './AddCriterionModal';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import 'animate.css'
+import EditCriterionModal from './EditCriterionModal';
 
 const EditGroupModal = (
     {
@@ -21,6 +23,7 @@ const EditGroupModal = (
 
     const [messageApi, contextHolder] = message.useMessage();
     const { isOpen: isOpenAddCriterionModal, openModal: openAddCriterionModal, closeModal: closeAddCriterionModal } = useOpenModal();
+    const { isOpen: isOpenUpdateCriterionModal, openModal: openUpdateCriterionModal, closeModal: closeUpdateCriterionModal } = useOpenModal();
 
     const [groupVarieties, setGroupVarieties] = useState([]);
 
@@ -36,6 +39,12 @@ const EditGroupModal = (
     };
 
     const [groupCriteria, setGroupCriteria] = useState([]);
+    const [editCriteria, setEditCriteria] = useState({});
+
+    const handleCloseUpdateModal = () => {
+        closeUpdateCriterionModal();
+        setEditCriteria({});
+    }
 
     // Add Criterion
     const handleAddCriterion = (criterion) => {
@@ -43,6 +52,21 @@ const EditGroupModal = (
         closeAddCriterionModal();
         messageApi.open({
             content: "Add Criterion successfully",
+            type: "success",
+            duration: 3,
+        });
+    };
+
+    // Edit Criterion
+    const handleUpdateCriterion = (updatedCriterion) => {
+        setGroupCriteria(prevCriteria =>
+            prevCriteria.map(criterion =>
+                criterion.id === updatedCriterion.id ? { ...criterion, ...updatedCriterion } : criterion
+            )
+        );
+        handleCloseUpdateModal();
+        messageApi.open({
+            content: "Update Criterion successfully",
             type: "success",
             duration: 3,
         });
@@ -88,19 +112,31 @@ const EditGroupModal = (
             title: 'Action',
             width: 100,
             key: 'action',
-            render: (text, record) => (
-                <Popconfirm
-                    title="Delete criterion"
-                    description="Are you sure to delete this criterion?"
-                    onConfirm={() => handleDeleteCriterion(record.id)}
-                    onCancel={() => { }}
-                    okText="Yes"
-                    cancelText="No"
-                >
-                    <Button type="default" danger size='middle'>
-                        <DeleteOutlined />
+            render: (record) => (
+                <div className="flex space-x-1">
+                    <Button
+                        type="default"
+                        size='middle'
+                        onClick={() => {
+                            setEditCriteria(record);
+                            openUpdateCriterionModal();
+                        }}
+                    >
+                        <EditOutlined />
                     </Button>
-                </Popconfirm>
+                    <Popconfirm
+                        title="Delete criterion"
+                        description="Are you sure to delete this criterion?"
+                        onConfirm={() => handleDeleteCriterion(record.id)}
+                        onCancel={() => { }}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="default" danger size='middle'>
+                            <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
+                </div>
 
             ),
         },
@@ -147,6 +183,17 @@ const EditGroupModal = (
         if (groupCriteria.length == 0 || groupVarieties.length == 0) {
             messageApi.open({
                 content: "Criteria or Varieties can't be empty!",
+                type: "warning",
+                duration: 3,
+            });
+            return;
+        }
+
+        const totalPercentage = groupCriteria.reduce((total, criterion) => total + criterion.percentage, 0);
+
+        if (totalPercentage !== 100) {
+            messageApi.open({
+                content: "Total percentage of all criterion must be exactly 100%.",
                 type: "warning",
                 duration: 3,
             });
@@ -306,14 +353,14 @@ const EditGroupModal = (
                             {/* dataVarieties */}
                             <div className='mt-1'>
                                 {dataVarieties?.map(variety => (
-                                    <div key={variety.varietyId} style={{ marginBottom: '8px' }}>
+                                    <div key={variety.varietyId} style={{ marginBottom: '8px' }} className='bg-gray-100 duration-300 hover:bg-gray-200 p-3 rounded-md'>
                                         <Checkbox
                                             className='text-base'
                                             checked={groupVarieties.includes(variety.varietyId)}
                                             onChange={() => handleVarietyChange(variety.varietyId)}
                                         >
-                                            {variety.varietyName} ({variety.varietyOrigin}) - {variety
-                                                .varietyDescription}
+                                            <p>- {variety.varietyName} ({variety.varietyOrigin})</p>
+                                            <p className='text-justify ms-2'>+ {variety.varietyDescription}</p>
                                         </Checkbox>
                                     </div>
                                 ))}
@@ -375,6 +422,15 @@ const EditGroupModal = (
                 onCloseModal={closeAddCriterionModal}
                 handleAddCriterion={handleAddCriterion}
             />
+
+            <EditCriterionModal
+                key={'editing-criterion'}
+                data={editCriteria}
+                isOpen={isOpenUpdateCriterionModal}
+                onCloseModal={handleCloseUpdateModal}
+                handleUpdateCriterion={handleUpdateCriterion}
+            />
+
         </>
     )
 }

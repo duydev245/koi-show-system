@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Alert, Button, Checkbox, Col, Form, Input, message, Modal, Popconfirm, Row, Table, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
@@ -6,6 +6,8 @@ import { useOpenModal } from '../../../../hooks/useOpenModal';
 import AddCriterionModal from './AddCriterionModal';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import 'animate.css'
+import EditCriterionModal from './EditCriterionModal';
 
 const AddGroupModal = (
     {
@@ -20,6 +22,7 @@ const AddGroupModal = (
 
     const [messageApi, contextHolder] = message.useMessage();
     const { isOpen: isOpenAddCriterionModal, openModal: openAddCriterionModal, closeModal: closeAddCriterionModal } = useOpenModal();
+    const { isOpen: isOpenUpdateCriterionModal, openModal: openUpdateCriterionModal, closeModal: closeUpdateCriterionModal } = useOpenModal();
 
     const [groupVarieties, setGroupVarieties] = useState([]);
 
@@ -35,6 +38,12 @@ const AddGroupModal = (
     };
 
     const [groupCriteria, setGroupCriteria] = useState([]);
+    const [editCriteria, setEditCriteria] = useState({});
+
+    const handleCloseUpdateModal = () => {
+        closeUpdateCriterionModal();
+        setEditCriteria({});
+    }
 
     // Add Criterion
     const handleAddCriterion = (criterion) => {
@@ -42,6 +51,21 @@ const AddGroupModal = (
         closeAddCriterionModal();
         messageApi.open({
             content: "Add Criterion successfully",
+            type: "success",
+            duration: 3,
+        });
+    };
+
+    // Edit Criterion
+    const handleUpdateCriterion = (updatedCriterion) => {
+        setGroupCriteria(prevCriteria =>
+            prevCriteria.map(criterion =>
+                criterion.id === updatedCriterion.id ? { ...criterion, ...updatedCriterion } : criterion
+            )
+        );
+        handleCloseUpdateModal();
+        messageApi.open({
+            content: "Update Criterion successfully",
             type: "success",
             duration: 3,
         });
@@ -87,19 +111,31 @@ const AddGroupModal = (
             title: 'Action',
             width: 100,
             key: 'action',
-            render: (text, record) => (
-                <Popconfirm
-                    title="Delete criterion"
-                    description="Are you sure to delete this criterion?"
-                    onConfirm={() => handleDeleteCriterion(record.id)}
-                    onCancel={() => { }}
-                    okText="Yes"
-                    cancelText="No"
-                >
-                    <Button type="default" danger size='middle'>
-                        <DeleteOutlined />
+            render: (record) => (
+                <div className="flex space-x-1">
+                    <Button
+                        type="default"
+                        size='middle'
+                        onClick={() => {
+                            setEditCriteria(record);
+                            openUpdateCriterionModal();
+                        }}
+                    >
+                        <EditOutlined />
                     </Button>
-                </Popconfirm>
+                    <Popconfirm
+                        title="Delete criterion"
+                        description="Are you sure to delete this criterion?"
+                        onConfirm={() => handleDeleteCriterion(record.id)}
+                        onCancel={() => { }}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="default" danger size='middle'>
+                            <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
+                </div>
 
             ),
         },
@@ -141,40 +177,22 @@ const AddGroupModal = (
         criteriaMode: "all",
     });
 
-
-    // const onSubmit = (values) => {
-    //     const payload = new FormData();
-
-    //     payload.append("ShowId", showId);
-    //     payload.append("Name", values.name);
-    //     payload.append("MinSize", values.minSize);
-    //     payload.append("MaxSize", values.maxSize);
-
-    //     // groupVarieties.forEach((item) => {
-    //     //     payload.append("Varieties", item);
-    //     // });
-
-    //     payload.append("Varieties", JSON.stringify(groupVarieties));
-
-    //     const sanitizedCriteria = groupCriteria.map(({ id, ...rest }) => rest);
-    //     // sanitizedCriteria.forEach((item) => {
-    //     //     payload.append("Criterias", JSON.stringify(item));
-    //     // })
-
-    //     payload.append("Criterias", JSON.stringify(sanitizedCriteria));
-
-    //     for (let [key, value] of payload.entries()) {
-    //         console.log(key, value);
-    //     }
-
-    //     handleAddGroupApi(payload)
-    // };
-
     const onSubmit = (values) => {
 
         if (groupCriteria.length == 0 || groupVarieties.length == 0) {
             messageApi.open({
                 content: "Criteria or Varieties can't be empty!",
+                type: "warning",
+                duration: 3,
+            });
+            return;
+        }
+
+        const totalPercentage = groupCriteria.reduce((total, criterion) => total + criterion.percentage, 0);
+
+        if (totalPercentage !== 100) {
+            messageApi.open({
+                content: "Total percentage of all criterion must be exactly 100%!",
                 type: "warning",
                 duration: 3,
             });
@@ -321,14 +339,14 @@ const AddGroupModal = (
                             {/* dataVarieties */}
                             <div className='mt-1'>
                                 {dataVarieties?.map(variety => (
-                                    <div key={variety.varietyId} style={{ marginBottom: '8px' }}>
+                                    <div key={variety.varietyId} style={{ marginBottom: '8px' }} className='bg-gray-100 duration-300 hover:bg-gray-200 p-3 rounded-md'>
                                         <Checkbox
                                             className='text-base'
                                             checked={groupVarieties.includes(variety.varietyId)}
                                             onChange={() => handleVarietyChange(variety.varietyId)}
                                         >
-                                            {variety.varietyName} ({variety.varietyOrigin}) - {variety
-                                            .varietyDescription}
+                                            <p>- {variety.varietyName} ({variety.varietyOrigin})</p>
+                                            <p className='text-justify ms-2'>+ {variety.varietyDescription}</p>
                                         </Checkbox>
                                     </div>
                                 ))}
@@ -388,6 +406,14 @@ const AddGroupModal = (
                 isOpen={isOpenAddCriterionModal}
                 onCloseModal={closeAddCriterionModal}
                 handleAddCriterion={handleAddCriterion}
+            />
+
+            <EditCriterionModal
+                key={'editing-criterion'}
+                data={editCriteria}
+                isOpen={isOpenUpdateCriterionModal}
+                onCloseModal={handleCloseUpdateModal}
+                handleUpdateCriterion={handleUpdateCriterion}
             />
         </>
     )

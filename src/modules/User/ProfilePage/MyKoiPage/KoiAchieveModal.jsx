@@ -88,7 +88,7 @@ const KoiAchieveModal = (
                 loading={isLoading}
                 title={
                     <Typography className="text-xl font-medium">
-                        View {data?.koiName} achievement
+                        View {data?.koiName}'s' achievement
                     </Typography>
                 }
                 centered

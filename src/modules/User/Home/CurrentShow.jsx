@@ -1,7 +1,7 @@
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, Col, Row, Skeleton, Typography } from 'antd';
-import React, { useState } from 'react'
+import { Alert, Card, Col, Row, Skeleton, Spin, Typography } from 'antd';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { OngoingShow } from '../../../components/OngoingShow';
 import { EndedShow } from '../../../components/EndedShow';
@@ -9,33 +9,66 @@ import { ScoringShow } from '../../../components/ScoringShow';
 import dayjs from "dayjs";
 import { showApi } from '../../../apis/show.api';
 import { useQuery } from '@tanstack/react-query';
+import { isEven } from '../KoiShowDetails/ShowDesc';
 
 const CurrentShow = ({ currentShow }) => {
 
-    const { data: showDetails, isLoading, error } = useQuery({
-        queryKey: ['show-details'],
-        queryFn: () => showApi.getShowDetails(currentShow?.showId),
-        enabled: !!currentShow?.showId,
-    });
-    console.log("🚀 ~ CurrentShow ~ showDetails:", showDetails)
+    const navigate = useNavigate();
 
+    const showId = currentShow?.showId;
+    const [showData, setDataShow] = useState({});
     const [imageLoaded, setImageLoaded] = useState(false);
 
-    let showStatus = showDetails?.showStatus.toLowerCase();
-    let openForm = dayjs(showDetails?.registrationStartDate).format("DD/MM");
-    let closeForm = dayjs(showDetails?.registrationCloseDate).format("DD/MM");
-    let showGroups = showDetails?.showGroups;
+    const { data: showDetails, isFetching, error } = useQuery({
+        queryKey: ['show-details', showId],
+        queryFn: () => showApi.getShowDetails(showId),
+        enabled: !!showId,
+    });
+    // console.log("🚀 ~ CurrentShow ~ showDetails:", showDetails)
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        if (showDetails) {
+            setDataShow(showDetails);
+        } else {
+            setDataShow({});
+        }
+    }, [showDetails]);
+
+
+    let showStatus = showData?.showStatus?.toLowerCase();
+    let openForm = dayjs(showData?.registrationStartDate).format("DD/MM");
+    let closeForm = dayjs(showData?.registrationCloseDate).format("DD/MM");
+    let showGroups = showData?.showGroups;
+
+    const bestVotedKois = showGroups?.map(group => group.registrations.find(reg => reg.isBestVote === true)).filter(Boolean);
 
     const handleOnClick = (idShow) => {
         return navigate(`/show-details/${idShow}`);
     }
 
+    if (isFetching) {
+        return (
+            <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Spin tip="Loading..." />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <Alert
+                message="Warning"
+                description="Something went wrong..."
+                type="warning"
+                showIcon
+            />
+        );
+    }
+
     return (
         <>
             <div className='p-4 mb-5'>
-                <Card hoverable >
+                <Card hoverable onClick={() => { handleOnClick(showData?.showId) }} >
                     <Row gutter={[0, 10]}>
                         <Col span={24} style={{ width: '100%' }}>
                             {/* currentShow?.showBanner */}
@@ -47,7 +80,7 @@ const CurrentShow = ({ currentShow }) => {
                                 )}
                                 <img
                                     className='w-full rounded-lg md:h-[350px] lg:h-[480px]'
-                                    src={showDetails?.showBanner} alt={showDetails?.showTitle}
+                                    src={showData?.showBanner} alt={showData?.showTitle}
                                     onLoad={() => setImageLoaded(true)}
                                     style={{ display: imageLoaded ? 'block' : 'none' }}
                                 />
@@ -60,7 +93,7 @@ const CurrentShow = ({ currentShow }) => {
                                 {(showStatus === 'scoring') && (<ScoringShow />)}
                                 {(showStatus === 'finished') && (<EndedShow />)}
                             </div>
-                            <h4 className='text-4xl font-bold'>{showDetails?.showTitle}</h4>
+                            <h4 className='text-4xl font-bold'>{showData?.showTitle}</h4>
                         </Col>
                         <Col span={12} className='pe-2'>
 
@@ -73,11 +106,12 @@ const CurrentShow = ({ currentShow }) => {
                                                 (
                                                     <>
                                                         <p className='text-lg ml-4'>
-                                                            - {showDetails?.showDesc}
-                                                        </p>
-                                                        <p className='text-lg ml-4'>
                                                             - Registration Time: <span className='font-bold text-red-500'>{openForm} - {closeForm}</span>
                                                         </p>
+                                                        <p className='text-lg ml-4'>
+                                                            - {showData?.showDesc}
+                                                        </p>
+
                                                     </>
                                                 ) : (
                                                     <Skeleton active paragraph={{ rows: 3 }} />
@@ -90,12 +124,12 @@ const CurrentShow = ({ currentShow }) => {
                             </div>
                         </Col>
                         <Col span={12} className='ps-2'>
-                            {showDetails?.showReferee ? (
+                            {showData?.showReferee ? (
                                 <>
                                     <div className="mb-4">
                                         <p className='font-bold mb-2 text-3xl'>Official Judges: </p>
                                         <ul className="space-y-2 ml-4 text-lg">
-                                            {showDetails?.showReferee?.map((ref) => (
+                                            {showData?.showReferee?.map((ref) => (
                                                 <li key={ref.refereeId}>
                                                     - {ref.refereeName}
                                                 </li>
@@ -108,7 +142,7 @@ const CurrentShow = ({ currentShow }) => {
                             )}
                         </Col>
 
-                        <Col span={24} className='ps-2'>
+                        <Col span={24} className='p-6 md:py-6 bg-white md:px-28'>
                             {(showStatus === 'finished') &&
                                 (
                                     <div className='mb-4'>
@@ -124,7 +158,7 @@ const CurrentShow = ({ currentShow }) => {
                                                 <div key={gr.groupId} className="mb-4 bg-gray-100 p-6 rounded-md">
                                                     <p className='text-2xl font-bold mb-2'>{gr.groupName}</p>
                                                     <div className="grid grid-cols-3 gap-4">
-                                                        {gr.registrations?.map((koi, index) => (
+                                                        {gr.registrations?.slice(0, 3).map((koi, index) => (
                                                             <Card
                                                                 key={index}
                                                                 cover={<img className='md:h-[305px] lg:h-[478px]' alt={koi?.name} src={koi?.image1} />}
@@ -153,9 +187,7 @@ const CurrentShow = ({ currentShow }) => {
                                                                 </div>
                                                                 <div
                                                                     className='flex justify-evenly items-center'
-                                                                    onClick={() => {
-                                                                        navigate(`/registration-details/${koi.id}`)
-                                                                    }}>
+                                                                >
                                                                     <Typography className='text-2xl font-bold hover:text-blue-500 duration-300 transition-all'>
                                                                         {koi.name}
                                                                     </Typography>
@@ -171,6 +203,34 @@ const CurrentShow = ({ currentShow }) => {
                                                 </div>
                                             ))}
                                         </div>
+
+                                        <div className='mt-4'>
+                                            {(bestVotedKois?.length > 0) && (
+                                                <div className="mb-4 bg-gray-100 p-6 rounded-md">
+                                                    <p className='text-2xl font-bold mb-2'>Best Voting</p>
+                                                    <div className={`grid ${isEven(bestVotedKois?.length) ? 'grid-cols-2' : 'grid-cols-3'} gap-4`}>
+                                                        {bestVotedKois?.map((reg, index) => (
+                                                            <Card
+                                                                key={index}
+                                                                cover={<img className='md:h-[305px] lg:h-[478px]' alt={reg?.name} src={reg?.image1} />}
+                                                            >
+                                                                {(reg.isBestVote) && (
+                                                                    <div className='flex justify-center items-center mb-3'>
+                                                                        <FontAwesomeIcon className='text-red-600' icon={faHeart} size='2x' />
+                                                                        <span className='text-2xl font-bold ms-2'>Best vote in group</span>
+                                                                    </div>
+                                                                )}
+                                                                <div className='flex justify-center items-center' onClick={() => { handleOnClick(reg.id) }}>
+                                                                    <Typography className='text-2xl font-bold hover:text-blue-500 duration-300 transition-all'>
+                                                                        {reg.name}
+                                                                    </Typography>
+                                                                </div>
+                                                            </Card>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 )
                             }
@@ -178,7 +238,6 @@ const CurrentShow = ({ currentShow }) => {
                         </Col>
                         <Col span={24}>
                             <button
-                                onClick={() => { handleOnClick(showDetails?.showId) }}
                                 className='btnAddKoi text-2xl font-bold w-full py-3 rounded-xl bg-red-600 text-white hover:text-black duration-300'>
                                 View more
                             </button>

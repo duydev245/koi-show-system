@@ -275,6 +275,7 @@ const ShowManagement = () => {
                                     type="default"
                                     className="mr-2"
                                     onClick={() => {
+                                        handleReviewGroupScoreShowApi(record.showId);
                                         navigate(PATH.ADMIN_SCORING_SHOW, { state: { showId: record.showId } })
                                     }}
                                     loading={false}
@@ -282,7 +283,7 @@ const ShowManagement = () => {
                                     View
                                 </Button>
 
-                                <Button
+                                {/* <Button
                                     type="primary"
                                     className="mr-2"
                                     loading={isPendingReview}
@@ -291,7 +292,7 @@ const ShowManagement = () => {
                                     }}
                                 >
                                     Score
-                                </Button>
+                                </Button> */}
                             </>
                         )}
 

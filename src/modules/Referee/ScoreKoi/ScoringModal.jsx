@@ -182,13 +182,14 @@ const ScoringModal = ({
 
                                 {criterions && criterions.map((criterion, index) => (
                                     <Col key={index} span={24}>
-                                        <Row>
+                                        <Row className='bg-gray-200 rounded-md p-4'>
                                             <Col span={18}>
                                                 <label className="text-lg text-black font-semibold">
                                                     Criterion {criterion.name}:
                                                 </label>
                                                 <p className='text-lg'>- Percentage: {criterion.percentage}%</p>
-                                                <p className='text-lg'>- Description: {criterion.description}</p>
+                                                <p className='text-lg'>- Description:</p>
+                                                <p className='text-lg ms-2 w-11/12 text-justify'>+ {criterion.description}</p>
                                             </Col>
                                             <Col span={6}>
                                                 <div className='flex flex-col'>

@@ -12,7 +12,7 @@ const AuthLayout = ({ children }) => {
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 1200);
+        }, 1500);
     }, []);
 
     return (

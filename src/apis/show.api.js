@@ -1,4 +1,4 @@
-import { PAGE_SHOW_SIZE, PAGE_SIZE } from "../constants";
+import { PAGE_SHOW_SIZE } from "../constants";
 import fetcher from "./fetcher";
 import fetcherNoAuth from "./fetcherNoAuth";
 

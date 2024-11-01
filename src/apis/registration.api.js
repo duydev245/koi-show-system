@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "../constants";
+import { PAGE_REG_SIZE } from "../constants";
 import fetcher from "./fetcher";
 import fetcherNoAuth from "./fetcherNoAuth";
 
@@ -7,7 +7,7 @@ export const registrationApi = {
     getListRegByShowId: async (payload) => {
         const params = {
             pageIndex: payload.pageIndex,
-            pageSize: payload.pageSize || PAGE_SIZE,
+            pageSize: payload.pageSize || PAGE_REG_SIZE,
             showID: payload.showID * 1
         };
 
@@ -108,7 +108,7 @@ export const registrationApi = {
     getPendingRegList: async (payload) => {
         const params = {
             pageIndex: payload.pageIndex,
-            pageSize: payload.pageSize || PAGE_SIZE, // 10
+            pageSize: payload.pageSize || PAGE_REG_SIZE, // 12
         };
 
         try {
@@ -157,7 +157,7 @@ export const registrationApi = {
     getListRegByGroupId: async (payload) => {
         const params = {
             pageIndex: payload.pageIndex,
-            pageSize: payload.pageSize || PAGE_SIZE,
+            pageSize: payload.pageSize || PAGE_REG_SIZE,
             groupId: payload.groupId * 1
         };
 

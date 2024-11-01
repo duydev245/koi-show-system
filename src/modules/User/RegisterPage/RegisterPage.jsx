@@ -529,51 +529,36 @@ const RegisterPage = () => {
                 >
                   Cancel
                 </Button>
-                <Popconfirm
-                  title="Notification"
-                  description="Are you sure to register more?"
-                  onConfirm={() => {
+
+                <Button
+                  loading={isPendingCreate}
+                  htmlType="button"
+                  onClick={() => {
                     setActionType('registerMore');
                     handleSubmit(onSubmit)();
                   }}
-                  onCancel={() => { }}
-                  placement="right"
-                  okText="Yes"
-                  cancelText="No"
+                  size="large"
+                  type="default"
+                  className="ml-3"
                 >
-                  <Button
-                    loading={isPendingCreate}
-                    htmlType="button"
-                    size="large"
-                    type="default"
-                    className="ml-3"
-                  >
-                    Register more?
-                  </Button>
-                </Popconfirm>
+                  Register more?
+                </Button>
 
-                <Popconfirm
-                  title="Notification"
-                  description="Are you sure to checkout?"
-                  onConfirm={() => {
+
+                <Button
+                  loading={isPendingCreate}
+                  htmlType="button"
+                  onClick={() => {
                     setActionType('checkout');
                     handleSubmit(onSubmit)();
-                  }}
-                  onCancel={() => { }}
-                  placement="right"
-                  okText="Yes"
-                  cancelText="No"
+                  }
+                  }
+                  size="large"
+                  type="primary"
+                  className="ml-3"
                 >
-                  <Button
-                    loading={isPendingCreate}
-                    htmlType="button"
-                    size="large"
-                    type="primary"
-                    className="ml-3"
-                  >
-                    Check out
-                  </Button>
-                </Popconfirm>
+                  Check out
+                </Button>
               </Col>
             </Row>
           </Form>

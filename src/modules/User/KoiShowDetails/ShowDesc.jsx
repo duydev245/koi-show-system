@@ -9,12 +9,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import 'animate.css'
 
+export const isEven = (length) => length % 2 === 0;
+
 const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm, endDate, startDate, showReferee, showGroups, showFee }) => {
     const navigate = useNavigate();
 
     const handleOnClick = (idKoi) => {
         return navigate(`/registration-details/${idKoi}`);
     }
+
+    const bestVotedKois = showGroups?.map(group => group.registrations.find(reg => reg.isBestVote === true)).filter(Boolean);
 
     return (
         <div className='mb-8'>
@@ -93,7 +97,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
             </div>
 
             {/* show groups / awards */}
-            <Card hoverable className="p-6 bg-white">
+            <Card hoverable className="p-6 lg:py-6 bg-white lg:px-28">
                 <div className='text-xl'>
                     <p className='font-bold mb-3 text-3xl'>
                         {(showStatus === 'finished') ? (<span className='text-red-600 uppercase'>Congratulations to our champions:</span>) : 'Show Groups:'}
@@ -108,7 +112,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                                             <div key={gr.groupId} className="mb-4 bg-gray-100 p-6 rounded-md">
                                                 <p className='text-2xl font-bold mb-2'>{gr.groupName}</p>
                                                 <div className="grid grid-cols-3 gap-4">
-                                                    {gr.registrations?.map((koi, index) => (
+                                                    {gr.registrations?.slice(0, 3).map((koi, index) => (
                                                         <Card
                                                             key={index}
                                                             cover={<img className='md:h-[305px] lg:h-[478px]' alt={koi?.name} src={koi?.image1} />}
@@ -139,26 +143,49 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                                                                 <Typography className='text-2xl font-bold hover:text-blue-500 duration-300 transition-all'>
                                                                     {koi.name}
                                                                 </Typography>
-                                                                {(koi.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='2x' />)}
+                                                                {/* {(koi.isBestVote) && (<FontAwesomeIcon className='text-red-600' icon={faHeart} size='2x' />)} */}
                                                             </div>
-                                                            {/* <Typography className='text-lg flex justify-evenly items-center'>
-                                                                <span className="font-bold">Total score:</span>
-                                                                <span>{koi.totalScore}</span>
-                                                            </Typography> */}
                                                         </Card>
                                                     ))}
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
+                                    <div className='mt-4'>
+                                        {(bestVotedKois?.length > 0) && (
+                                            <div className="mb-4 bg-gray-100 p-6 rounded-md">
+                                                <p className='text-2xl font-bold mb-2'>Best Voting</p>
+                                                <div className={`grid ${isEven(bestVotedKois?.length) ? 'grid-cols-2' : 'grid-cols-3'} gap-4`}>
+                                                    {bestVotedKois?.map((reg, index) => (
+                                                        <Card
+                                                            key={index}
+                                                            cover={<img className='md:h-[305px] lg:h-[478px]' alt={reg?.name} src={reg?.image1} />}
+                                                        >
+                                                            {(reg.isBestVote) && (
+                                                                    <div className='flex justify-center items-center mb-3'>
+                                                                        <FontAwesomeIcon className='text-red-600' icon={faHeart} size='2x' />
+                                                                        <span className='text-2xl font-bold ms-2'>Best vote in group</span>
+                                                                    </div>
+                                                                )}
+                                                            <div className='flex justify-center items-center' onClick={() => { handleOnClick(reg.id) }}>
+                                                                <Typography className='text-2xl font-bold hover:text-blue-500 duration-300 transition-all'>
+                                                                    {reg.name}
+                                                                </Typography>
+                                                            </div>
+                                                        </Card>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </>
                             ) : (
                                 <>
-                                    <div className="space-x-5 grid grid-cols-3">
+                                    <div className={`space-x-5 grid ${isEven(showGroups?.length) ? 'grid-cols-2' : 'grid-cols-3'}`}>
                                         {showGroups?.map((gr) => (
                                             <div key={gr.groupId} className="mb-4 bg-gray-100 p-6 rounded-md">
                                                 <p className='text-lg font-semibold mb-2'>{gr.groupName}</p>
-                                                <div className="space-y-2">
+                                                <div className="space-y-4">
                                                     {gr.criterion?.map((item, index) => (
                                                         <div key={index} className='text-lg ml-4'>
                                                             <p className="font-semibold">{item?.name}:</p>
@@ -174,11 +201,9 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                             )
 
                     }
-
-
                 </div>
-            </Card>
-        </div>
+            </Card >
+        </div >
     )
 }
 

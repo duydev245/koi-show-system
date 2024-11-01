@@ -1,5 +1,6 @@
 import { Button, Checkbox, Col, Modal, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
+import 'animate.css'
 
 const AddRefereeModal = (
     {
@@ -64,7 +65,7 @@ const AddRefereeModal = (
                         {/* dataReferee */}
                         <div className='mt-1'>
                             {dataReferee.map(ref => (
-                                <div key={ref.id} style={{ marginBottom: '8px' }}>
+                                <div key={ref.id} style={{ marginBottom: '8px' }} className='bg-gray-100 duration-300 hover:bg-gray-200 p-3 rounded-md'>
                                     <Checkbox
                                         className='text-base font-semibold'
                                         checked={groupReferee.includes(ref.id)}

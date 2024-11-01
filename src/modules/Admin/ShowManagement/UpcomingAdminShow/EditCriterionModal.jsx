@@ -4,11 +4,12 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const AddCriterionModal = (
+const EditCriterionModal = (
     {
+        data,
         isOpen,
         onCloseModal,
-        handleAddCriterion,
+        handleUpdateCriterion,
     }
 ) => {
 
@@ -40,20 +41,31 @@ const AddCriterionModal = (
         reset,
     } = useForm({
         defaultValues: {
-            name: "",
-            percentage: "",
-            description: "",
+            name: data?.name || "",
+            percentage: data?.percentage || "",
+            description: data?.description || "",
         },
         resolver: yupResolver(schema),
         criteriaMode: "all",
     });
 
     const onSubmit = (values) => {
-        handleAddCriterion(values)
+        const payload = {
+            id: data?.id,
+            ...values,
+        }
+
+        handleUpdateCriterion(payload);
     }
 
     useEffect(() => {
-        if (!isOpen) {
+        if (isOpen) {
+
+            setValue("name", data?.name)
+            setValue("percentage", data?.percentage)
+            setValue("description", data?.description)
+
+        } else {
             reset();
         }
     }, [isOpen]);
@@ -64,7 +76,7 @@ const AddCriterionModal = (
                 open={isOpen}
                 title={
                     <Typography className="text-xl font-medium">
-                        Add criterion
+                        Edit criterion
                     </Typography>
                 }
                 centered
@@ -169,7 +181,7 @@ const AddCriterionModal = (
                             </Button>
 
                             <Button htmlType='submit' size='middle' type="primary">
-                                Add Criteria
+                                Edit Criteria
                             </Button>
                         </Col>
                     </Row>
@@ -179,4 +191,4 @@ const AddCriterionModal = (
     )
 }
 
-export default AddCriterionModal
+export default EditCriterionModal
