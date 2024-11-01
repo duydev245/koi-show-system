@@ -42,7 +42,7 @@ const CartPage = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: error?.message,
+        content: "Waiting...",
         type: "error",
         duration: 3,
       });

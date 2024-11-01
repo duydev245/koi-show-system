@@ -7,6 +7,7 @@ import { registrationApi } from '../../../apis/registration.api';
 import { PAGE_SIZE } from '../../../constants';
 import { FormOutlined, SyncOutlined } from '@ant-design/icons';
 import EvaluateModal from './EvaluateModal';
+import ContactModal from './ContactModal';
 
 const ApplicationManagement = () => {
 
@@ -14,12 +15,19 @@ const ApplicationManagement = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [dataEvaluate, setDataEvaluate] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [dataContact, setDataContact] = useState('');
 
   const { isOpen: isOpenEvaluateModal, openModal: openEvaluateModal, closeModal: closeEvaluateModal } = useOpenModal();
+  const { isOpen: isOpenContactModal, openModal: openContactModal, closeModal: closeContactModal } = useOpenModal();
 
   const handleCloseEvaluateModal = () => {
     closeEvaluateModal();
     setDataEvaluate({});
+  }
+
+  const handleCloseContactModal = () => {
+    closeContactModal();
+    setDataContact('');
   }
 
   // dataListPendingRegistration
@@ -45,7 +53,7 @@ const ApplicationManagement = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: error?.message,
+        content: "Waiting...",
         type: "error",
         duration: 3,
       });
@@ -123,6 +131,17 @@ const ApplicationManagement = () => {
         return (
           <div className="flex">
             <Button
+              type="default"
+              className="mr-2"
+              onClick={() => {
+                setDataContact(record.id);
+                openContactModal();
+              }}
+              loading={false}
+            >
+              Contact
+            </Button>
+            <Button
               type="primary"
               className="mr-2"
               onClick={() => {
@@ -131,7 +150,7 @@ const ApplicationManagement = () => {
               }}
               loading={false}
             >
-              <FormOutlined />
+              Evaluate
             </Button>
           </div>
         );
@@ -201,6 +220,12 @@ const ApplicationManagement = () => {
         onCloseModal={handleCloseEvaluateModal}
         handleEvaluateApi={handleEvaluateApi}
         isPending={isPendingEvaluate}
+      />
+
+      <ContactModal
+        idReg={dataContact}
+        isOpen={isOpenContactModal}
+        onCloseModal={handleCloseContactModal}
       />
     </>
   )

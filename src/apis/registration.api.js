@@ -153,7 +153,6 @@ export const registrationApi = {
         }
     },
 
-
     getListRegByGroupId: async (payload) => {
         const params = {
             pageIndex: payload.pageIndex,
@@ -165,6 +164,19 @@ export const registrationApi = {
             const response = await fetcherNoAuth.get(
                 `/Registration/registrations-by-group`,
                 { params }
+            );
+
+            return response.data.payload;
+
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    getRegContactDetails: async (id) => {
+        try {
+            const response = await fetcherNoAuth.get(
+                `/Registration/user-info?registrationId=${id}`
             );
 
             return response.data.payload;

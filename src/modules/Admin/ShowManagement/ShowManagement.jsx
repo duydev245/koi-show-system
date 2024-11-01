@@ -79,7 +79,7 @@ const ShowManagement = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: error?.message,
+                content: "Waiting...",
                 type: "error",
                 duration: 3,
             });
@@ -102,7 +102,7 @@ const ShowManagement = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: error?.message,
+                content: "Waiting...",
                 type: "error",
                 duration: 3,
             });
@@ -125,7 +125,7 @@ const ShowManagement = () => {
         },
         onError: (error) => {
             messageApi.open({
-                content: error?.message,
+                content: "Waiting...",
                 type: "error",
                 duration: 3,
             });
