@@ -21,7 +21,7 @@ const AuthLayout = ({ children }) => {
                 <LoadingComponent />
             ) : (
                 <>
-                    <div className='authLayout'>
+                    <div className='authLayout' style={{ backgroundImage: `url('/bgAuth.jpg')` }}>
                         <div className="py-8 px-10" id="overlayCompo">
                             <div className="flex justify-center">
                                 <img
