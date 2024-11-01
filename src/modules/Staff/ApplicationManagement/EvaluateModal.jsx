@@ -63,8 +63,8 @@ const EvaluateModal = (
             Note: "",
             Status: "",
         },
-        resolver: yupResolver(schema),
-        criteriaMode: "all",
+        // resolver: yupResolver(schema),
+        // criteriaMode: "all",
     });
 
     const onSubmit = (values, status) => {
@@ -78,9 +78,9 @@ const EvaluateModal = (
             payload.append("GroupId", values.GroupId);
         }
 
-        for (let [key, value] of payload.entries()) {
-            console.log(`${key}:`, value);
-        }
+        // for (let [key, value] of payload.entries()) {
+        //     console.log(`${key}:`, value);
+        // }
 
         handleEvaluateApi(payload);
     };

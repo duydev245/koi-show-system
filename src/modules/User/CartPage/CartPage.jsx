@@ -42,7 +42,7 @@ const CartPage = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: "Not connect to network....",
+        content: error?.message,
         type: "error",
         duration: 3,
       });

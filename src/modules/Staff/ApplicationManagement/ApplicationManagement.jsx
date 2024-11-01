@@ -53,7 +53,7 @@ const ApplicationManagement = () => {
     },
     onError: (error) => {
       messageApi.open({
-        content: "Not connect to network....",
+        content: error?.message,
         type: "error",
         duration: 3,
       });
@@ -110,6 +110,10 @@ const ApplicationManagement = () => {
       title: "Group",
       key: "reg-group",
       dataIndex: "group",
+      render: (group)=>{
+        const groupFiltered = group?.trim().toLocaleString();
+        if(groupFiltered === 'unknown group');
+      }
     },
     // Status
     {
