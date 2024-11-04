@@ -46,6 +46,8 @@ const EditGroupModal = (
         setEditCriteria({});
     }
 
+    const totalPercentage = groupCriteria.reduce((total, criterion) => total + criterion.percentage, 0);
+
     // Add Criterion
     const handleAddCriterion = (criterion) => {
         setGroupCriteria([...groupCriteria, { ...criterion, id: Date.now() }]);
@@ -188,8 +190,6 @@ const EditGroupModal = (
             });
             return;
         }
-
-        const totalPercentage = groupCriteria.reduce((total, criterion) => total + criterion.percentage, 0);
 
         if (totalPercentage !== 100) {
             messageApi.open({
@@ -374,7 +374,12 @@ const EditGroupModal = (
                                     <span className="text-red-600">* </span>
                                     Criteria:
                                 </label>
-                                <Button type='default' size='middle' onClick={openAddCriterionModal}>
+                                <Button
+                                    type='default'
+                                    size='middle'
+                                    disabled={(totalPercentage >= 100)}
+                                    onClick={openAddCriterionModal}
+                                >
                                     Add criterion
                                 </Button>
                             </div>

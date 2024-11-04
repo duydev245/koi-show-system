@@ -18,7 +18,7 @@ const ContactModal = (
         queryFn: () => registrationApi.getRegContactDetails(idReg),
         enabled: !!idReg,
     });
-    console.log("🚀 ~ dataContact:", dataContact)
+    // console.log("🚀 ~ dataContact:", dataContact)
 
     if (error) {
         return (

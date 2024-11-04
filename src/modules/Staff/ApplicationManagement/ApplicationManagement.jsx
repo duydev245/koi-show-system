@@ -110,9 +110,12 @@ const ApplicationManagement = () => {
       title: "Group",
       key: "reg-group",
       dataIndex: "group",
-      render: (group)=>{
-        const groupFiltered = group?.trim().toLocaleString();
-        if(groupFiltered === 'unknown group');
+      render: (group) => {
+        if (group?.toLowerCase() === 'unknown group') {
+          return <Typography>-------------</Typography>;
+        }
+
+        return <Typography>{group}</Typography>;
       }
     },
     // Status

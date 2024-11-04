@@ -44,7 +44,7 @@ const EditShowModal = (
         entranceFee: yup
             .number()
             .typeError('*Entrance Fee must be number!')
-            .min(50000, '*Entrance Fee must be 50k VND at least!')
+            .min(10000, '*Entrance Fee must be 10.000 VND at least!')
             .required("*Entrance Fee is required!")
             .nullable(),
         description: yup

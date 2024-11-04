@@ -1,4 +1,4 @@
-import { Button, Col, Form, Image, Input, Modal, Popconfirm, Row, Select, Typography } from 'antd'
+import { Button, Col, Form, Image, Input, Modal, Row, Select, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
@@ -22,17 +22,26 @@ const EvaluateModal = (
     const [allShowGroup, setAllShowGroup] = useState(null);
 
     const schema = yup.object().shape({
-        isChecked: yup.boolean().required(), // Chỉ cần kiểm tra true/false
+        isChecked: yup.boolean(),
+
         GroupId: yup
-            .number()
+            .string()
+            .trim()
             .nullable()
-            .typeError('')
             .when('isChecked', {
-                is: true, // Nếu isChecked là true (Accepted)
+                is: true, // When isChecked is true (Accepted)
                 then: (schema) => schema.required("*Group is required!"),
                 otherwise: (schema) => schema.notRequired(),
             }),
-        Note: yup.string().trim().required("*Note is required!"),
+
+        Note: yup
+            .string()
+            .trim()
+            .when('isChecked', {
+                is: false, // When isChecked is false (Rejected)
+                then: (schema) => schema.required("*Note is required!"),
+                otherwise: (schema) => schema.notRequired(),
+            }),
     });
 
     // dataShow
@@ -55,15 +64,15 @@ const EvaluateModal = (
         setValue,
         formState: { errors },
         reset,
-        watch,
+        clearErrors,
         trigger,
     } = useForm({
         defaultValues: {
+            isChecked: false,
             GroupId: data?.groupId || "",
             Note: "",
-            Status: "",
         },
-        // resolver: yupResolver(schema),
+        resolver: yupResolver(schema),
         // criteriaMode: "all",
     });
 
@@ -93,7 +102,7 @@ const EvaluateModal = (
             setValue("Note", data?.note)
         } else if (!isOpen) {
             reset();
-            setValue('isChecked', false);
+            setValue('isChecked', undefined);
         }
 
     }, [data, isOpen, setValue, reset]);
@@ -267,36 +276,34 @@ const EvaluateModal = (
                                 Cancel
                             </Button>
 
-                            <Popconfirm
-                                title="Notification"
-                                description="Are you sure you want to reject this registration?"
-                                onConfirm={handleSubmit((values) => {
-                                    onSubmit(values, 'Rejected');
+
+                            <Button
+                                loading={isPending}
+                                onClick={handleSubmit(async (values) => {
                                     setValue('isChecked', false);
+                                    const isValid = await trigger('Note');
+                                    if (isValid) {
+                                        onSubmit(values, 'Rejected');
+                                    }
+
                                 })}
-                                onCancel={() => { }}
-                                placement="top"
-                                okText="Yes"
-                                cancelText="No"
+                                danger
+                                size="large"
+                                type="primary"
+                                className="ml-3"
                             >
-                                <Button
-                                    loading={isPending}
-                                    danger
-                                    size="large"
-                                    type="primary"
-                                    className="ml-3"
-                                >
-                                    Reject
-                                </Button>
-                            </Popconfirm>
+                                Reject
+                            </Button>
 
 
                             <Button
                                 loading={isPending}
                                 onClick={handleSubmit(async (values) => {
                                     setValue('isChecked', true);
-                                    await trigger('GroupId');
-                                    onSubmit(values, 'Accepted');
+                                    const isValid = await trigger('GroupId');
+                                    if (isValid) {
+                                        onSubmit(values, 'Accepted');
+                                    }
                                 })}
                                 size="large"
                                 type="primary"
