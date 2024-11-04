@@ -182,7 +182,7 @@ const CartPage = () => {
   return (
     <>
       {contextHolder}
-      <div className='container mx-auto my-5 min-h-[500px]'>
+      <div className='container mx-auto my-5  min-h-screen'>
         <div className='grid grid-cols-1 space-y-4'>
           <div>
             <h1 className="font-bold text-4xl mb-3">Your cart:</h1>

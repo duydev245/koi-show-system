@@ -32,6 +32,9 @@ import { OngoingAdminShow } from '../modules/Admin/ShowManagement/OngoingAdminSh
 import { ScoringAdminShow } from '../modules/Admin/ShowManagement/ScoringAdminShow'
 import { FinishedAdminShow } from '../modules/Admin/ShowManagement/FinishedAdminShow'
 import { UserManagement } from '../modules/Admin/UserManagement'
+import { AboutUsPage } from '../modules/User/AboutUsPage'
+import { ServicesPage } from '../modules/User/ServicesPage'
+import { ContactPage } from '../modules/User/ContactPage'
 
 // Authen
 const RejectedRouter = () => {
@@ -56,35 +59,7 @@ const RejectedRouter = () => {
     return <Navigate to={PATH.HOME} />;
 };
 
-// Profile Page for each role
-// const ProfilePageRouter = () => {
-//     const { currentUser } = useSelector((state) => state.user);
-
-//     if (!currentUser) {
-//         return <Navigate to={PATH.LOGIN} />;
-//     }
-
-//     if (currentUser.role === 'Manager') {
-//         return <Navigate to={PATH.ADMIN} />;
-//     }
-
-//     if (currentUser.role === 'Staff') {
-//         return <Navigate to={PATH.STAFF} />;
-//     }
-
-//     if (currentUser.role === 'Member') {
-//         return (
-//             <UserLayout>
-//                 <ProfilePage />
-//             </UserLayout>
-//         );
-//     }
-
-//     return <Navigate to={PATH.HOME} />;
-// };
-
 // Member role 
-
 const ProtectedMemberRouter = () => {
     const { currentUser } = useSelector((state) => state.user);
 
@@ -182,6 +157,30 @@ const useRouteElement = () => {
             element:
                 <UserLayout>
                     <HomePage />
+                </UserLayout>,
+        },
+        // ABOUT US PAGE
+        {
+            path: PATH.ABOUT_US,
+            element:
+                <UserLayout>
+                    <AboutUsPage />
+                </UserLayout>,
+        },
+        // SERVICES PAGE
+        {
+            path: PATH.SERVICES,
+            element:
+                <UserLayout>
+                    <ServicesPage />
+                </UserLayout>,
+        },
+        // CONTACT PAGE
+        {
+            path: PATH.CONTACT,
+            element:
+                <UserLayout>
+                    <ContactPage />
                 </UserLayout>,
         },
         // SHOW DETAILS

@@ -82,7 +82,7 @@ const KoiShowDetails = () => {
         {/* <Banner bannerShow={'/show-1.jpg'} /> */}
         <Banner bannerShow={showData?.showBanner} />
 
-        <div className='container mx-auto'>
+        <div className='container mx-auto  min-h-screen'>
           <ShowTitle showName={showName} />
 
           <ShowDesc

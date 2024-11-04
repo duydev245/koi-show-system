@@ -71,7 +71,7 @@ const ProfilePage = ({ children }) => {
                     style={{
                         padding: '0px 32px',
                         margin: '0 5px',
-                        minHeight: 450,
+                        minHeight: '100vh',
                     }}
                 >
                     {children}

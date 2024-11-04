@@ -1,6 +1,10 @@
 export const PATH = {
     // USER LAYOUT
     HOME: "/",
+    ABOUT_US: "/about-us",
+    SERVICES: "/services",
+    CONTACT: "/contact",
+    
     KOI_DETAIL: "/koi-details/:id",
     SHOW_DETAIL: "/show-details/:id",
     REG_DETAIL: "/registration-details/:id",

@@ -173,17 +173,17 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a aria-current="page" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`} href="/">
-                  About
+                <a aria-current="page" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`} href="/about-us">
+                  About Us
                 </a>
               </li>
               <li>
-                <a aria-current="page" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`} href="/">
+                <a aria-current="page" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`} href="/services">
                   Services
                 </a>
               </li>
               <li>
-                <a href="#" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
+                <a href="/contact" className={`block py-2 px-3 rounded text-white hover:bg-gray-100 hover:text-black md:hover:bg-transparent md:p-0 duration-300`}>
                   Contact
                 </a>
               </li>

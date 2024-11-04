@@ -1,5 +1,5 @@
-import { Image, Modal, Typography } from 'antd'
-import React, { useEffect } from 'react'
+import { Image, Modal, Spin, Typography } from 'antd'
+import React, { useEffect, useState } from 'react'
 
 const SepayModal = ({
     isPending,
@@ -8,6 +8,7 @@ const SepayModal = ({
     onCloseModal,
     handleCheckPayment,
 }) => {
+    const desc = sepayCode ? decodeURIComponent(sepayCode.split('&des=')[1]) : null;
 
     useEffect(() => {
         let intervalId;
@@ -15,7 +16,7 @@ const SepayModal = ({
         if (isOpen) {
             const checkPayment = () => {
                 const desParam = sepayCode ? sepayCode.split('&des=')[1] : null;
-                handleCheckPayment(desParam); 
+                handleCheckPayment(desParam);
                 intervalId = setTimeout(checkPayment, 5000); // 5s
             };
 
@@ -34,26 +35,29 @@ const SepayModal = ({
                 loading={isPending}
                 title={
                     <Typography className="text-2xl font-bold text-center">
-                        Scan the QR to complete your registration
+                        Scan the QR to complete your payment
                     </Typography>
                 }
                 centered
                 onCancel={onCloseModal}
                 footer={null}
-                width={800}
+                width={1000}
             >
-                <div className='grid grid-cols-1'>
-                    {sepayCode ? (
+                {/*  MBBank 00001205984 HOANG TRUNG TIN */}
+                <div className='grid grid-cols-2'>
+                    <div className="text-justify text-xl space-y-3 my-0 mx-auto">
+                        <p><strong>Bank: </strong>MBBank</p>
+                        <p><strong>Account Number: </strong>00001205984</p>
+                        <p><strong>Account Name: </strong>HOANG TRUNG TIN</p>
+                        <p><strong>Description: </strong>{desc}</p>
+                    </div>
+                    <div>
                         <Image
                             src={sepayCode}
                             alt="QR Code for Sepay"
                             className='w-full h-auto object-fit'
                         />
-                    ) : (
-                        <Typography className="text-center text-red-500">
-                            No QR code available.
-                        </Typography>
-                    )}
+                    </div>
                 </div>
             </Modal>
         </>

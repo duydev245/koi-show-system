@@ -64,7 +64,7 @@ const Home = () => {
         <>
             {contextHolder}
             {/* <Banner /> */}
-            <div className='container mx-auto'>
+            <div className='container mx-auto min-h-screen '>
                 {/* CurrentShow */}
                 <CurrentShow key={currentShow?.showId} currentShow={currentShow} />
 

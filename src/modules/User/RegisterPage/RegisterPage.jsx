@@ -255,8 +255,7 @@ const RegisterPage = () => {
   return (
     <>
       {contextHolder}
-      {/* className={`${dropdownReg ? 'hidden' : 'block'}`} */}
-      <div className={`${dropdownReg ? 'hidden' : 'block'} container mx-auto my-5 space-y-4 min-h-[500px]`}>
+      <div className={`${dropdownReg ? 'hidden' : 'block'} container mx-auto my-5 space-y-4  min-h-screen`}>
         <h1 className='text-black text-3xl font-bold'>Please choose one of your Koi to register</h1>
         {dataSource && dataSource.length > 0 ? (
           <Table
@@ -287,8 +286,7 @@ const RegisterPage = () => {
         )}
       </div >
 
-      {/*  className={`${dropdownReg ? 'block animate__animated animate__fadeInDown' : 'hidden'}`} */}
-      <div className={`${dropdownReg ? 'block animate__animated animate__fadeInDown' : 'hidden'} container mx-auto my-5`}>
+      <div className={`${dropdownReg ? 'block animate__animated animate__fadeInDown' : 'hidden'} container mx-auto my-5 min-h-screen`}>
         <h1 className='text-black text-3xl font-bold text-center'>Register for {showName}</h1>
 
         <h2 className='text-center text-xl text-red-600 font-semibold'>
