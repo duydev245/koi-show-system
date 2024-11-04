@@ -155,7 +155,7 @@ const ShowDesc = ({ showID, showName, showDesc, showStatus, openForm, closeForm,
                                         {(bestVotedKois?.length > 0) && (
                                             <div className="mb-4 bg-gray-100 p-6 rounded-md">
                                                 <p className='text-2xl font-bold mb-2'>Best Voting</p>
-                                                <div className={`grid ${isEven(bestVotedKois?.length) ? 'grid-cols-2' : 'grid-cols-3'} gap-4`}>
+                                                <div className={`grid ${isEven(bestVotedKois?.length) ? 'grid-cols-2 w-[780px] my-0 mx-auto' : 'grid-cols-3'} gap-4`}>
                                                     {bestVotedKois?.map((reg, index) => (
                                                         <Card
                                                             key={index}
