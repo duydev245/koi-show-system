@@ -136,7 +136,7 @@ const ViewScoringRegTableModal = (
                 );
             }
         },
-        // Total score
+        // Total vote
         {
             title: "Total Vote",
             width: 120,
@@ -147,11 +147,7 @@ const ViewScoringRegTableModal = (
                 multiple: 5,
             },
             render: (totalVote) => (
-                totalVote && (
-                    <Typography>
-                        {totalVote}
-                    </Typography>
-                )
+                <Typography>{totalVote !== null ? totalVote : 'No votes'}</Typography>
             )
         },
         // status
@@ -159,23 +155,20 @@ const ViewScoringRegTableModal = (
             title: "Status",
             width: 120,
             key: "regist-status",
-            dataIndex: "status",
             filters: [
-                // { text: 'Rejected', value: 'Rejected' },
-                // { text: 'Pending', value: 'Pending' },
-                { text: 'Accepted', value: 'Not Scored' },
                 { text: 'Scored', value: 'Scored' },
+                { text: 'Not Scored', value: 'Not Scored' },
             ],
-            onFilter: (value, record) => record.status === value,
-            render: (status) => {
-                return (
-                    <>
-                        {/* {(status === "Pending") && (<Tag icon={<SyncOutlined spin />} color="processing">Pending</Tag>)}
-                        {(status === "Accepted") && (<Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag>)}
-                        {(status === "Rejected") && (<Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>)} */}
-                        {(status === "Scored") && (<Tag icon={<CheckCircleOutlined />} color="success">Scored</Tag>)}
-                        {(status === "Accepted") && (<Tag icon={<CloseCircleOutlined />} color="error">Not Scored</Tag>)}
-                    </>
+            onFilter: (value, record) => {
+                const status = 'totalScore' in record ? 'Scored' : 'Not Scored';
+                return status === value;
+            },
+            render: (record) => {
+                const isScored = 'totalScore' in record;
+                return isScored ? (
+                    <Tag icon={<CheckCircleOutlined />} color="success">Scored</Tag>
+                ) : (
+                    <Tag icon={<CloseCircleOutlined />} color="error">Not Scored</Tag>
                 );
             },
         },
