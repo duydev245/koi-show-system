@@ -105,9 +105,9 @@ const SubmitAgainModal = (
       payload.append("Id", data?.id);
       // payload.append("Status", "Pending");
 
-      for (let [key, value] of payload.entries()) {
-        console.log(`${key}:`, value);
-      }
+      // for (let [key, value] of payload.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
 
       handleEvaluateApi(payload);
     } else {
@@ -223,7 +223,7 @@ const SubmitAgainModal = (
                 <p>
                   <span className="text-red-600">* </span>
                   Koi Video:
-                  <span> (<a href={`${data?.video}`} target="_blank" rel="noopener noreferrer">Your video here</a>)</span>
+                  <span> (Your video here: <a href={`${data?.video}`} target="_blank" rel="noopener noreferrer">{data?.video}</a>)</span>
                 </p>
                 <p className="text-red-600">(Example: https://www.youtube.com/...)</p>
               </label>
