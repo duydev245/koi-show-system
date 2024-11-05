@@ -8,6 +8,7 @@ import { PAGE_SIZE } from '../../../constants';
 import { registrationApi } from '../../../apis/registration.api';
 import { SearchForm } from '../../../components/SearchForm';
 import { varietyApi } from '../../../apis/variety.api';
+import { getRankSuffix } from '../../../utils';
 
 const ListKoiEntries = ({ showName, showID }) => {
 
@@ -113,26 +114,21 @@ const ListKoiEntries = ({ showName, showID }) => {
                                     >
                                         <div className="mb-3">
                                             <div className='flex justify-center items-center mb-3 h-[42px]'>
-                                                {(reg.rank === 1) &&
-                                                    (<>
-                                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='3x' />
-                                                        <span className='text-2xl font-bold ms-2'>1st Place Winner</span>
-                                                    </>)
-                                                }
-
-                                                {(reg.rank === 2) &&
-                                                    (<>
-                                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
-                                                        <span className='text-2xl font-bold ms-2'>2nd Place Winner</span>
-                                                    </>)
-                                                }
-
-                                                {(reg.rank === 3) &&
-                                                    (<>
-                                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size='2x' />
-                                                        <span className='text-2xl font-bold ms-2'>3rd Place Winner</span>
-                                                    </>)
-                                                }
+                                                {reg.rank <= 3 && (
+                                                    <>
+                                                        <FontAwesomeIcon className='text-orange-500' icon={faTrophy} size={reg.rank === 1 ? '3x' : '2x'} />
+                                                        <span className='text-2xl font-bold ms-2'>
+                                                            {reg.rank === 1 ? '1st Place Winner' :
+                                                                reg.rank === 2 ? '2nd Place Winner' :
+                                                                    reg.rank === 3 ? '3rd Place Winner' : ''}
+                                                        </span>
+                                                    </>
+                                                )}
+                                                {reg.rank > 3 && (
+                                                    <span className='text-2xl font-bold ms-2'>
+                                                        {reg.rank}{getRankSuffix(reg.rank)} Place Winner
+                                                    </span>
+                                                )}
                                             </div>
 
                                             <div className='flex justify-between items-center h-[42px]'>
