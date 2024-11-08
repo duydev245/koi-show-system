@@ -37,6 +37,23 @@ const ScoreKoi = () => {
         setDataScore({});
     }
 
+    const openNextUnscoredKoi = (currentGroupIndex, currentRecordIndex) => {
+        for (let i = currentGroupIndex; i < listGroups.length; i++) {
+            const group = listGroups[i];
+            for (let j = currentRecordIndex + 1; j < group.kois.length; j++) {
+                const nextKoi = group.kois[j];
+                if (!nextKoi.isScored) {
+                    setDataScore(nextKoi);
+                    openScoringModal();
+                    return;
+                }
+            }
+            currentRecordIndex = -1; // Reset for the next group
+        }
+        // No more unscored koi left
+        messageApi.info('All Koi Registrations have been scored.');
+    };
+
     // score api
     const { mutate: handleScoringApi, isPending: isPendingScoring } = useMutation({
         mutationFn: (payload) => registrationApi.postScoringReg(payload),
@@ -46,11 +63,20 @@ const ScoreKoi = () => {
                 type: "success",
                 duration: 3,
             });
-            handleCloseEditModal();
             queryClient.refetchQueries({
                 queryKey: ["list-koi"],
                 type: "active",
             });
+            handleCloseEditModal();
+            setTimeout(() => {
+                const currentGroupIndex = listGroups.findIndex(group =>
+                    group.kois.some(koi => koi.registrationId === dataScore.registrationId)
+                );
+                const currentRecordIndex = listGroups[currentGroupIndex]?.kois.findIndex(
+                    koi => koi.registrationId === dataScore.registrationId
+                );
+                openNextUnscoredKoi(currentGroupIndex, currentRecordIndex);
+            }, 500)
         },
         onError: (error) => {
             messageApi.open({
@@ -91,7 +117,7 @@ const ScoreKoi = () => {
                         new Map(
                             group.kois
                                 .flatMap(koi => koi.criterions)
-                                .map(criterion => [criterion.name, criterion]) 
+                                .map(criterion => [criterion.name, criterion])
                         ).values()
                     );
 
