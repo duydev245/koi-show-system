@@ -43,7 +43,7 @@ const ProfilePage = ({ children }) => {
                     <Menu
                         theme='light'
                         mode="inline"
-                        defaultSelectedKeys={[location.pathname]}
+                        selectedKeys={[location.pathname]}
                         onSelect={(item) => {
                             navigate(item.key);
                         }}

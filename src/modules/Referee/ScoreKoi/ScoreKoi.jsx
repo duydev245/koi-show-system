@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { showApi } from '../../../apis/show.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { PlusSquareOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, message, Table, Tag } from 'antd';
 import { useOpenModal } from '../../../hooks/useOpenModal';
 import ScoringModal from './ScoringModal';
@@ -88,20 +87,51 @@ const ScoreKoi = () => {
             {listGroups.length > 0 && (
                 listGroups.map((group, index) => {
 
+                    const uniqueCriteria = Array.from(
+                        new Map(
+                            group.kois
+                                .flatMap(koi => koi.criterions)
+                                .map(criterion => [criterion.name, criterion]) 
+                        ).values()
+                    );
+
                     const columns = [
                         // reg id
                         {
                             title: "ID",
-                            width: 100,
+                            width: 80,
                             key: "reg-id",
                             dataIndex: "registrationId",
                         },
                         // Koi Name
                         {
                             title: "Name",
-                            width: 250,
+                            width: 180,
                             key: "koi-name",
                             dataIndex: "koiName",
+                        },
+                        // các cột tiêu chí động
+                        ...uniqueCriteria.map((criterion) => ({
+                            title: `${criterion.name} (${criterion.percentage}%)`,
+                            key: `criterion-${criterion.name}`,
+                            render: (record) => {
+                                const targetCriterion = record.criterions.find(c => c.name === criterion.name);
+                                return targetCriterion && targetCriterion.score1 !== undefined
+                                    ? targetCriterion.score1
+                                    : "Not Score";
+                            }
+                        })),
+                        // Total Score
+                        {
+                            title: "Total Score",
+                            width: 150,
+                            key: "total-score",
+                            render: (record) => {
+                                const totalScore = record.criterions
+                                    .filter(criterion => criterion.score1 != null)
+                                    .reduce((sum, criterion) => sum + (criterion.score1 * criterion.percentage / 100), 0);
+                                return totalScore.toFixed(2);
+                            }
                         },
                         // Status
                         {
@@ -122,7 +152,7 @@ const ScoreKoi = () => {
                         // Action
                         {
                             title: "Action",
-                            width: 250,
+                            width: 120,
                             key: "action",
                             render: (record) => {
                                 return (
@@ -134,7 +164,7 @@ const ScoreKoi = () => {
                                             setDataScore(record);
                                             openScoringModal();
                                         }}>
-                                        <PlusSquareOutlined />
+                                        Score
                                     </Button>
                                 );
                             },

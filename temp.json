@@ -1,0 +1,275 @@
+[
+  {
+    "groupId": 22,
+    "groupName": "Tiny Koi",
+    "kois": [
+      {
+        "koiID": 1,
+        "koiName": "Red Dragon",
+        "koiSize": 15.0,
+        "isScored": true,
+        "varietyName": "Kohaku",
+        "registrationId": 55,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 58,
+            "name": "Pattern",
+            "percentage": 60.0,
+            "description": "aaaaa",
+            "score1": 45.0
+          },
+          {
+            "id": 59,
+            "name": "Color",
+            "percentage": 40.0,
+            "description": "aaaaa",
+            "score1": 55.0
+          }
+        ]
+      },
+      {
+        "koiID": 4,
+        "koiName": "Shadow",
+        "koiSize": 19.0,
+        "isScored": false,
+        "varietyName": "Shiro Utsuri",
+        "registrationId": 56,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 58,
+            "name": "Pattern",
+            "percentage": 60.0,
+            "description": "aaaaa"
+          },
+          {
+            "id": 59,
+            "name": "Color",
+            "percentage": 40.0,
+            "description": "aaaaa"
+          }
+        ]
+      },
+      {
+        "koiID": 7,
+        "koiName": "Emerald",
+        "koiSize": 18.0,
+        "isScored": false,
+        "varietyName": "Shusui",
+        "registrationId": 57,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 58,
+            "name": "Pattern",
+            "percentage": 60.0,
+            "description": "aaaaa"
+          },
+          {
+            "id": 59,
+            "name": "Color",
+            "percentage": 40.0,
+            "description": "aaaaa"
+          }
+        ]
+      }
+    ]
+  },
+  
+  {
+    "groupId": 23,
+    "groupName": "Medium Koi",
+    "kois": [
+      {
+        "koiID": 2,
+        "koiName": "Golden Sun",
+        "koiSize": 25.5,
+        "isScored": false,
+        "varietyName": "Taisho Sanke",
+        "registrationId": 58,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 60,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          },
+          {
+            "id": 61,
+            "name": "Bokudan",
+            "percentage": 25.0,
+            "description": "aaaa"
+          }
+        ]
+      },
+      {
+        "koiID": 5,
+        "koiName": "Fireball",
+        "koiSize": 27.0,
+        "isScored": false,
+        "varietyName": "Hi Utsuri",
+        "registrationId": 59,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 60,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          },
+          {
+            "id": 61,
+            "name": "Bokudan",
+            "percentage": 25.0,
+            "description": "aaaa"
+          }
+        ]
+      },
+      {
+        "koiID": 8,
+        "koiName": "Sunset",
+        "koiSize": 29.5,
+        "isScored": false,
+        "varietyName": "Bekko",
+        "registrationId": 60,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 60,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          },
+          {
+            "id": 61,
+            "name": "Bokudan",
+            "percentage": 25.0,
+            "description": "aaaa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupId": 24,
+    "groupName": "Large Koi",
+    "kois": [
+      {
+        "koiID": 3,
+        "koiName": "Blue Sky",
+        "koiSize": 38.0,
+        "isScored": false,
+        "varietyName": "Showa Sanshoku",
+        "registrationId": 61,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 62,
+            "name": "Mogukan",
+            "percentage": 20.0,
+            "description": "qqqq"
+          },
+          {
+            "id": 63,
+            "name": "Color & Pattern",
+            "percentage": 30.0,
+            "description": "ffffsdfsd"
+          },
+          {
+            "id": 64,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          }
+        ]
+      },
+      {
+        "koiID": 6,
+        "koiName": "Pearl",
+        "koiSize": 40.0,
+        "isScored": false,
+        "varietyName": "Asagi",
+        "registrationId": 62,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 62,
+            "name": "Mogukan",
+            "percentage": 20.0,
+            "description": "qqqq"
+          },
+          {
+            "id": 63,
+            "name": "Color & Pattern",
+            "percentage": 30.0,
+            "description": "ffffsdfsd"
+          },
+          {
+            "id": 64,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          }
+        ]
+      },
+      {
+        "koiID": 9,
+        "koiName": "Thunder",
+        "koiSize": 45.0,
+        "isScored": false,
+        "varietyName": "Kumonryu",
+        "registrationId": 63,
+        "image1": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image2": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "image3": "https://koi-shows-image.s3.amazonaws.com/koi-registrations/daad5877-9e05-4e9f-9977-4943b3cf6495_6561-1.png",
+        "video": "https://www.youtube.com/embed/V4jXOsH9Rbo",
+        "criterions": [
+          {
+            "id": 62,
+            "name": "Mogukan",
+            "percentage": 20.0,
+            "description": "qqqq"
+          },
+          {
+            "id": 63,
+            "name": "Color & Pattern",
+            "percentage": 30.0,
+            "description": "ffffsdfsd"
+          },
+          {
+            "id": 64,
+            "name": "Bakugan",
+            "percentage": 25.0,
+            "description": "qqqqq"
+          }
+        ]
+      }
+    ]
+  }
+]
