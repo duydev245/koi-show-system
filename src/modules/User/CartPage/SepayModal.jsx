@@ -44,12 +44,19 @@ const SepayModal = ({
                 width={1000}
             >
                 {/*  MBBank 00001205984 HOANG TRUNG TIN */}
-                <div className='grid grid-cols-2'>
-                    <div className="text-justify text-xl space-y-3 my-0 mx-auto">
+                <div className='grid grid-cols-2 gap-2'>
+                    <div className="text-xl mt-14 space-y-4">
                         <p><strong>Bank: </strong>MBBank</p>
                         <p><strong>Account Number: </strong>00001205984</p>
                         <p><strong>Account Name: </strong>HOANG TRUNG TIN</p>
                         <p><strong>Description: </strong>{desc}</p>
+                        <p className='text-red-600 font-semibold'>Our system ONLY accepts the banks below:</p>
+                        <div className='grid grid-cols-4 gap-4'>
+                            <img src="/mb-bank.png" alt="MBBank" className="h-10 w-auto" />
+                            <img src="/timo-bank.png" alt="Timo" className="h-10 w-auto" />
+                            <img src="/techcombank.png" alt="Techcombank" className="h-10 w-auto" />
+                            <img src="/tp-bank.png" alt="TPBank" className="h-10 w-auto" />
+                        </div>
                     </div>
                     <div>
                         <Image
