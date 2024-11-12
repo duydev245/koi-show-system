@@ -91,7 +91,7 @@ const Navbar = () => {
                         <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
                           onClick={() => { navigate(PATH.PROFILE) }}
                         >
-                          Dashboard
+                          Your profile dashboard
                         </li>
                         <li className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 cursor-pointer"
                           onClick={() => { navigate(PATH.USER_CART) }}
