@@ -309,7 +309,7 @@ const RegisterPage = () => {
                     return (
                       <Input
                         {...field}
-                        readOnly
+                        disabled
                         type="text"
                         size="large"
                         className="mt-1"

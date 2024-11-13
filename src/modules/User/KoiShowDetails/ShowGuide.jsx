@@ -39,7 +39,7 @@ const ShowGuide = ({ closeForm, endDate }) => {
                 <Card hoverable className='text-start'>
                     <iframe
                         className='w-full h-[300px]'
-                        src="https://www.youtube.com/embed/yo7U6-yu0ok"
+                        src="https://www.youtube.com/embed/APIzjye9ArA"
                         allowFullScreen
                     ></iframe>
                     <h4 className='text-xl font-semibold mt-5'>Watch a video walk-through of the koi show platform</h4>
